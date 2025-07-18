@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>English Grammar Quiz - Class IX</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Custom CSS for professional aesthetics */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f0f4f8 0%, #d9e2ec 100%);
+            color: #2f4f4f;
+            line-height: 1.7;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem 0;
+        }
+        .container {
+            width: 95%;
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 3.5rem;
+            background-color: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+            border: 1px solid #e6eef5;
+        }
+        .header-section {
+            background: linear-gradient(45deg, #4a90e2, #00bcd4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.15);
+            letter-spacing: -0.03em;
+        }
+        .subheader-text {
+            color: #5a7d9a;
+            font-weight: 500;
+            font-size: 1.4rem;
+        }
+        .question-block {
+            margin-bottom: 2.5rem;
+            padding: 2rem;
+            background-color: #fcfdff;
+            border-radius: 1.5rem;
+            border: 1px solid #eef5fb;
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+        .question-block:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+        .question-text {
+            font-size: 1.45rem;
+            font-weight: 600;
+            margin-bottom: 1.8rem;
+            color: #2f4f4f;
+        }
+        .option-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.2rem;
+            cursor: pointer;
+            padding: 1.1rem 1.6rem;
+            border-radius: 1rem;
+            transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+            border: 1px solid #dbe7f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+            background-color: #ffffff;
+        }
+        .option-label:hover {
+            background-color: #eaf6fc;
+            border-color: #90caf9;
+            box-shadow: 0 7px 18px rgba(0, 0, 0, 0.1);
+        }
+        input[type="radio"] {
+            margin-right: 1.2rem;
+            accent-color: #4a90e2;
+            transform: scale(1.3);
+            min-width: 20px;
+            min-height: 20px;
+        }
+        .submit-button {
+            background: linear-gradient(45deg, #4a90e2, #00bcd4);
+            color: white;
+            padding: 1.3rem 3rem;
+            border-radius: 1rem;
+            font-size: 1.4rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            box-shadow: 0 10px 25px rgba(74, 144, 226, 0.5);
+            border: none;
+            outline: none;
+            position: relative;
+            overflow: hidden;
+            letter-spacing: 0.02em;
+        }
+        .submit-button:hover {
+            background: linear-gradient(45deg, #3a7bd5, #00a0b0);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 35px rgba(74, 144, 226, 0.7);
+        }
+        .submit-button:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 15px rgba(74, 144, 226, 0.4);
+        }
+
+        .result-section {
+            margin-top: 4rem;
+            padding: 3rem;
+            background-color: #e6f7ff;
+            border-radius: 2rem;
+            border: 1px solid #b3e0ff;
+            display: none;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+        }
+        .score-text {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #00796b;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.08);
+        }
+        .correct-answer {
+            background-color: #eafaf1;
+            border-color: #69f0ae;
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.2);
+        }
+        .incorrect-answer {
+            background-color: #ffebeb;
+            border-color: #ff8a80;
+            box-shadow: 0 5px 15px rgba(244, 67, 54, 0.2);
+        }
+        .correct-mark {
+            color: #2e7d32;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .incorrect-mark {
+            color: #c62828;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+        .explanation-text {
+            font-size: 1.15rem;
+            color: #546e7a;
+            margin-top: 1.2rem;
+            padding-left: 1.8rem;
+            border-left: 5px solid #4a90e2;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body class="p-4">
+    <div class="container">
+        <h1 class="text-6xl header-section text-center mb-5">English Grammar Quiz</h1>
+        <p class="text-2xl subheader-text text-center mb-14">Class IX (West Bengal Board)</p>
+
+        <form id="quizForm">
+            <!-- Questions will be dynamically inserted here by JavaScript -->
+        </form>
+
+        <div class="flex justify-center mt-16">
+            <button type="submit" id="submitQuiz" class="submit-button">Submit Quiz</button>
+        </div>
+
+        <div id="resultSection" class="result-section">
+            <h2 class="text-4xl font-bold text-center mb-8 text-gray-800">Results</h2>
+            <p id="score" class="score-text"></p>
+            <div id="answers" class="mt-12">
+                <!-- Correct answers will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const quizData = [
+            {
+                question: "Choose the sentence where the gerund is used as the subject:",
+                options: ["He enjoys reading novels.", "Reading is my favorite pastime.", "I saw him reading a book.", "She is good at reading."],
+                answer: "Reading is my favorite pastime."
+            },
+            {
+                question: "Identify the correct transformation from Simple to Compound: 'On seeing the police, the thief ran away.'",
+                options: ["The thief saw the police and ran away.", "When the thief saw the police, he ran away.", "The thief ran away as soon as he saw the police.", "The thief ran away because he saw the police."],
+                answer: "The thief saw the police and ran away."
+            },
+            {
+                question: "Fill in the blank with the appropriate non-finite verb: I heard him ______ (sing) a song.",
+                options: ["to sing", "singing", "sings", "sang"],
+                answer: "singing"
+            },
+            {
+                question: "Correct the error in subject-verb agreement: 'Each of the boys have completed their homework.'",
+                options: ["Each of the boys has completed their homework.", "Each of the boys have completed his homework.", "Each of the boys has completed his homework.", "Each of the boy has completed his homework."],
+                answer: "Each of the boys has completed his homework."
+            },
+            {
+                question: "Change the narration: 'He exclaimed, \"How beautiful the rose is!\"'",
+                options: ["He exclaimed that the rose was very beautiful.", "He asked how beautiful the rose was.", "He exclaimed how beautiful the rose is.", "He said that the rose was beautiful."],
+                answer: "He exclaimed that the rose was very beautiful."
+            },
+            {
+                question: "Choose the correct prepositional phrase: He is desirous ______ fame.",
+                options: ["for", "of", "to", "with"],
+                answer: "of"
+            },
+            {
+                question: "Identify the type of conditional sentence: 'Had he worked harder, he would have passed the exam.'",
+                options: ["Type 1", "Type 2", "Type 3", "Mixed Conditional"],
+                answer: "Type 3"
+            },
+            {
+                question: "Choose the correct homophone: The ______ of the story was very clear.",
+                options: ["moral", "morale", "marel", "morrel"],
+                answer: "moral"
+            },
+            {
+                question: "Transform into a negative sentence without changing the meaning: 'As soon as he arrived, he began to work.'",
+                options: ["No sooner did he arrive than he began to work.", "He arrived and did not begin to work.", "He did not begin to work as soon as he arrived.", "He arrived, but he did not begin to work."],
+                answer: "No sooner did he arrive than he began to work."
+            },
+            {
+                question: "Change the voice: 'Who broke the window?'",
+                options: ["By whom was the window broken?", "By whom the window was broken?", "Who was the window broken by?", "The window was broken by whom?"],
+                answer: "By whom was the window broken?"
+            },
+            {
+                question: "Identify the adverb clause: 'He works hard so that he may succeed.'",
+                options: ["He works hard", "so that he may succeed", "he may succeed", "works hard"],
+                answer: "so that he may succeed"
+            },
+            {
+                question: "Choose the correct idiom: 'To smell a rat.'",
+                options: ["To detect a bad smell", "To suspect something wrong", "To find a hidden object", "To be afraid of something"],
+                answer: "To suspect something wrong"
+            },
+            {
+                question: "Fill in the blank with the correct phrasal verb: The old man ______ his property to his son.",
+                options: ["gave up", "gave in", "gave away", "gave out"],
+                answer: "gave away"
+            },
+            {
+                question: "Correct the sentence: 'I am looking forward to meet you.'",
+                options: ["I am looking forward to meeting you.", "I look forward to meet you.", "I am looking forward to met you.", "I am looking forward to be meeting you."],
+                answer: "I am looking forward to meeting you."
+            },
+            {
+                question: "Identify the usage of 'but' in: 'He is poor but honest.'",
+                options: ["Preposition", "Adverb", "Conjunction", "Interjection"],
+                answer: "Conjunction"
+            },
+            {
+                question: "Choose the sentence with correct punctuation:",
+                options: ["He asked, \"Where are you going?\"", "He asked \"Where are you going?\"", "He asked, Where are you going?", "He asked, \"Where are you going\"?"],
+                answer: "He asked, \"Where are you going?\""
+            },
+            {
+                question: "Transform into a compound sentence: 'Besides being intelligent, he is hardworking.'",
+                options: ["He is intelligent and hardworking.", "He is intelligent as well as hardworking.", "He is not only intelligent but also hardworking.", "He is intelligent, so he is hardworking."],
+                answer: "He is not only intelligent but also hardworking."
+            },
+            {
+                question: "Fill in the blank with the correct article: '______ more you read, ______ more you learn.'",
+                options: ["A, a", "The, the", "An, an", "No article, no article"],
+                answer: "The, the"
+            },
+            {
+                question: "Identify the non-finite verb: 'To err is human.'",
+                options: ["err", "is", "human", "To err"],
+                answer: "To err"
+            },
+            {
+                question: "Choose the sentence with a dangling participle:",
+                options: ["Walking down the street, a dog barked at me.", "Having finished the work, he went home.", "Written in haste, the letter contained many errors.", "Running quickly, he caught the bus."],
+                answer: "Walking down the street, a dog barked at me."
+            }
+        ];
+
+        const quizForm = document.getElementById('quizForm');
+        const submitQuizButton = document.getElementById('submitQuiz');
+        const resultSection = document.getElementById('resultSection');
+        const scoreDisplay = document.getElementById('score');
+        const answersDisplay = document.getElementById('answers');
+
+        // Function to render quiz questions
+        function renderQuiz() {
+            quizData.forEach((q, index) => {
+                const questionBlock = document.createElement('div');
+                questionBlock.className = 'question-block';
+                questionBlock.innerHTML = `
+                    <p class="question-text">${index + 1}. ${q.question}</p>
+                    <div class="options">
+                        ${q.options.map((option, optIndex) => `
+                            <label class="option-label">
+                                <input type="radio" name="question${index}" value="${option}" required>
+                                ${option}
+                            </label>
+                        `).join('')}
+                    </div>
+                `;
+                quizForm.appendChild(questionBlock);
+            });
+        }
+
+        // Function to calculate score and display results
+        function submitQuiz() {
+            let score = 0;
+            answersDisplay.innerHTML = ''; // Clear previous results
+
+            quizData.forEach((q, index) => {
+                const questionName = `question${index}`;
+                const selectedOption = document.querySelector(`input[name="${questionName}"]:checked`);
+                const originalQuestionBlock = quizForm.children[index];
+
+                originalQuestionBlock.querySelectorAll('.option-label').forEach(label => {
+                    label.classList.remove('correct-answer', 'incorrect-answer');
+                });
+
+                let isCorrect = false;
+                if (selectedOption) {
+                    if (selectedOption.value === q.answer) {
+                        score++;
+                        isCorrect = true;
+                    }
+                }
+
+                const questionResultDiv = document.createElement('div');
+                questionResultDiv.className = `question-block ${isCorrect ? 'correct-answer' : 'incorrect-answer'} mb-4`;
+                questionResultDiv.innerHTML = `
+                    <p class="question-text">${index + 1}. ${q.question}</p>
+                    <div class="options">
+                        ${q.options.map(option => {
+                            let optionClass = '';
+                            let mark = '';
+                            if (option === q.answer) {
+                                optionClass = 'correct-answer';
+                                mark = '<span class="correct-mark ml-2">&#10003;</span>';
+                            } else if (selectedOption && option === selectedOption.value && option !== q.answer) {
+                                optionClass = 'incorrect-answer';
+                                mark = '<span class="incorrect-mark ml-2">&#10007;</span>';
+                            }
+                            return `
+                                <label class="option-label ${optionClass}">
+                                    <input type="radio" name="resultQuestion${index}" value="${option}" disabled ${selectedOption && option === selectedOption.value ? 'checked' : ''}>
+                                    ${option} ${mark}
+                                </label>
+                            `;
+                        }).join('')}
+                    </div>
+                    <p class="explanation-text">Correct Answer: <span class="font-semibold">${q.answer}</span></p>
+                `;
+                answersDisplay.appendChild(questionResultDiv);
+            });
+
+            scoreDisplay.textContent = `Your Score: ${score} / ${quizData.length}`;
+            resultSection.style.display = 'block';
+            resultSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            submitQuizButton.disabled = true;
+        }
+
+        submitQuizButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            submitQuiz();
+        });
+
+        renderQuiz();
+    </script>
+</body>
+</html>

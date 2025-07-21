@@ -193,12 +193,12 @@
     <script>
         // IMPORTANT: Replace these values with your actual Firebase project configuration
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg",
+            authDomain: "educonnectapp-ae08d.firebaseapp.com",
+            projectId: "educonnectapp-ae08d",
+            storageBucket: "educonnectapp-ae08d.firebasestorage.app",
+            messagingSenderId: "10974354104",
+            appId: "1:10974354104:web:228ca789dfb241f43ff24d"
         };
 
         // Initialize Firebase
@@ -284,15 +284,11 @@
             // This runs whenever the user's sign-in status changes.
             // It's crucial for managing protected routes and displaying user info.
             auth.onAuthStateChanged((user) => {
-                // Note: user-id and signout-button elements are typically on dashboard.html
-                // If you want to show user info on signin.html after login, you'd need
-                // to add those elements here or redirect immediately.
                 // For this page, we primarily handle redirection.
-
                 if (user) {
-                    // User is signed in. Redirect to dashboard.
-                    console.log('User is signed in. Redirecting to dashboard.html');
-                    window.location.href = 'dashboard.html';
+                    // User is signed in. Redirect to index.html
+                    console.log('User is signed in. Redirecting to index.html');
+                    window.location.href = 'index.html'; // This line redirects to index.html
                 } else {
                     // User is signed out. Stay on signin page.
                     console.log('User is signed out. Staying on signin.html');

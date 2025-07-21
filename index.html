@@ -130,6 +130,42 @@
         .auth-status-section .button {
             margin: 10px;
         }
+        
+        /* Dropdown specific styles */
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            right: 0; /* Align to the right of the parent */
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 10px; /* Space below the button */
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            text-align: left;
+            transition: background-color 0.2s ease;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
     </style>
 </head>
 <body class="min-h-screen flex flex-col">
@@ -153,16 +189,28 @@
                 </ul>
                 <!-- Sign In Button (visible when signed out) -->
                 <a id="main-signin-button" href="signin.html" class="signin-button py-2 px-5 rounded-full hover-scale">
-    Sign In
-</a>
-                <!-- Courses Button (visible when signed in) -->
-                <a href="courses.html" id="main-courses-button" class="signin-button py-2 px-5 rounded-full hover-scale hidden">
-                    Courses
+                    Sign In
                 </a>
-                <!-- Sign Out Button (visible when signed in) -->
-                <button id="main-signout-button" class="signin-button py-2 px-5 rounded-full hover-scale hidden">
-                    Sign Out
-                </button>
+                
+                <!-- Enroll Courses Button (visible when signed in) -->
+                <a href="courses.html" id="enroll-courses-button" class="signin-button py-2 px-5 rounded-full hover-scale hidden">
+                    Enroll Courses
+                </a>
+
+                <!-- Account Dropdown (visible when signed in) -->
+                <div id="account-dropdown-container" class="dropdown relative hidden">
+                    <button id="account-button" class="signin-button py-2 px-5 rounded-full hover-scale flex items-center">
+                        Account
+                        <!-- Down arrow icon -->
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="dropdown-content">
+                        <a href="dashboard.html" id="complete-account-link">Complete Account</a>
+                        <a href="#" id="dropdown-signout-button">Sign Out</a>
+                    </div>
+                </div>
             </nav>
         </div>
     </header>
@@ -541,27 +589,31 @@
 
         document.addEventListener('DOMContentLoaded', () => {
             const mainSignInButton = document.getElementById('main-signin-button');
-            const mainCoursesButton = document.getElementById('main-courses-button');
-            const mainSignOutButton = document.getElementById('main-signout-button');
+            const enrollCoursesButton = document.getElementById('enroll-courses-button'); // New ID for Enroll Courses
+            const accountDropdownContainer = document.getElementById('account-dropdown-container'); // New ID for dropdown container
+            const dropdownSignOutButton = document.getElementById('dropdown-signout-button'); // Sign Out inside dropdown
+            const completeAccountLink = document.getElementById('complete-account-link'); // Complete Account inside dropdown
 
             // --- Authentication State Listener ---
             auth.onAuthStateChanged((user) => {
                 if (user) {
                     // User is signed in
                     console.log('User is signed in:', user.uid);
-                    // Hide Sign In button
-                    if (mainSignInButton) mainSignInButton.classList.add('hidden');
-                    // Show Courses and Sign Out buttons
-                    if (mainCoursesButton) mainCoursesButton.classList.remove('hidden');
-                    if (mainSignOutButton) mainSignOutButton.classList.remove('hidden');
+                    if (mainSignInButton) mainSignInButton.classList.add('hidden'); // Hide Sign In
+                    if (enrollCoursesButton) enrollCoursesButton.classList.remove('hidden'); // Show Enroll Courses
+                    if (accountDropdownContainer) accountDropdownContainer.classList.remove('hidden'); // Show Account dropdown
+
+                    // Update Complete Account link if needed (e.g., add user ID to URL)
+                    if (completeAccountLink) {
+                        completeAccountLink.href = `dashboard.html?uid=${user.uid}`; // Example: pass UID to dashboard
+                    }
+
                 } else {
                     // User is signed out
                     console.log('User is signed out.');
-                    // Show Sign In button
-                    if (mainSignInButton) mainSignInButton.classList.remove('hidden');
-                    // Hide Courses and Sign Out buttons
-                    if (mainCoursesButton) mainCoursesButton.classList.add('hidden');
-                    if (mainSignOutButton) mainSignOutButton.classList.add('hidden');
+                    if (mainSignInButton) mainSignInButton.classList.remove('hidden'); // Show Sign In
+                    if (enrollCoursesButton) enrollCoursesButton.classList.add('hidden'); // Hide Enroll Courses
+                    if (accountDropdownContainer) accountDropdownContainer.classList.add('hidden'); // Hide Account dropdown
                 }
             });
 
@@ -572,15 +624,18 @@
                 });
             }
 
-            if (mainSignOutButton) {
-                mainSignOutButton.addEventListener('click', async () => {
+            // Sign Out logic for the dropdown button
+            if (dropdownSignOutButton) {
+                dropdownSignOutButton.addEventListener('click', async (e) => {
+                    e.preventDefault(); // Prevent default link behavior
                     try {
                         await auth.signOut();
-                        console.log('User signed out successfully from main page.');
+                        console.log('User signed out successfully from dropdown.');
                         // UI will update via onAuthStateChanged listener
                     } catch (error) {
-                        console.error('Sign-out error from main page:', error.message);
-                        alert('Sign-out failed: ' + error.message); // Consider a custom modal for production
+                        console.error('Sign-out error from dropdown:', error.message);
+                        // Using a simple alert for now, consider a custom modal for production
+                        alert('Sign-out failed: ' + error.message);
                     }
                 });
             }

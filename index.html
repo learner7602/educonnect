@@ -639,6 +639,25 @@
                     }
                 });
             }
+            // Add event listener for the Account button to toggle dropdown visibility on click
+            const accountButton = document.getElementById('account-button');
+            if (accountButton) {
+                accountButton.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent click from bubbling up and closing dropdown immediately
+                    const dropdownContent = accountDropdownContainer.querySelector('.dropdown-content');
+                    if (dropdownContent) {
+                        dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
+                    }
+                });
+
+                // Close dropdown if clicked outside
+                document.addEventListener('click', (e) => {
+                    const dropdownContent = accountDropdownContainer.querySelector('.dropdown-content');
+                    if (dropdownContent && !accountDropdownContainer.contains(e.target)) {
+                        dropdownContent.style.display = 'none';
+                    }
+                });
+            }
 
             // Existing JavaScript for Class Tabs and Subject Lists
             const classButtons = document.querySelectorAll('.class-button');

@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>সাধারণ জ্ঞান কুইজ - সপ্তম শ্রেণী</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%); /* Purple to Pink Gradient */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+            color: #ffffff; /* White text for main body */
+        }
+        .quiz-container {
+            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+            border-radius: 2rem; /* Even more rounded corners */
+            box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.4); /* Deeper shadow */
+            padding: 3.5rem; /* More padding */
+            width: 100%;
+            max-width: 750px; /* Wider container */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem; /* More space between elements */
+            border: 2px solid #fbcfe8; /* Light pink border */
+            animation: fadeIn 1s ease-out; /* Fade in animation */
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .option-button {
+            background-color: #fce7f3; /* Very light pink */
+            color: #9d174d; /* Darker pink text */
+            padding: 1.2rem 2rem; /* More padding */
+            border-radius: 1rem; /* Rounded */
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* More dynamic transition */
+            font-size: 1.2rem; /* Larger font size */
+            font-weight: 600;
+            border: 3px solid transparent; /* Thicker transparent border */
+            text-align: left;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Subtle shadow */
+        }
+        .option-button:hover:not(.disabled):not(.correct):not(.incorrect) {
+            background-color: #fbcfe8; /* Lighter pink on hover */
+            transform: translateY(-5px) scale(1.02); /* Lift and slight scale */
+            box-shadow: 0 8px 20px rgba(236, 72, 153, 0.4); /* Pink shadow on hover */
+            border-color: #ec4899; /* Pink border on hover */
+        }
+        .option-button.selected {
+            border-color: #ec4899; /* Pink border when selected */
+            background-color: #fbcfe8; /* Lighter pink background */
+            box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.4); /* Stronger ring effect */
+        }
+        .option-button.correct {
+            background-color: #dcfce7; /* Light green for correct */
+            border-color: #22c55e; /* Green border */
+            color: #15803d; /* Dark green text */
+            font-weight: 700;
+            pointer-events: none;
+            box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.4);
+        }
+        .option-button.incorrect {
+            background-color: #fee2e2; /* Light red for incorrect */
+            border-color: #ef4444; /* Red border */
+            color: #dc2626; /* Dark red text */
+            font-weight: 700;
+            pointer-events: none;
+            box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.4);
+        }
+        .option-button.disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .navigation-button {
+            background: linear-gradient(to right, #6d28d9, #9333ea); /* Deeper purple gradient */
+            color: white;
+            padding: 1rem 2.5rem; /* More padding */
+            border-radius: 1rem; /* Rounded */
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            font-size: 1.25rem;
+            font-weight: 700;
+            border: none;
+            box-shadow: 0 6px 15px rgba(109, 40, 217, 0.4); /* Stronger shadow */
+            letter-spacing: 0.05em; /* Slight letter spacing */
+        }
+        .navigation-button:hover:not(:disabled) {
+            background: linear-gradient(to right, #5b21b6, #7e22ce); /* Darker purple gradient on hover */
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 8px 20px rgba(109, 40, 217, 0.6);
+        }
+        .navigation-button:disabled {
+            background-color: #a78bfa; /* Lighter purple when disabled */
+            box-shadow: none;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .result-section {
+            display: none;
+            flex-direction: column;
+            gap: 1.8rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+        .result-section.active {
+            display: flex;
+        }
+        .score-display {
+            font-size: 2rem; /* Even larger score font */
+            font-weight: 800;
+            color: #059669; /* Darker green for score */
+            margin-bottom: 2rem;
+            text-align: center;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .question-text {
+            font-size: 1.8rem; /* Larger question font */
+            font-weight: 700;
+            color: #1f2937; /* Dark text for questions */
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem; /* More space between options */
+        }
+        @media (min-width: 640px) {
+            .options-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        .review-item {
+            background-color: #fdf2f8; /* Very light pink for review items */
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 1.2rem;
+            border: 2px solid #fbcfe8;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .review-item p {
+            margin-bottom: 0.6rem;
+            line-height: 1.5;
+        }
+        .review-item .question-title {
+            font-weight: 700;
+            color: #334155;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: flex-start;
+        }
+        .review-item .user-answer,
+        .review-item .correct-answer {
+            font-size: 1.05rem;
+            margin-left: 15px; /* Indent answers */
+        }
+        .review-item .user-answer {
+            color: #4a5568;
+        }
+        .review-item .correct-answer {
+            color: #047857; /* Dark green for correct answer in review */
+            font-weight: 600;
+        }
+        .review-item .status-icon {
+            margin-right: 10px;
+            font-size: 1.3em;
+        }
+        .review-item .status-correct {
+            color: #10b981; /* Green check */
+        }
+        .review-item .status-incorrect {
+            color: #ef4444; /* Red times */
+        }
+    </style>
+</head>
+<body>
+    <div class="quiz-container">
+        <h1 class="text-5xl font-extrabold text-gray-900 mb-8">সাধারণ জ্ঞান কুইজ</h1>
+        <div id="quiz-screen">
+            <p id="question-number" class="text-2xl text-gray-700 mb-5">প্রশ্ন ১ / ২০</p>
+            <p id="question-text" class="question-text">প্রশ্ন এখানে প্রদর্শিত হবে</p>
+            <div id="options-container" class="options-grid">
+                <!-- Options will be dynamically loaded here -->
+            </div>
+            <div class="flex justify-center mt-10 space-x-6">
+                <button id="submit-button" class="navigation-button" disabled>জমা দিন</button>
+                <button id="next-button" class="navigation-button hidden">পরবর্তী</button>
+            </div>
+        </div>
+
+        <div id="result-screen" class="result-section">
+            <h2 class="text-4xl font-bold text-gray-800 text-center">কুইজ শেষ!</h2>
+            <p id="final-score" class="score-display">আপনার স্কোর: ০ / ২০</p>
+            <div id="review-container" class="mt-6">
+                <!-- Question review will be loaded here -->
+            </div>
+            <button id="restart-button" class="navigation-button mx-auto mt-8">আবার শুরু করুন</button>
+        </div>
+    </div>
+
+    <script>
+        // Quiz questions for General Knowledge (G.K.) for Class VII level in Bengali - More Difficult
+        const questions = [
+            {
+                question: "কোন মুঘল সম্রাট 'দীন-ই-ইলাহি' ধর্মমত প্রবর্তন করেন?",
+                options: ["ক) বাবর", "খ) আকবর", "গ) শাহজাহান", "ঘ) ঔরঙ্গজেব"],
+                answer: 1
+            },
+            {
+                question: "ভারতের কোন রাজ্যে 'লোনাক হ্রদ' অবস্থিত?",
+                options: ["ক) রাজস্থান", "খ) মহারাষ্ট্র", "গ) কেরালা", "ঘ) সিকিম"],
+                answer: 3
+            },
+            {
+                question: "পৃথিবীর দীর্ঘতম পর্বতমালা কোনটি?",
+                options: ["ক) হিমালয়", "খ) আন্দিজ", "গ) রকি", "ঘ) আল্পস"],
+                answer: 1
+            },
+            {
+                question: "ভারতের প্রথম উপরাষ্ট্রপতি কে ছিলেন?",
+                options: ["ক) ডঃ সর্বপল্লী রাধাকৃষ্ণান", "খ) জওহরলাল নেহেরু", "গ) সর্দার বল্লভভাই প্যাটেল", "ঘ) ডঃ রাজেন্দ্র প্রসাদ"],
+                answer: 0
+            },
+            {
+                question: "কোন দেশের জাতীয় প্রতীক 'ক্যাঙ্গারু'?",
+                options: ["ক) কানাডা", "খ) অস্ট্রেলিয়া", "গ) দক্ষিণ আফ্রিকা", "ঘ) নিউজিল্যান্ড"],
+                answer: 1
+            },
+            {
+                question: "ভারতের কোন শহরকে 'ভারতের বিজ্ঞান নগরী' বলা হয়?",
+                options: ["ক) চেন্নাই", "খ) হায়দ্রাবাদ", "গ) বেঙ্গালুরু", "ঘ) পুনে"],
+                answer: 2
+            },
+            {
+                question: "কোন ধাতুকে 'আশা ধাতু' (Metal of Hope) বলা হয়?",
+                options: ["ক) লোহা", "খ) তামা", "গ) ইউরেনিয়াম", "ঘ) সোনা"],
+                answer: 2
+            },
+            {
+                question: "বিশ্বের বৃহত্তম মরুভূমি কোনটি?",
+                options: ["ক) থর মরুভূমি", "খ) সাহারা মরুভূমি", "গ) গোবি মরুভূমি", "ঘ) আটাকামা মরুভূমি"],
+                answer: 1
+            },
+            {
+                question: "ভারতের প্রথম মহিলা মুখ্যমন্ত্রী কে ছিলেন?",
+                options: ["ক) মমতা বন্দ্যোপাধ্যায়", "খ) সুচেতা কৃপালনী", "গ) মায়াবতী", "ঘ) জয়ললিতা"],
+                answer: 1
+            },
+            {
+                question: "কোন যন্ত্রের সাহায্যে বায়ুর চাপ মাপা হয়?",
+                options: ["ক) থার্মোমিটার", "খ) অ্যামিটার", "গ) ব্যারোমিটার", "ঘ) হাইগ্রোমিটার"],
+                answer: 2
+            },
+            {
+                question: "ভারতের কোন রাজ্যে 'কাজিরাঙ্গা জাতীয় উদ্যান' অবস্থিত?",
+                options: ["ক) পশ্চিমবঙ্গ", "খ) আসাম", "গ) উত্তর প্রদেশ", "ঘ) মধ্য প্রদেশ"],
+                answer: 1
+            },
+            {
+                question: "কোন বিজ্ঞানী আপেক্ষিকতা তত্ত্ব (Theory of Relativity) প্রদান করেন?",
+                options: ["ক) আইজ্যাক নিউton", "খ) আলবার্ট আইনস্টাইন", "গ) স্টিফেন হকিং", "ঘ) গ্যালিলিও গ্যালিলি"],
+                answer: 1
+            },
+            {
+                question: "বিশ্বের ক্ষুদ্রতম দেশ কোনটি?",
+                options: ["ক) মোনাকো", "খ) ভ্যাটিকান সিটি", "গ) সান মারিনো", "ঘ) নাউরু"],
+                answer: 1
+            },
+            {
+                question: "ভারতের কোন রাজ্যে 'কেরালা' অবস্থিত?",
+                options: ["ক) দক্ষিণ ভারত", "খ) পূর্ব ভারত", "গ) উত্তর ভারত", "ঘ) পশ্চিম ভারত"],
+                answer: 0 // Keral is in South India
+            },
+            {
+                question: "কোন ভিটামিনের অভাবে স্কার্ভি রোগ হয়?",
+                options: ["ক) ভিটামিন A", "খ) ভিটামিন B", "গ) ভিটামিন C", "ঘ) ভিটামিন D"],
+                answer: 2
+            },
+            {
+                question: "আলেকজান্ডার ভারত আক্রমণ করেন কত খ্রিস্টাব্দে?",
+                options: ["ক) ৩২৬ খ্রিস্টপূর্বাব্দে", "খ) ৩৩৫ খ্রিস্টপূর্বাব্দে", "গ) ৩৪০ খ্রিস্টপূর্বাব্দে", "ঘ) ৩৫০ খ্রিস্টপূর্বাব্দে"],
+                answer: 0
+            },
+            {
+                question: "কোন শহরকে 'ভারতের প্রবেশদ্বার' বলা হয়?",
+                options: ["ক) কলকাতা", "খ) চেন্নাই", "গ) মুম্বাই", "ঘ) দিল্লি"],
+                answer: 2
+            },
+            {
+                question: "বিশ্বের বৃহত্তম মিষ্টি জলের হ্রদ কোনটি?",
+                options: ["ক) কাস্পিয়ান সাগর", "খ) সুপিরিয়র হ্রদ", "গ) বৈকাল হ্রদ", "ঘ) ভিক্টোরিয়া হ্রদ"],
+                answer: 1
+            },
+            {
+                question: "ভারতের জাতীয় জলজ প্রাণী কোনটি?",
+                options: ["ক) কুমির", "খ) ডলফিন (গঙ্গা নদী)", "গ) তিমি", "ঘ) হাঙ্গর"],
+                answer: 1
+            },
+            {
+                question: "কোন গ্যাসকে 'গ্রিনহাউস গ্যাস' বলা হয়?",
+                options: ["ক) অক্সিজেন", "খ) নাইট্রোজেন", "গ) কার্বন ডাই অক্সাইড", "ঘ) হাইড্রোজেন"],
+                answer: 2
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOption = null;
+        let userAnswers = []; // To store user's selected answer index for each question
+
+        // DOM Elements
+        const questionNumberElement = document.getElementById('question-number');
+        const questionTextElement = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const submitButton = document.getElementById('submit-button');
+        const nextButton = document.getElementById('next-button');
+        const quizScreen = document.getElementById('quiz-screen');
+        const resultScreen = document.getElementById('result-screen');
+        const finalScoreElement = document.getElementById('final-score');
+        const restartButton = document.getElementById('restart-button');
+        const reviewContainer = document.getElementById('review-container');
+
+        // Function to load a question
+        function loadQuestion() {
+            // Reset state for new question
+            selectedOption = null;
+            submitButton.disabled = true;
+            submitButton.classList.remove('hidden');
+            nextButton.classList.add('hidden');
+            optionsContainer.innerHTML = ''; // Clear previous options
+
+            const currentQuestion = questions[currentQuestionIndex];
+            questionNumberElement.textContent = `প্রশ্ন ${currentQuestionIndex + 1} / ${questions.length}`;
+            questionTextElement.textContent = currentQuestion.question;
+
+            currentQuestion.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.textContent = option;
+                button.classList.add('option-button', 'w-full'); // w-full for full width
+                button.dataset.index = index; // Store the index of the option
+                button.addEventListener('click', () => selectOption(button, index));
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        // Function to handle option selection
+        function selectOption(button, index) {
+            // Remove 'selected' class from previously selected option
+            if (selectedOption) {
+                selectedOption.classList.remove('selected');
+            }
+            // Add 'selected' class to the new selected option
+            button.classList.add('selected');
+            selectedOption = button;
+            submitButton.disabled = false; // Enable submit button
+        }
+
+        // Function to check the answer
+        function checkAnswer() {
+            if (selectedOption === null) {
+                return; // Should not happen if button is disabled
+            }
+
+            const selectedAnswerIndex = parseInt(selectedOption.dataset.index);
+            const correctAnswerIndex = questions[currentQuestionIndex].answer;
+
+            // Store user's answer
+            userAnswers[currentQuestionIndex] = selectedAnswerIndex;
+
+            // Disable all options after submission
+            Array.from(optionsContainer.children).forEach(button => {
+                button.classList.add('disabled');
+                button.removeEventListener('click', () => {}); // Remove event listener
+            });
+
+            if (selectedAnswerIndex === correctAnswerIndex) {
+                score++;
+                selectedOption.classList.add('correct');
+            } else {
+                selectedOption.classList.add('incorrect');
+                // Highlight the correct answer even if user chose incorrectly
+                Array.from(optionsContainer.children)[correctAnswerIndex].classList.add('correct');
+            }
+
+            submitButton.classList.add('hidden'); // Hide submit button
+            nextButton.classList.remove('hidden'); // Show next button
+        }
+
+        // Function to move to the next question or show results
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        // Function to show quiz results
+        function showResults() {
+            quizScreen.classList.add('hidden');
+            resultScreen.classList.add('active');
+            finalScoreElement.textContent = `আপনার স্কোর: ${score} / ${questions.length}`;
+
+            // Clear previous review items
+            reviewContainer.innerHTML = '';
+
+            // Populate review section
+            questions.forEach((q, index) => {
+                const reviewItem = document.createElement('div');
+                reviewItem.classList.add('review-item');
+
+                const userAnswerIndex = userAnswers[index];
+                const isCorrect = (userAnswerIndex === q.answer);
+
+                let statusIcon = '';
+                let statusClass = '';
+                if (isCorrect) {
+                    statusIcon = '<i class="fas fa-check-circle status-icon status-correct"></i>';
+                    statusClass = 'text-green-600';
+                } else {
+                    statusIcon = '<i class="fas fa-times-circle status-icon status-incorrect"></i>';
+                    statusClass = 'text-red-600';
+                }
+
+                const userAnswerText = userAnswerIndex !== undefined && userAnswerIndex !== null
+                                       ? q.options[userAnswerIndex]
+                                       : "উত্তর দেওয়া হয়নি";
+                const correctAnswerText = q.options[q.answer];
+
+                reviewItem.innerHTML = `
+                    <p class="question-title">${statusIcon} ${index + 1}. ${q.question}</p>
+                    <p class="user-answer ml-8">আপনার উত্তর: <span class="${isCorrect ? 'text-green-700' : 'text-red-700'} font-medium">${userAnswerText}</span></p>
+                    <p class="correct-answer ml-8">সঠিক উত্তর: <span class="text-green-700 font-medium">${correctAnswerText}</span></p>
+                `;
+                reviewContainer.appendChild(reviewItem);
+            });
+        }
+
+        // Function to restart the quiz
+        function restartQuiz() {
+            currentQuestionIndex = 0;
+            score = 0;
+            selectedOption = null;
+            userAnswers = []; // Reset user answers
+            quizScreen.classList.remove('hidden');
+            resultScreen.classList.remove('active');
+            reviewContainer.innerHTML = ''; // Clear review section
+            loadQuestion();
+        }
+
+        // Event Listeners
+        submitButton.addEventListener('click', checkAnswer);
+        nextButton.addEventListener('click', nextQuestion);
+        restartButton.addEventListener('click', restartQuiz);
+
+        // Initial load
+        window.onload = loadQuestion;
+    </script>
+</body>
+</html>

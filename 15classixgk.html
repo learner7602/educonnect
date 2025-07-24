@@ -127,7 +127,7 @@
             box-shadow: 0 3px 8px rgba(245, 158, 11, 0.3);
             margin-top: 1.5rem; /* Space from options */
         }
-        .hint-button:hover:not(:disabled) {
+        .hint-button:hover:not(.disabled) {
             background: linear-gradient(to right, #d97706, #b45309);
             transform: translateY(-2px);
             box-shadow: 0 5px 12px rgba(245, 158, 11, 0.4);
@@ -153,21 +153,7 @@
         .hint-display.active {
             display: block;
         }
-        .loading-indicator {
-            display: none;
-            margin-top: 1.5rem;
-            font-size: 1rem;
-            color: #6d28d9;
-            animation: pulse 1.5s infinite ease-in-out;
-        }
-        .loading-indicator.active {
-            display: block;
-        }
-        @keyframes pulse {
-            0% { opacity: 0.5; }
-            50% { opacity: 1; }
-            100% { opacity: 0.5; }
-        }
+        /* Removed loading-indicator styles as it's no longer needed */
 
         /* Pop-up Feedback Styles */
         .feedback-popup {
@@ -295,7 +281,7 @@
                 <!-- Options will be dynamically loaded here -->
             </div>
             <button id="hint-button" class="hint-button">সহায়তা চাই (Hint)</button>
-            <div id="loading-indicator" class="loading-indicator">সহায়তা তৈরি হচ্ছে...</div>
+            <!-- Removed loading-indicator as it's no longer needed -->
             <div id="hint-display" class="hint-display"></div>
 
             <div class="flex justify-center mt-10 space-x-6">
@@ -326,102 +312,122 @@
             {
                 question: "কোন মুঘল সম্রাট 'জিন্দাপীর' নামে পরিচিত ছিলেন?",
                 options: ["ক) আকবর", "খ) শাহজাহান", "গ) ঔরঙ্গজেব", "ঘ) জাহাঙ্গীর"],
-                answer: 2
+                answer: 2,
+                hint: "তিনি একজন কঠোর ধার্মিক শাসক ছিলেন এবং তাঁর দীর্ঘ শাসনকালে মুঘল সাম্রাজ্য বিস্তার লাভ করে।"
             },
             {
                 question: "ভারতের সংবিধানের কোন অংশে মৌলিক কর্তব্যগুলি (Fundamental Duties) উল্লেখ করা হয়েছে?",
                 options: ["ক) পার্ট III", "খ) পার্ট IV", "গ) পার্ট IVA", "ঘ) পার্ট V"],
-                answer: 2
+                answer: 2,
+                hint: "এই অংশটি ৪২তম সংবিধান সংশোধনী আইন, ১৯৭৬ দ্বারা যুক্ত করা হয়েছিল।"
             },
             {
                 question: "পৃথিবীর বৃহত্তম মিষ্টি জলের হ্রদ (আয়তনে) কোনটি?",
                 options: ["ক) সুপিরিয়র হ্রদ", "খ) বৈকাল হ্রদ", "গ) ভিক্টোরিয়া হ্রদ", "ঘ) কাস্পিয়ান সাগর"],
-                answer: 0 // Caspian Sea is largest by area, but saline. Superior is largest freshwater by area.
+                answer: 0,
+                hint: "এটি উত্তর আমেরিকায় অবস্থিত এবং এর নাম ইংরেজিতে 'Superior' অর্থাৎ 'উচ্চতর'।"
             },
             {
                 question: "কোন বছর বঙ্গভঙ্গ রদ করা হয়?",
                 options: ["ক) ১৯০৫", "খ) ১৯১১", "গ) ১৯১৯", "ঘ) ১৯৪৭"],
-                answer: 1
+                answer: 1,
+                hint: "এই বছর ভারতের রাজধানী কলকাতা থেকে দিল্লিতে স্থানান্তরিত করা হয়।"
             },
             {
                 question: "কোন গ্যাসকে 'মার্শ গ্যাস' বলা হয়?",
                 options: ["ক) ইথেন", "খ) মিথেন", "গ) প্রোপেন", "ঘ) বিউটেন"],
-                answer: 1
+                answer: 1,
+                hint: "এটি একটি প্রধান গ্রিনহাউস গ্যাস এবং প্রাকৃতিক গ্যাসের একটি প্রধান উপাদান।"
             },
             {
                 question: "ভারতের কোন রাজ্যে 'বন্দীপুর জাতীয় উদ্যান' অবস্থিত?",
                 options: ["ক) কেরালা", "খ) কর্ণাটক", "গ) তামিলনাড়ু", "ঘ) অন্ধ্রপ্রদেশ"],
-                answer: 1
+                answer: 1,
+                hint: "এই রাজ্যটি ভারতের দক্ষিণ-পশ্চিম উপকূলে অবস্থিত এবং এর রাজধানী বেঙ্গালুরু।"
             },
             {
                 question: "কোন যন্ত্রের সাহায্যে উদ্ভিদের বৃদ্ধি মাপা হয়?",
                 options: ["ক) ব্যারোমিটার", "খ) অক্সানোমিটার", "গ) হাইগ্রোমিটার", "ঘ) সিসমোগ্রাফ"],
-                answer: 1
+                answer: 1,
+                hint: "এই যন্ত্রের নাম 'বৃদ্ধি' পরিমাপের সাথে সম্পর্কিত একটি গ্রিক শব্দ থেকে এসেছে।"
             },
             {
                 question: "ভারতের প্রথম মহিলা লোকসভার স্পিকার কে ছিলেন?",
                 options: ["ক) সুমিত্রা মহাজন", "খ) মীরা কুমার", "গ) সুষমা স্বরাজ", "ঘ) নির্মলা সীতারামন"],
-                answer: 1
+                answer: 1,
+                hint: "তিনি একজন প্রাক্তন কূটনীতিক এবং বিহারের সাসারাম লোকসভা কেন্দ্রের প্রতিনিধিত্ব করেছিলেন।"
             },
             {
                 question: "কোন শহরকে 'ভারতের ডেট্রয়েট' বলা হয়?",
                 options: ["ক) মুম্বাই", "খ) চেন্নাই", "গ) পুনে", "ঘ) গুরুগ্রাম"],
-                answer: 1
+                answer: 1,
+                hint: "এটি ভারতের দক্ষিণ-পূর্ব উপকূলে অবস্থিত এবং এটি অটোমোবাইল শিল্পের জন্য বিখ্যাত।"
             },
             {
                 question: "বিশ্বের বৃহত্তম নদী (আয়তনে) কোনটি?",
                 options: ["ক) নীল নদ", "খ) আমাজন", "গ) ইয়াংজি", "ঘ) মিসিসিপি"],
-                answer: 1
+                answer: 1,
+                hint: "এটি দক্ষিণ আমেরিকায় অবস্থিত এবং এর অববাহিকা বিশ্বের বৃহত্তম রেইনফরেস্টের আবাসস্থল।"
             },
             {
                 question: "কোন ভারতীয় স্বাধীনতা সংগ্রামী 'দেশবন্ধু' নামে পরিচিত ছিলেন?",
                 options: ["ক) মহাত্মা গান্ধী", "খ) সুভাষচন্দ্র বসু", "গ) চিত্তরঞ্জন দাস", "ঘ) বাল গঙ্গাধর তিলক"],
-                answer: 2
+                answer: 2,
+                hint: "তিনি একজন আইনজীবী এবং স্বরাজ পার্টির অন্যতম প্রতিষ্ঠাতা ছিলেন।"
             },
             {
                 question: "কোন দেশের জাতীয় খেলা 'বাস্কেটবল'?",
                 options: ["ক) কানাডা", "খ) মার্কিন যুক্তরাষ্ট্র", "গ) অস্ট্রেলিয়া", "ঘ) স্পেন"],
-                answer: 1
+                answer: 1,
+                hint: "এই দেশটি বিশ্বের অন্যতম বৃহৎ অর্থনীতির দেশ এবং এর রাজধানী ওয়াশিংটন ডি.সি.।"
             },
             {
                 question: "ভারতের কোন রাজ্যে 'পুলিকট হ্রদ' অবস্থিত?",
                 options: ["ক) কেরালা", "খ) তামিলনাড়ু ও অন্ধ্রপ্রদেশ সীমান্তে", "গ) উড়িষ্যা", "ঘ) কর্ণাটক"],
-                answer: 1
+                answer: 1,
+                hint: "এটি ভারতের দ্বিতীয় বৃহত্তম লবণাক্ত জলের হ্রদ এবং শ্রীহরিকোটা দ্বীপ এই হ্রদে অবস্থিত।"
             },
             {
                 question: "কোন ব্রিটিশ গভর্নর জেনারেল 'চিরস্থায়ী বন্দোবস্ত' প্রবর্তন করেন?",
                 options: ["ক) লর্ড ডালহৌসি", "খ) লর্ড কর্নওয়ালিস", "গ) লর্ড বেন্টিঙ্ক", "ঘ) লর্ড রিপন"],
-                answer: 1
+                answer: 1,
+                hint: "তিনি ১৭৯৩ সালে এই ভূমি রাজস্ব ব্যবস্থা চালু করেন।"
             },
             {
                 question: "বিশ্বের প্রথম মহিলা মহাকাশচারী কে ছিলেন?",
                 options: ["ক) কল্পনা চাওলা", "খ) ভ্যালেন্টিনা তেরেশকোভা", "গ) সুনীতা উইলিয়ামস", "ঘ) স্যালি রাইড"],
-                answer: 1
+                answer: 1,
+                hint: "তিনি সোভিয়েত ইউনিয়নের একজন কসমোনট ছিলেন এবং ১৯৬৩ সালে মহাকাশে যান।"
             },
             {
                 question: "ভারতীয় সংবিধানের কোন অনুচ্ছেদ 'জরুরি অবস্থা' (Emergency) ঘোষণার সাথে সম্পর্কিত?",
                 options: ["ক) অনুচ্ছেদ ৩৫০", "খ) অনুচ্ছেদ ৩৫২", "গ) অনুচ্ছেদ ৩৬০", "ঘ) উপরের সবগুলি"],
-                answer: 3
+                answer: 3,
+                hint: "সংবিধানে তিন ধরনের জরুরি অবস্থার কথা বলা হয়েছে: জাতীয়, রাজ্য এবং আর্থিক।"
             },
             {
                 question: "কোন গ্রহকে 'সবুজ গ্রহ' বলা হয়?",
                 options: ["ক) মঙ্গল", "খ) ইউরেনাস", "গ) নেপচুন", "ঘ) শুক্র"],
-                answer: 1
+                answer: 1,
+                hint: "এই গ্রহটি সৌরজগতের সপ্তম গ্রহ এবং এর বায়ুমণ্ডলে মিথেন গ্যাসের কারণে এটি নীল-সবুজ দেখায়।"
             },
             {
                 question: "ভারতের কোন শহরকে 'ভারতের হীরা নগরী' বলা হয়?",
                 options: ["ক) মুম্বাই", "খ) সুরাট", "গ) জয়পুর", "ঘ) বেঙ্গালুরু"],
-                answer: 1
+                answer: 1,
+                hint: "এই শহরটি গুজরাট রাজ্যে অবস্থিত এবং এটি টেক্সটাইল ও হীরা কাটার শিল্পের জন্য বিখ্যাত।"
             },
             {
                 question: "কোন খেলার সাথে 'থমাস কাপ' যুক্ত?",
                 options: ["ক) ক্রিকেট", "খ) ফুটবল", "গ) ব্যাডমিন্টন", "ঘ) টেনিস"],
-                answer: 2
+                answer: 2,
+                hint: "এটি পুরুষদের আন্তর্জাতিক দলগত চ্যাম্পিয়নশিপ, যা প্রতি দুই বছর অন্তর অনুষ্ঠিত হয়।"
             },
             {
                 question: "ভারতের দীর্ঘতম উপকূলরেখা কোন রাজ্যের আছে?",
                 options: ["ক) মহারাষ্ট্র", "খ) গুজরাট", "গ) তামিলনাড়ু", "ঘ) অন্ধ্রপ্রদেশ"],
-                answer: 1
+                answer: 1,
+                hint: "এই রাজ্যটি ভারতের পশ্চিম উপকূলে অবস্থিত এবং এর রাজধানী গান্ধীনগর।"
             }
         ];
 
@@ -444,22 +450,21 @@
         const reviewContainer = document.getElementById('review-container');
         const hintButton = document.getElementById('hint-button');
         const hintDisplay = document.getElementById('hint-display');
-        const loadingIndicator = document.getElementById('loading-indicator');
-        const feedbackPopup = document.getElementById('feedback-popup'); // New
-        const feedbackEmoji = document.getElementById('feedback-emoji'); // New
-        const feedbackMessage = document.getElementById('feedback-message'); // New
+        // Removed loadingIndicator as it's no longer needed
+        const feedbackPopup = document.getElementById('feedback-popup');
+        const feedbackEmoji = document.getElementById('feedback-emoji');
+        const feedbackMessage = document.getElementById('feedback-message');
 
         // Function to load a question
         function loadQuestion() {
-            // Reset state for new question
             selectedOption = null;
             submitButton.disabled = true;
             submitButton.classList.remove('hidden');
             nextButton.classList.add('hidden');
-            optionsContainer.innerHTML = ''; // Clear previous options
+            optionsContainer.innerHTML = '';
             hintDisplay.classList.remove('active'); // Hide hint display
             hintDisplay.textContent = ''; // Clear hint text
-            loadingIndicator.classList.remove('active'); // Hide loading indicator
+            // Removed loadingIndicator.classList.remove('active');
 
             // Enable hint button if not used for this question before
             if (!hintUsedForQuestion[currentQuestionIndex]) {
@@ -475,8 +480,8 @@
             currentQuestion.options.forEach((option, index) => {
                 const button = document.createElement('button');
                 button.textContent = option;
-                button.classList.add('option-button', 'w-full'); // w-full for full width
-                button.dataset.index = index; // Store the index of the option
+                button.classList.add('option-button', 'w-full');
+                button.dataset.index = index;
                 button.addEventListener('click', () => selectOption(button, index));
                 optionsContainer.appendChild(button);
             });
@@ -484,59 +489,54 @@
 
         // Function to handle option selection
         function selectOption(button, index) {
-            // Remove 'selected' class from previously selected option
             if (selectedOption) {
                 selectedOption.classList.remove('selected');
             }
-            // Add 'selected' class to the new selected option
             button.classList.add('selected');
             selectedOption = button;
-            submitButton.disabled = false; // Enable submit button
+            submitButton.disabled = false;
         }
 
         // Function to check the answer
         function checkAnswer() {
             if (selectedOption === null) {
-                return; // Should not happen if button is disabled
+                return;
             }
 
             const selectedAnswerIndex = parseInt(selectedOption.dataset.index);
             const correctAnswerIndex = questions[currentQuestionIndex].answer;
 
-            // Store user's answer
             userAnswers[currentQuestionIndex] = selectedAnswerIndex;
 
-            // Disable all options after submission
             Array.from(optionsContainer.children).forEach(button => {
                 button.classList.add('disabled');
-                button.removeEventListener('click', () => {}); // Remove event listener
+                button.removeEventListener('click', () => {});
             });
-            hintButton.disabled = true; // Disable hint button after submission
+            hintButton.disabled = true;
 
             if (selectedAnswerIndex === correctAnswerIndex) {
                 score++;
                 selectedOption.classList.add('correct');
-                showFeedbackPopup('correct'); // Show correct feedback
+                showFeedbackPopup('correct');
             } else {
                 selectedOption.classList.add('incorrect');
-                // Highlight the correct answer even if user chose incorrectly
                 Array.from(optionsContainer.children)[correctAnswerIndex].classList.add('correct');
-                showFeedbackPopup('incorrect'); // Show incorrect feedback
+                showFeedbackPopup('incorrect');
             }
 
-            submitButton.classList.add('hidden'); // Hide submit button
-            nextButton.classList.remove('hidden'); // Show next button
+            submitButton.classList.add('hidden');
+            nextButton.classList.remove('hidden');
         }
 
-        // New function to show feedback pop-up
+        // Function to show feedback pop-up
         function showFeedbackPopup(type) {
             feedbackPopup.classList.remove('correct-feedback', 'incorrect-feedback');
             if (type === 'correct') {
-                feedbackEmoji.textContent = '😊'; // Smiley face
+                feedbackEmoji.textContent = '�';
                 feedbackMessage.textContent = 'সঠিক!';
                 feedbackPopup.classList.add('correct-feedback');
             } else {
-                feedbackEmoji.textContent = '😔'; // Sad face
+                feedbackEmoji.textContent = '😔';
                 feedbackMessage.textContent = 'ভুল!';
                 feedbackPopup.classList.add('incorrect-feedback');
             }
@@ -544,7 +544,7 @@
 
             setTimeout(() => {
                 feedbackPopup.classList.remove('show');
-            }, 1000); // Pop-up visible for 1 second
+            }, 1000);
         }
 
         // Function to move to the next question or show results
@@ -563,10 +563,8 @@
             resultScreen.classList.add('active');
             finalScoreElement.textContent = `আপনার স্কোর: ${score} / ${questions.length}`;
 
-            // Clear previous review items
             reviewContainer.innerHTML = '';
 
-            // Populate review section
             questions.forEach((q, index) => {
                 const reviewItem = document.createElement('div');
                 reviewItem.classList.add('review-item');
@@ -603,68 +601,38 @@
             currentQuestionIndex = 0;
             score = 0;
             selectedOption = null;
-            userAnswers = []; // Reset user answers
-            hintUsedForQuestion = {}; // Reset hint usage
+            userAnswers = [];
+            hintUsedForQuestion = {};
             quizScreen.classList.remove('hidden');
             resultScreen.classList.remove('active');
-            reviewContainer.innerHTML = ''; // Clear review section
+            reviewContainer.innerHTML = '';
             loadQuestion();
         }
 
-        // Gemini Hint Integration
-        async function generateHint() {
+        // Updated Hint Function: Directly displays pre-defined hint
+        function showPredefinedHint() {
             const currentQuestion = questions[currentQuestionIndex];
-            const prompt = `এই সাধারণ জ্ঞান কুইজের প্রশ্নের জন্য একটি সংক্ষিপ্ত এবং সহায়ক ইঙ্গিত দিন: "${currentQuestion.question}"। উত্তর সরাসরি বলবেন না, শুধু ইঙ্গিত দিন।`;
-
-            hintButton.disabled = true; // Disable hint button during generation
-            loadingIndicator.classList.add('active'); // Show loading indicator
-            hintDisplay.classList.remove('active'); // Hide previous hint
-            hintDisplay.textContent = ''; // Clear previous hint text
-
-            try {
-                let chatHistory = [];
-                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
-                const payload = { contents: chatHistory };
-                const apiKey = ""; // Canvas will automatically provide this
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
-
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-
-                const result = await response.json();
-
-                if (result.candidates && result.candidates.length > 0 &&
-                    result.candidates[0].content && result.candidates[0].content.parts &&
-                    result.candidates[0].content.parts.length > 0) {
-                    const hintText = result.candidates[0].content.parts[0].text;
-                    hintDisplay.textContent = hintText;
-                    hintDisplay.classList.add('active'); // Show hint
-                    hintUsedForQuestion[currentQuestionIndex] = true; // Mark hint as used for this question
-                } else {
-                    hintDisplay.textContent = "ইঙ্গিত তৈরি করা যায়নি। অনুগ্রহ করে আবার চেষ্টা করুন।";
-                    hintDisplay.classList.add('active');
-                }
-            } catch (error) {
-                console.error("Error generating hint:", error);
-                hintDisplay.textContent = "ইঙ্গিত তৈরি করতে সমস্যা হয়েছে। অনুগ্রহ করে আপনার ইন্টারনেট সংযোগ পরীক্ষা করুন বা পরে চেষ্টা করুন।";
+            if (currentQuestion.hint) {
+                hintDisplay.textContent = currentQuestion.hint;
+                hintDisplay.classList.add('active'); // Show hint
+                hintUsedForQuestion[currentQuestionIndex] = true; // Mark hint as used
+                hintButton.disabled = true; // Disable hint button after use
+            } else {
+                hintDisplay.textContent = "এই প্রশ্নের জন্য কোনো ইঙ্গিত উপলব্ধ নেই।";
                 hintDisplay.classList.add('active');
-            } finally {
-                loadingIndicator.classList.remove('active'); // Hide loading indicator
+                hintButton.disabled = true; // Disable if no hint
             }
         }
-
 
         // Event Listeners
         submitButton.addEventListener('click', checkAnswer);
         nextButton.addEventListener('click', nextQuestion);
         restartButton.addEventListener('click', restartQuiz);
-        hintButton.addEventListener('click', generateHint); // New event listener for hint button
+        hintButton.addEventListener('click', showPredefinedHint); // Updated event listener
 
         // Initial load
         window.onload = loadQuestion;
     </script>
 </body>
 </html>
+�

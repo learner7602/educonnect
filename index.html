@@ -1,719 +1,170 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EduConnect - Empowering Students</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #F8F9FA; /* Very light grey background */
-            color: #343A40; /* Dark grey text */
-        }
-        /* Custom scrollbar for better aesthetics */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #E9ECEF; /* Lighter grey for track */
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #ADB5BD; /* Medium grey for thumb */
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6C757D; /* Darker grey on hover */
-        }
-        /* Keyframe for subtle fade-in animation */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-            animation: fadeIn 0.8s ease-out forwards;
-        }
-        /* Keyframe for button hover effect */
-        @keyframes buttonHoverScale {
-            from { transform: scale(1); }
-            to { transform: scale(1.02); }
-        }
-        .hover-scale:hover {
-            animation: buttonHoverScale 0.2s forwards;
-        }
-        .resource-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        /* Custom button styles */
-        .class-button {
-            background-image: linear-gradient(to right, #2196F3, #42A5F5); /* Blue gradient */
-            border: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            font-weight: 600; /* Semi-bold */
-        }
-        .class-button:hover {
-            background-image: linear-gradient(to right, #1976D2, #1E88E5); /* Darker blue */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        .class-button.active {
-            background-image: linear-gradient(to right, #4CAF50, #66BB6A); /* Green for active */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-            border: 2px solid #A5D6A7; /* Light green ring */
-        }
-
-        .action-button {
-            background-image: linear-gradient(to right, #FFC107, #FFCA28); /* Amber gradient */
-            color: #343A40; /* Dark text for contrast */
-            border: none;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            transition: all 0.3s ease;
-            font-weight: 500; /* Medium */
-        }
-        .action-button:hover {
-            background-image: linear-gradient(to right, #FFB300, #FFA000); /* Darker amber */
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-        }
-
-        .signin-button {
-            background-image: linear-gradient(to right, #4CAF50, #66BB6A); /* Green gradient */
-            color: white;
-            border: none;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
-            font-weight: 600; /* Semi-bold */
-        }
-        .signin-button:hover {
-            background-image: linear-gradient(to right, #388E3C, #43A047); /* Darker green */
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        /* New styles for auth-dependent section */
-        .hidden {
-            display: none !important;
-        }
-        .auth-status-section {
-            background-color: #ffffff;
-            padding: 20px 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: 100%;
-            max-width: 420px;
-            box-sizing: border-box;
-            margin-top: 20px;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
-        }
-        .auth-status-section.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .auth-status-section p {
-            margin: 0 0 15px 0;
-            color: #444;
-            font-weight: 500;
-        }
-        .auth-status-section h2 {
-            font-size: 1.8em;
-            font-weight: 700;
-            color: #2c3e50;
-            margin-bottom: 15px;
-        }
-        .auth-status-section .button {
-            margin: 10px;
-        }
-        
-        /* Dropdown specific styles */
-        .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            right: 0; /* Align to the right of the parent */
-            border-radius: 8px;
-            overflow: hidden;
-            margin-top: 10px; /* Space below the button */
-        }
-
-        .dropdown-content a {
-            color: black;
-            padding: 12px 16px;
-            text-decoration: none;
-            display: block;
-            text-align: left;
-            transition: background-color 0.2s ease;
-        }
-
-        .dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
-
-        .dropdown:hover .dropdown-content {
-            display: block;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduConnect - Class Login</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="bg-gray-100 min-h-screen flex flex-col">
 
-    <!-- Header Section -->
-    <header class="bg-gradient-to-r from-blue-700 to-green-600 text-white shadow-lg py-4 px-6 md:px-10 sticky top-0 z-50">
-        <div class="container mx-auto flex flex-col md:flex-row items-center justify-between">
-            <div class="flex items-center space-x-4 mb-4 md:mb-0">
-                <!-- Logo -->
-                <div class="w-12 h-12 bg-white rounded-full overflow-hidden flex items-center justify-center shadow-md">
-                    <img src="logo.jpeg" alt="EduConnect Logo" class="w-full h-full object-cover">
-                </div>
-                <h1 class="text-3xl font-extrabold tracking-tight">EduConnect</h1>
-            </div>
-            <nav class="flex items-center space-x-6">
-                <ul class="flex space-x-6">
-                    <li><a href="#home" class="hover:text-blue-200 transition duration-300 font-medium">Home</a></li>
-                    <li><a href="#classes" class="hover:text-blue-200 transition duration-300 font-medium">Classes</a></li>
-                    <li><a href="#about" class="hover:text-blue-200 transition duration-300 font-medium">About</a></li>
-                    <li><a href="#contact" class="hover:text-blue-200 transition duration-300 font-medium">Contact</a></li>
-                </ul>
-                <!-- Sign In Button (visible when signed out) -->
-                <a id="main-signin-button" href="signin.html" class="signin-button py-2 px-5 rounded-full hover-scale">
-                    Sign In
-                </a>
-                
-                <!-- Enroll Courses Button (visible when signed in) -->
-                <a href="courses.html" id="enroll-courses-button" class="signin-button py-2 px-5 rounded-full hover-scale hidden">
-                    Enroll Courses
-                </a>
+  <!-- Header -->
+  <header class="bg-gradient-to-r from-blue-700 to-green-600 text-white py-4 px-6 text-center shadow-lg">
+    <h1 class="text-3xl font-extrabold">EduConnect</h1>
+  </header>
 
-                <!-- Account Dropdown (visible when signed in) -->
-                <div id="account-dropdown-container" class="dropdown relative hidden">
-                    <button id="account-button" class="signin-button py-2 px-5 rounded-full hover-scale flex items-center">
-                        Account
-                        <!-- Down arrow icon -->
-                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                        </svg>
-                    </button>
-                    <div class="dropdown-content">
-                        <a href="dashboard.html" id="complete-account-link">Update your profile</a>
-                        <a href="#" id="dropdown-signout-button">Sign Out</a>
-                    </div>
-                </div>
-            </nav>
-        </div>
-    </header>
+  <!-- Classes Section -->
+  <main class="container mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold text-center mb-8">Choose Your Class</h2>
 
-    <!-- Main Content Area -->
-    <main class="flex-grow container mx-auto px-4 py-8 md:py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="v">Class V</button>
+      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="vi">Class VI</button>
+      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="vii">Class VII</button>
+      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="viii">Class VIII</button>
+      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="ix">Class IX</button>
+      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="x">Class X</button>
+      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="xi">Class XI</button>
+      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="xii">Class XII</button>
+    </div>
 
-        <!-- Hero Section -->
-        <section id="home" class="bg-gradient-to-br from-blue-600 to-teal-500 text-white rounded-xl shadow-2xl p-8 md:p-12 mb-12 text-center animate-fade-in">
-            <div class="flex flex-col md:flex-row items-center justify-center md:space-x-12">
-                <!-- Your Photo Placeholder -->
-                <div class="w-40 h-40 md:w-48 md:h-48 bg-gray-200 rounded-full overflow-hidden flex items-center justify-center mb-6 md:mb-0 shadow-xl border-4 border-white">
-                    <img src="yourphoto.jpeg" alt="Your Photo" class="w-full h-full object-cover">
-                </div>
-                <div class="text-white">
-                    <h2 class="text-4xl md:text-5xl font-extrabold mb-4 leading-tight">Welcome to EduConnect!</h2>
-                    <p class="text-lg md:text-xl font-light max-w-3xl mx-auto mb-6">
-                        Your dedicated platform for learning and growth. I'm here to help students from Class V to X excel in their studies through interactive quizzes, comprehensive PDFs, and engaging video classes.
-                    </p>
-                    <a href="#classes" class="inline-block bg-white text-blue-600 font-bold py-3 px-8 rounded-full shadow-lg hover:bg-blue-100 transition duration-300 transform hover:scale-105 hover-scale">
-                        Start Learning Now!
-                    </a>
-                </div>
-            </div>
-        </section>
+    <!-- Sign In Form -->
+    <div id="signin-form-container" class="hidden mt-8 bg-white shadow-lg p-6 rounded-lg max-w-md mx-auto">
+      <h3 id="signin-class-title" class="text-xl font-bold mb-4">Sign In for Class</h3>
+      <form id="signin-form" class="space-y-4">
+        <input type="email" id="signin-email" placeholder="Email" class="w-full border p-2 rounded" required>
+        <input type="password" id="signin-password" placeholder="Password" class="w-full border p-2 rounded" required>
+        <button type="submit" class="bg-green-600 text-white py-2 px-4 rounded w-full">Sign In</button>
+      </form>
+      <p id="signin-message" class="mt-4 text-center text-red-500"></p>
+      <p class="mt-4 text-center text-sm">Don’t have an account? 
+        <a href="#" id="show-signup" class="text-blue-600 hover:underline">Sign Up</a>
+      </p>
+    </div>
 
-        <!-- Class Section -->
-        <section id="classes" class="bg-white rounded-xl shadow-lg p-8 animate-fade-in" style="animation-delay: 0.2s;">
-            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">Explore Our Classes</h2>
+    <!-- Sign Up Form -->
+    <div id="signup-form-container" class="hidden mt-8 bg-white shadow-lg p-6 rounded-lg max-w-md mx-auto">
+      <h3 id="signup-class-title" class="text-xl font-bold mb-4">Sign Up for Class</h3>
+      <form id="signup-form" class="space-y-3">
+        <input type="text" id="signup-name" placeholder="Full Name" class="w-full border p-2 rounded" required>
+        <input type="text" id="signup-father" placeholder="Father's Name" class="w-full border p-2 rounded" required>
+        <input type="text" id="signup-school" placeholder="School Name" class="w-full border p-2 rounded" required>
+        <input type="text" id="signup-address" placeholder="Address" class="w-full border p-2 rounded" required>
+        <input type="tel" id="signup-phone" placeholder="Mobile Number" class="w-full border p-2 rounded" required>
+        <input type="email" id="signup-email" placeholder="Email" class="w-full border p-2 rounded" required>
+        <input type="password" id="signup-password" placeholder="Password" class="w-full border p-2 rounded" required>
+        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded w-full">Sign Up</button>
+      </form>
+      <p id="signup-message" class="mt-4 text-center text-red-500"></p>
+      <p class="mt-4 text-center text-sm">Already have an account? 
+        <a href="#" id="back-to-signin" class="text-blue-600 hover:underline">Sign In</a>
+      </p>
+    </div>
+  </main>
 
-            <!-- Class Buttons (Tabs) -->
-            <div class="flex flex-wrap justify-center gap-4 mb-8">
-                <button class="class-button text-white py-3 px-6 rounded-full shadow-md hover-scale" data-class="v">Class V</button>
-                <button class="class-button text-white py-3 px-6 rounded-full shadow-md hover-scale" data-class="vi">Class VI</button>
-                <button class="class-button text-white py-3 px-6 rounded-full shadow-md hover-scale" data-class="vii">Class VII</button>
-                <button class="class-button text-white py-3 px-6 rounded-full shadow-md hover-scale" data-class="viii">Class VIII</button>
-                <button class="class-button text-white py-3 px-6 rounded-full shadow-md hover-scale" data-class="ix">Class IX</button>
-                <button class="class-button text-white py-3 px-6 rounded-full shadow-md hover-scale" data-class="x">Children Fun</button>
-            </div>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg",
+      authDomain: "educonnectapp-ae08d.firebaseapp.com",
+      projectId: "educonnectapp-ae08d",
+      storageBucket: "educonnectapp-ae08d.appspot.com",
+      messagingSenderId: "10974354104",
+      appId: "1:10974354104:web:228ca789dfb241f43ff24d"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-            <!-- Class Content Sections -->
-            <div id="class-content-container">
-                <!-- Class V Content -->
-                <div id="class-v-content" class="class-content hidden bg-gray-50 p-6 rounded-lg shadow-inner mb-6 transition-all duration-500 ease-in-out">
-                    <h3 class="text-2xl font-semibold text-gray-700 mb-4">Class V Resources</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Quizzes</h4>
-                            <p class="text-gray-600 mb-4">Test your knowledge with interactive quizzes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="quiz-subjects-v">View Quizzes</button>
-                            <div id="quiz-subjects-v" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics Quiz</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science Quiz</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English Quiz</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">PDFs</h4>
-                            <p class="text-gray-600 mb-4">Download study materials and notes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="pdf-subjects-v">View PDFs</button>
-                            <div id="pdf-subjects-v" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English PDF</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Video Classes</h4>
-                            <p class="text-gray-600 mb-4">Watch engaging video lessons.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="video-subjects-v">Watch Videos</button>
-                            <div id="video-subjects-v" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English Video</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    let selectedClass = null;
 
-                <!-- Class VI Content -->
-                <div id="class-vi-content" class="class-content hidden bg-gray-50 p-6 rounded-lg shadow-inner mb-6 transition-all duration-500 ease-in-out">
-                    <h3 class="text-2xl font-semibold text-gray-700 mb-4">Class VI Resources</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Quizzes</h4>
-                            <p class="text-gray-600 mb-4">Test your knowledge with interactive quizzes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="quiz-subjects-vi">View Quizzes</button>
-                            <div id="quiz-subjects-vi" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="vihis1.html" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">History Quiz</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science Quiz</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English Quiz</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">PDFs</h4>
-                            <p class="text-gray-600 mb-4">Download study materials and notes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="pdf-subjects-vi">View PDFs</button>
-                            <div id="pdf-subjects-vi" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English PDF</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Video Classes</h4>
-                            <p class="text-gray-600 mb-4">Watch engaging video lessons.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="video-subjects-vi">Watch Videos</button>
-                            <div id="video-subjects-vi" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English Video</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    // Show sign in form when a class is clicked
+    document.querySelectorAll('.class-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        selectedClass = btn.dataset.class;
+        document.getElementById('signin-class-title').innerText = `Sign In for Class ${selectedClass.toUpperCase()}`;
+        document.getElementById('signup-class-title').innerText = `Sign Up for Class ${selectedClass.toUpperCase()}`;
+        document.getElementById('signin-form-container').classList.remove('hidden');
+        document.getElementById('signup-form-container').classList.add('hidden');
+      });
+    });
 
-                <!-- Class VII Content -->
-                <div id="class-vii-content" class="class-content hidden bg-gray-50 p-6 rounded-lg shadow-inner mb-6 transition-all duration-500 ease-in-out">
-                    <h3 class="text-2xl font-semibold text-gray-700 mb-4">Class VII Resources</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Quizzes</h4>
-                            <p class="text-gray-600 mb-4">Test your knowledge with interactive quizzes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="quiz-subjects-vii">View Quizzes</button>
-                            <div id="quiz-subjects-vii" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="13classviimath.html" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics Quiz</a></li>
-                                    <li><a href="Englishgrammervii quizze.html" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English : Grammer</a></li>
-                                    <li><a href="13classviilsc.html" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Life Science</a></li>
-                                    <li><a href="13classviigk.html" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">G.K</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">PDFs</h4>
-                            <p class="text-gray-600 mb-4">Download study materials and notes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="pdf-subjects-vii">View PDFs</button>
-                            <div id="pdf-subjects-vii" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English PDF</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Video Classes</h4>
-                            <p class="text-gray-600 mb-4">Watch engaging video lessons.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="video-subjects-vii">Watch Videos</button>
-                            <div id="video-subjects-vii" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English Video</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    // Toggle to sign up
+    document.getElementById('show-signup').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('signin-form-container').classList.add('hidden');
+      document.getElementById('signup-form-container').classList.remove('hidden');
+    });
 
-                <!-- Class VIII Content -->
-                <div id="class-viii-content" class="class-content hidden bg-gray-50 p-6 rounded-lg shadow-inner mb-6 transition-all duration-500 ease-in-out">
-                    <h3 class="text-2xl font-semibold text-gray-700 mb-4">Class VIII Resources</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Quizzes</h4>
-                            <p class="text-gray-600 mb-4">Test your knowledge with interactive quizzes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="quiz-subjects-viii">View Quizzes</button>
-                            <div id="quiz-subjects-viii" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="14classviiigk.html" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">G.K Quiz</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science Quiz</a></li>
-                                    <li><a href="viiigrammar1.html" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English Grammer</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">PDFs</h4>
-                            <p class="text-gray-600 mb-4">Download study materials and notes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="pdf-subjects-viii">View PDFs</button>
-                            <div id="pdf-subjects-viii" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English PDF</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Video Classes</h4>
-                            <p class="text-gray-600 mb-4">Watch engaging video lessons.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="video-subjects-viii">Watch Videos</button>
-                            <div id="video-subjects-viii" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English Video</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    // Toggle back to sign in
+    document.getElementById('back-to-signin').addEventListener('click', (e) => {
+      e.preventDefault();
+      document.getElementById('signup-form-container').classList.add('hidden');
+      document.getElementById('signin-form-container').classList.remove('hidden');
+    });
 
-                <!-- Class IX Content -->
-                <div id="class-ix-content" class="class-content hidden bg-gray-50 p-6 rounded-lg shadow-inner mb-6 transition-all duration-500 ease-in-out">
-                    <h3 class="text-2xl font-semibold text-gray-700 mb-4">Class IX Resources</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Quizzes</h4>
-                            <p class="text-gray-600 mb-4">Test your knowledge with interactive quizzes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="quiz-subjects-ix">View Quizzes</button>
-                            <div id="quiz-subjects-ix" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="15classixgk.html" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">G.K Quiz</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science Quiz</a></li>
-                                    <li><a href="ixgrammer1.html" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English Grammar</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">PDFs</h4>
-                            <p class="text-gray-600 mb-4">Download study materials and notes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="pdf-subjects-ix">View PDFs</button>
-                            <div id="pdf-subjects-ix" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English PDF</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Video Classes</h4>
-                            <p class="text-gray-600 mb-4">Watch engaging video lessons.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="video-subjects-ix">Watch Videos</button>
-                            <div id="video-subjects-ix" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English Video</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    // Handle sign in
+    document.getElementById('signin-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const email = document.getElementById('signin-email').value;
+      const password = document.getElementById('signin-password').value;
 
-                <!-- Class X Content -->
-                <div id="class-x-content" class="class-content hidden bg-gray-50 p-6 rounded-lg shadow-inner mb-6 transition-all duration-500 ease-in-out">
-                    <h3 class="text-2xl font-semibold text-gray-700 mb-4">Class X Resources</h3>
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Quizzes</h4>
-                            <p class="text-gray-600 mb-4">Test your knowledge with interactive quizzes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="quiz-subjects-x">View Quizzes</button>
-                            <div id="quiz-subjects-x" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="children.html" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Fun Quiz</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science Quiz</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English Quiz</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">PDFs</h4>
-                            <p class="text-gray-600 mb-4">Download study materials and notes.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="pdf-subjects-x">View PDFs</button>
-                            <div id="pdf-subjects-x" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science PDF</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English PDF</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="resource-card bg-white p-5 rounded-lg shadow-md border border-blue-100 transition-all duration-300 ease-in-out">
-                            <h4 class="text-xl font-medium text-blue-700 mb-3">Video Classes</h4>
-                            <p class="text-gray-600 mb-4">Watch engaging video lessons.</p>
-                            <button class="inline-block action-button py-2 px-4 rounded-md hover-scale toggle-subject-list" data-target="video-subjects-x">Watch Videos</button>
-                            <div id="video-subjects-x" class="subject-list hidden mt-4">
-                                <h5 class="text-lg font-semibold text-gray-800 mb-2">Select Subject:</h5>
-                                <ul class="space-y-2">
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Mathematics Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">Science Video</a></li>
-                                    <li><a href="#" class="text-blue-600 hover:underline hover-scale block py-1 px-2 rounded-md bg-blue-50 hover:bg-blue-100 transition duration-200">English Video</a></li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+      try {
+        const result = await auth.signInWithEmailAndPassword(email, password);
+        const user = result.user;
 
-            </div>
-        </section>
+        // Save login timestamp
+        await db.collection(`Class-${selectedClass.toUpperCase()}`).doc(user.uid).set({
+          email: user.email,
+          uid: user.uid,
+          lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+        }, { merge: true });
 
-        <!-- About Section (Placeholder) -->
-        <section id="about" class="bg-white rounded-xl shadow-lg p-8 mt-12 text-center animate-fade-in" style="animation-delay: 0.4s;">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">About Me</h2>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                I am an passionate educator dedicated to making learning accessible and enjoyable for students. With years of experience, I aim to provide high-quality educational resources that cater to different learning styles. My goal is to empower students to achieve their full potential and build a strong foundation for their academic journey.
-            </p>
-        </section>
+        window.location.href = `class-${selectedClass}.html`;
 
-        <!-- Contact Section (Placeholder) -->
-        <section id="contact" class="bg-white rounded-xl shadow-lg p-8 mt-12 text-center animate-fade-in" style="animation-delay: 0.6s;">
-            <h2 class="text-3xl font-bold text-gray-800 mb-4">Get in Touch</h2>
-            <p class="text-lg text-gray-600 max-w-3xl mx-auto">
-                Have questions or need assistance? Feel free to reach out! You can connect with me via email at <a href="mailto:learner.studenthub@gmail.com" class="text-blue-600 hover:underline">learner.studenthub@gmail.com</a> or through my social media channels.
-            </p>
-            <div class="flex justify-center space-x-6 mt-6">
-                <!-- Social Media Icons (placeholders) -->
-                <a href="#" class="text-gray-500 hover:text-blue-600 transition duration-300">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.356-.012-.534A8.368 8.368 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012 10.742v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.188a11.644 11.644 0 006.29 1.843"></path></svg>
-                </a>
-                <a href="#" class="text-gray-500 hover:text-blue-600 transition duration-300">
-                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path fill-rule="evenodd" d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.86 8.163 6.84 9.489.5.092.682-.217.682-.483 0-.237-.008-.867-.013-1.7c-2.78.604-3.368-1.34-3.368-1.34-.455-1.157-1.11-1.465-1.11-1.465-.908-.62.068-.607.068-.607 1.004.07 1.532 1.028 1.532 1.028.89 1.528 2.336 1.088 2.906.83.09-.645.348-1.088.634-1.338-2.22-.25-4.555-1.11-4.555-4.943 0-1.09.39-1.984 1.028-2.68-.104-.25-.446-1.27.098-2.65 0 0 .84-.268 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.7.11 2.49.324 1.91-1.294 2.75-1.026 2.75-1.026.544 1.38.202 2.4.098 2.65.638.696 1.028 1.59 1.028 2.68 0 3.843-2.335 4.687-4.935.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.575.688.482C21.14 20.165 24 16.418 24 12c0-5.523-4.477-10-10-10z" clip-rule="evenodd"></path></svg>
-                </a>
-            </div>
-        </section>
+      } catch (error) {
+        document.getElementById('signin-message').innerText = error.message;
+        alert("Sign In Error: " + error.message); // ✅ Debug alert
+      }
+    });
 
-    </main>
+    // Handle sign up
+    document.getElementById('signup-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const name = document.getElementById('signup-name').value;
+      const father = document.getElementById('signup-father').value;
+      const school = document.getElementById('signup-school').value;
+      const address = document.getElementById('signup-address').value;
+      const phone = document.getElementById('signup-phone').value;
+      const email = document.getElementById('signup-email').value;
+      const password = document.getElementById('signup-password').value;
 
-    <!-- Footer Section -->
-    <footer class="bg-gray-800 text-white py-6 px-4 md:px-10 mt-12">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2025 EduConnect. All rights reserved.</p>
-            <p class="text-sm mt-2">Designed with <span class="text-red-500">&hearts;</span> for students.</p>
-        </div>
-    </footer>
+      try {
+        const result = await auth.createUserWithEmailAndPassword(email, password);
+        const user = result.user;
 
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-
-    <script>
-        // IMPORTANT: Replace these values with your actual Firebase project configuration
-        const firebaseConfig = {
-            apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg", // Replace with your actual API Key
-            authDomain: "educonnectapp-ae08d.firebaseapp.com", // Replace with your actual Auth Domain
-            projectId: "educonnectapp-ae08d", // Replace with your actual Project ID
-            storageBucket: "educonnectapp-ae08d.firebasestorage.app", // Replace with your actual Storage Bucket
-            messagingSenderId: "10974354104", // Replace with your actual Messaging Sender ID
-            appId: "1:10974354104:web:228ca789dfb241f43ff24d" // Replace with your actual App ID
-        };
-
-        // Initialize Firebase
-        const app = firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-
-        document.addEventListener('DOMContentLoaded', () => {
-            const mainSignInButton = document.getElementById('main-signin-button');
-            const enrollCoursesButton = document.getElementById('enroll-courses-button'); // New ID for Enroll Courses
-            const accountDropdownContainer = document.getElementById('account-dropdown-container'); // New ID for dropdown container
-            const dropdownSignOutButton = document.getElementById('dropdown-signout-button'); // Sign Out inside dropdown
-            const completeAccountLink = document.getElementById('complete-account-link'); // Complete Account inside dropdown
-
-            // --- Authentication State Listener ---
-            auth.onAuthStateChanged((user) => {
-                if (user) {
-                    // User is signed in
-                    console.log('User is signed in:', user.uid);
-                    if (mainSignInButton) mainSignInButton.classList.add('hidden'); // Hide Sign In
-                    if (enrollCoursesButton) enrollCoursesButton.classList.remove('hidden'); // Show Enroll Courses
-                    if (accountDropdownContainer) accountDropdownContainer.classList.remove('hidden'); // Show Account dropdown
-
-                    // Update Complete Account link if needed (e.g., add user ID to URL)
-                    if (completeAccountLink) {
-                        completeAccountLink.href = `dashboard.html?uid=${user.uid}`; // Example: pass UID to dashboard
-                    }
-
-                } else {
-                    // User is signed out
-                    console.log('User is signed out.');
-                    if (mainSignInButton) mainSignInButton.classList.remove('hidden'); // Show Sign In
-                    if (enrollCoursesButton) enrollCoursesButton.classList.add('hidden'); // Hide Enroll Courses
-                    if (accountDropdownContainer) accountDropdownContainer.classList.add('hidden'); // Hide Account dropdown
-                }
-            });
-
-            // --- Event Listeners for Header Buttons ---
-            if (mainSignInButton) {
-                mainSignInButton.addEventListener('click', () => {
-                    window.location.href = 'signin.html'; // Redirect to your sign-in page
-                });
-            }
-
-            // Sign Out logic for the dropdown button
-            if (dropdownSignOutButton) {
-                dropdownSignOutButton.addEventListener('click', async (e) => {
-                    e.preventDefault(); // Prevent default link behavior
-                    try {
-                        await auth.signOut();
-                        console.log('User signed out successfully from dropdown.');
-                        // UI will update via onAuthStateChanged listener
-                    } catch (error) {
-                        console.error('Sign-out error from dropdown:', error.message);
-                        // Using a simple alert for now, consider a custom modal for production
-                        alert('Sign-out failed: ' + error.message);
-                    }
-                });
-            }
-            // Add event listener for the Account button to toggle dropdown visibility on click
-            const accountButton = document.getElementById('account-button');
-            if (accountButton) {
-                accountButton.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Prevent click from bubbling up and closing dropdown immediately
-                    const dropdownContent = accountDropdownContainer.querySelector('.dropdown-content');
-                    if (dropdownContent) {
-                        dropdownContent.style.display = dropdownContent.style.display === 'block' ? 'none' : 'block';
-                    }
-                });
-
-                // Close dropdown if clicked outside
-                document.addEventListener('click', (e) => {
-                    const dropdownContent = accountDropdownContainer.querySelector('.dropdown-content');
-                    if (dropdownContent && !accountDropdownContainer.contains(e.target)) {
-                        dropdownContent.style.display = 'none';
-                    }
-                });
-            }
-
-            // Existing JavaScript for Class Tabs and Subject Lists
-            const classButtons = document.querySelectorAll('.class-button');
-            const classContents = document.querySelectorAll('.class-content');
-            const toggleSubjectListButtons = document.querySelectorAll('.toggle-subject-list');
-            let initialClassShown = false;
-
-            classButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetClass = button.dataset.class;
-                    const targetContentId = `class-${targetClass}-content`;
-                    const targetContent = document.getElementById(targetContentId);
-
-                    classContents.forEach(content => {
-                        content.classList.add('hidden');
-                        content.classList.remove('block');
-                    });
-
-                    classButtons.forEach(btn => {
-                        btn.classList.remove('active');
-                    });
-
-                    if (targetContent) {
-                        targetContent.classList.remove('hidden');
-                        targetContent.classList.add('block');
-                        button.classList.add('active');
-                        targetContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-                        document.querySelectorAll('.subject-list').forEach(list => {
-                            list.classList.add('hidden');
-                        });
-                    }
-                });
-
-                if (!initialClassShown && button.dataset.class === 'v') {
-                    button.click();
-                    initialClassShown = true;
-                }
-            });
-
-            if (!initialClassShown && classButtons.length > 0) {
-                classButtons[0].click();
-            }
-
-            toggleSubjectListButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const targetListId = button.dataset.target;
-                    const targetList = document.getElementById(targetListId);
-
-                    if (targetList) {
-                        targetList.classList.toggle('hidden');
-                        targetList.classList.toggle('block');
-                    }
-                });
-            });
+        // Store additional data in Firestore
+        await db.collection(`Class-${selectedClass.toUpperCase()}`).doc(user.uid).set({
+          fullName: name,
+          fatherName: father,
+          schoolName: school,
+          address: address,
+          phone: phone,
+          email: user.email,
+          uid: user.uid,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
-    </script>
+
+        window.location.href = `class-${selectedClass}.html`;
+
+      } catch (error) {
+        document.getElementById('signup-message').innerText = error.message;
+        alert("Sign Up Error: " + error.message); // ✅ Debug alert
+      }
+    });
+  </script>
 </body>
 </html>

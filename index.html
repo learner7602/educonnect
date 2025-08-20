@@ -3,167 +3,508 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduConnect - Class Login</title>
+  <title>EduConnect - Your School Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
-  <!-- Header -->
-  <header class="bg-gradient-to-r from-blue-700 to-green-600 text-white py-4 px-6 text-center shadow-lg">
-    <h1 class="text-3xl font-extrabold">EduConnect</h1>
+    :root {
+      --primary-color: #4A90E2;
+      --secondary-color: #50E3C2;
+      --tertiary-color: #F5A623;
+      --background-color: #F8F9FA;
+      --card-background: #FFFFFF;
+      --text-color: #333333;
+      --light-text-color: #f4f4f4;
+      --link-hover-color: #3A72BB;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--background-color);
+      margin: 0;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 20px;
+    }
+    header {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    .logo {
+      max-width: 80px;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      border: 3px solid white;
+    }
+    h1 {
+      font-size: 2.5em;
+      font-weight: 700;
+      margin: 0;
+      color: white;
+    }
+    .tagline {
+      font-size: 1.2em;
+      opacity: 0.8;
+    }
+
+    /* Navigation Bar */
+    nav {
+      background-color: var(--secondary-color);
+      text-align: center;
+      padding: 15px 0;
+    }
+    .nav-menu {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .nav-menu li a {
+      color: var(--text-color);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1em;
+      padding: 8px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .nav-menu li a:hover {
+      background-color: rgba(0, 0, 0, 0.1);
+    }
+
+    /* Dashboard Section */
+    .dashboard-section {
+      padding: 60px 0;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .dashboard-card {
+      background-color: var(--card-background);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .dashboard-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+    .dashboard-card h3 {
+      font-size: 1.5em;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+    .class-link-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      list-style-type: none;
+      padding: 0;
+    }
+    .class-link-grid .class-select-btn { /* Changed from 'a' to a class for button styling */
+      display: block;
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      padding: 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer; /* Add cursor pointer for button-like behavior */
+      border: none; /* Remove default button border */
+      width: 100%; /* Ensure full width */
+      transition: background-color 0.3s ease;
+    }
+    .class-link-grid .class-select-btn:hover {
+      background-color: var(--link-hover-color);
+      color: white;
+    }
+
+    /* Testimonials Section */
+    .testimonials-section {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+    }
+    .testimonials-section h2 {
+      font-size: 2em;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+    .teacher-card {
+      background-color: rgba(255, 255, 255, 0.15);
+      padding: 25px;
+      border-radius: 12px;
+    }
+    .teacher-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid var(--secondary-color);
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+    .quote {
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .teacher-name {
+      font-weight: 600;
+      color: var(--secondary-color);
+    }
+
+    /* Form specific styles (copied from previous index.html) */
+    .form-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .form-container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 450px;
+      width: 100%;
+      margin: 1rem; /* Added margin for smaller screens */
+    }
+    input[type="email"],
+    input[type="password"],
+    input[type="text"],
+    input[type="tel"] {
+      padding: 0.75rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="text"]:focus,
+    input[type="tel"]:focus {
+      outline: none;
+      border-color: #4299e1;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+    }
+    button[type="submit"] {
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+    .btn-green {
+      background-color: #38a169; /* Green-600 */
+      color: white;
+    }
+    .btn-green:hover {
+      background-color: #2f855a; /* Green-700 */
+    }
+    .btn-blue {
+      background-color: #4299e1; /* Blue-600 */
+      color: white;
+    }
+    .btn-blue:hover {
+      background-color: #3182ce; /* Blue-700 */
+    }
+    .message {
+      margin-top: 1rem;
+      text-align: center;
+      font-weight: 500;
+    }
+    .message.error {
+      color: #e53e3e; /* Red-600 */
+    }
+    .message.success {
+      color: #38a169; /* Green-600 */
+    }
+    .toggle-link {
+      color: #4299e1;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .toggle-link:hover {
+      color: #3182ce;
+      text-decoration: underline;
+    }
+    .hidden {
+      display: none !important;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header Section -->
+  <header>
+    <div class="container">
+      <img src="logo.jpeg" alt="School Logo" class="logo">
+      <h1>EduConnect</h1>
+      <p class="tagline">Connecting Minds, Building Futures</p>
+    </div>
   </header>
 
-  <!-- Classes Section -->
-  <main class="container mx-auto px-4 py-8">
-    <h2 class="text-2xl font-bold text-center mb-8">Choose Your Class</h2>
+  <!-- Navigation Bar -->
+  <nav>
+    <ul class="nav-menu">
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#teachers">Teachers</a></li>
+      <li><a href="#contact">Contact Us</a></li>
+      <li><a href="#submit">Submit Questions</a></li>
+    </ul>
+  </nav>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="v">Class V</button>
-      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="vi">Class VI</button>
-      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="vii">Class VII</button>
-      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="viii">Class VIII</button>
-      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="ix">Class IX</button>
-      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="x">Class X</button>
-      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="xi">Class XI</button>
-      <button class="class-btn bg-blue-500 text-white py-4 rounded-lg font-semibold" data-class="xii">Class XII</button>
+  <!-- Dashboard Section -->
+  <section class="dashboard-section" id="dashboard">
+    <div class="container">
+      <h2>Student Dashboard</h2>
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <h3>My Classes</h3>
+          <ul class="class-link-grid">
+            <li><button class="class-select-btn" data-class="v">Class V</button></li>
+            <li><button class="class-select-btn" data-class="vi">Class VI</button></li>
+            <li><button class="class-select-btn" data-class="vii">Class VII</button></li>
+            <li><button class="class-select-btn" data-class="viii">Class VIII</button></li>
+            <li><button class="class-select-btn" data-class="ix">Class IX</button></li>
+            <li><button class="class-select-btn" data-class="x">Class X</button></li>
+            <li><button class="class-select-btn" data-class="xi">Class XI</button></li>
+            <li><button class="class-select-btn" data-class="xii">Class XII</button></li>
+          </ul>
+        </div>
+        <div class="dashboard-card">
+          <h3>Quick Links</h3>
+          <ul class="class-link-grid">
+            <!-- For quick links that navigate to sections, they don't need data-class for login overlay -->
+            <li><a href="#contact" class="class-select-btn">Contact Us</a></li>
+            <li><a href="#submit" class="class-select-btn">Submit Questions</a></li>
+            <li><a href="#" class="class-select-btn">Resources</a></li>
+            <li><a href="#" class="class-select-btn">Events</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
+  </section>
 
-    <!-- Sign In Form -->
-    <div id="signin-form-container" class="hidden mt-8 bg-white shadow-lg p-6 rounded-lg max-w-md mx-auto">
-      <h3 id="signin-class-title" class="text-xl font-bold mb-4">Sign In for Class</h3>
-      <form id="signin-form" class="space-y-4">
-        <input type="email" id="signin-email" placeholder="Email" class="w-full border p-2 rounded" required>
-        <input type="password" id="signin-password" placeholder="Password" class="w-full border p-2 rounded" required>
-        <button type="submit" class="bg-green-600 text-white py-2 px-4 rounded w-full">Sign In</button>
+  <!-- Teacher Testimonials/Quotes Section -->
+  <section class="testimonials-section" id="teachers">
+    <div class="container">
+      <h2>Meet Our Educators</h2>
+      <div class="dashboard-grid">
+        <div class="teacher-card">
+          <img src="teacher1.jpeg" alt="Teacher Photo 1" class="teacher-photo">
+          <p class="quote">"Education is not the filling of a pail, but the lighting of a fire."</p>
+          <p class="teacher-name">- Mr. Biswajit Maity, English Teacher</p>
+        </div>
+        <div class="teacher-card">
+          <img src="https://via.placeholder.com/150/F5A623/FFFFFF?text=Teacher+2" alt="Teacher Photo 2" class="teacher-photo">
+          <p class="quote">"The beautiful thing about learning is that no one can take it away from you."</p>
+          <p class="teacher-name">- Mr. Sumit Das, Science Teacher</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sign In Form Overlay -->
+  <div id="signin-overlay" class="hidden form-overlay">
+    <div id="signin-form-container" class="form-container">
+      <h3 id="signin-class-title" class="text-xl font-bold mb-6 text-center">Sign In for Class</h3>
+      <form id="signin-form">
+        <input type="email" id="signin-email" placeholder="Email" required>
+        <input type="password" id="signin-password" placeholder="Password" required>
+        <button type="submit" class="btn-green">Sign In</button>
       </form>
-      <p id="signin-message" class="mt-4 text-center text-red-500"></p>
-      <p class="mt-4 text-center text-sm">Don’t have an account? 
-        <a href="#" id="show-signup" class="text-blue-600 hover:underline">Sign Up</a>
+      <p id="signin-message" class="message error"></p>
+      <p class="mt-4 text-center text-sm">Don’t have an account?
+        <a href="#" id="show-signup" class="toggle-link">Sign Up</a>
       </p>
     </div>
+  </div>
 
-    <!-- Sign Up Form -->
-    <div id="signup-form-container" class="hidden mt-8 bg-white shadow-lg p-6 rounded-lg max-w-md mx-auto">
-      <h3 id="signup-class-title" class="text-xl font-bold mb-4">Sign Up for Class</h3>
-      <form id="signup-form" class="space-y-3">
-        <input type="text" id="signup-name" placeholder="Full Name" class="w-full border p-2 rounded" required>
-        <input type="text" id="signup-father" placeholder="Father's Name" class="w-full border p-2 rounded" required>
-        <input type="text" id="signup-school" placeholder="School Name" class="w-full border p-2 rounded" required>
-        <input type="text" id="signup-address" placeholder="Address" class="w-full border p-2 rounded" required>
-        <input type="tel" id="signup-phone" placeholder="Mobile Number" class="w-full border p-2 rounded" required>
-        <input type="email" id="signup-email" placeholder="Email" class="w-full border p-2 rounded" required>
-        <input type="password" id="signup-password" placeholder="Password" class="w-full border p-2 rounded" required>
-        <button type="submit" class="bg-blue-600 text-white py-2 px-4 rounded w-full">Sign Up</button>
+  <!-- Sign Up Form Overlay -->
+  <div id="signup-overlay" class="hidden form-overlay">
+    <div id="signup-form-container" class="form-container">
+      <h3 id="signup-class-title" class="text-xl font-bold mb-6 text-center">Sign Up for Class</h3>
+      <form id="signup-form">
+        <input type="text" id="signup-name" placeholder="Full Name" required>
+        <input type="text" id="signup-father" placeholder="Father's Name" required>
+        <input type="text" id="signup-school" placeholder="School Name" required>
+        <input type="text" id="signup-address" placeholder="Address" required>
+        <input type="tel" id="signup-phone" placeholder="Mobile Number" required>
+        <input type="email" id="signup-email" placeholder="Email" required>
+        <input type="password" id="signup-password" placeholder="Password" required>
+        <button type="submit" class="btn-blue">Sign Up</button>
       </form>
-      <p id="signup-message" class="mt-4 text-center text-red-500"></p>
-      <p class="mt-4 text-center text-sm">Already have an account? 
-        <a href="#" id="back-to-signin" class="text-blue-600 hover:underline">Sign In</a>
+      <p id="signup-message" class="message error"></p>
+      <p class="mt-4 text-center text-sm">Already have an account?
+        <a href="#" id="back-to-signin" class="toggle-link">Sign In</a>
       </p>
     </div>
-  </main>
+  </div>
 
-  <!-- Firebase -->
+  <!-- Firebase and JavaScript -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg",
-      authDomain: "educonnectapp-ae08d.firebaseapp.com",
-      projectId: "educonnectapp-ae08d",
-      storageBucket: "educonnectapp-ae08d.appspot.com",
-      messagingSenderId: "10974354104",
-      appId: "1:10974354104:web:228ca789dfb241f43ff24d"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
+    // Ensure all DOM content is loaded before executing the script
+    document.addEventListener('DOMContentLoaded', () => {
+        const firebaseConfig = {
+            apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg",
+            authDomain: "educonnectapp-ae08d.firebaseapp.com",
+            projectId: "educonnectapp-ae08d",
+            storageBucket: "educonnectapp-ae08d.appspot.com",
+            messagingSenderId: "10974354104",
+            appId: "1:10974354104:web:228ca789dfb241f43ff24d"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-    let selectedClass = null;
+        let selectedClass = null;
+        const signinMessageElement = document.getElementById('signin-message');
+        const signupMessageElement = document.getElementById('signup-message');
+        const signinOverlay = document.getElementById('signin-overlay');
+        const signupOverlay = document.getElementById('signup-overlay');
 
-    // Show sign in form when a class is clicked
-    document.querySelectorAll('.class-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        selectedClass = btn.dataset.class;
-        document.getElementById('signin-class-title').innerText = `Sign In for Class ${selectedClass.toUpperCase()}`;
-        document.getElementById('signup-class-title').innerText = `Sign Up for Class ${selectedClass.toUpperCase()}`;
-        document.getElementById('signin-form-container').classList.remove('hidden');
-        document.getElementById('signup-form-container').classList.add('hidden');
-      });
-    });
+        function displayMessage(element, message, isError = true) {
+            element.innerText = message;
+            if (isError) {
+                element.classList.remove('success');
+                element.classList.add('error');
+            } else {
+                element.classList.remove('error');
+                element.classList.add('success');
+            }
+        }
 
-    // Toggle to sign up
-    document.getElementById('show-signup').addEventListener('click', (e) => {
-      e.preventDefault();
-      document.getElementById('signin-form-container').classList.add('hidden');
-      document.getElementById('signup-form-container').classList.remove('hidden');
-    });
+        // Show sign in form when a class is clicked
+        document.querySelectorAll('.class-select-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault(); // Prevent default action for both buttons and anchors
 
-    // Toggle back to sign in
-    document.getElementById('back-to-signin').addEventListener('click', (e) => {
-      e.preventDefault();
-      document.getElementById('signup-form-container').classList.add('hidden');
-      document.getElementById('signin-form-container').classList.remove('hidden');
-    });
-
-    // Handle sign in
-    document.getElementById('signin-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const email = document.getElementById('signin-email').value;
-      const password = document.getElementById('signin-password').value;
-
-      try {
-        const result = await auth.signInWithEmailAndPassword(email, password);
-        const user = result.user;
-
-        // Save login timestamp
-        await db.collection(`Class-${selectedClass.toUpperCase()}`).doc(user.uid).set({
-          email: user.email,
-          uid: user.uid,
-          lastLogin: firebase.firestore.FieldValue.serverTimestamp()
-        }, { merge: true });
-
-        window.location.href = `class-${selectedClass}.html`;
-
-      } catch (error) {
-        document.getElementById('signin-message').innerText = error.message;
-        alert("Sign In Error: " + error.message); // ✅ Debug alert
-      }
-    });
-
-    // Handle sign up
-    document.getElementById('signup-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const name = document.getElementById('signup-name').value;
-      const father = document.getElementById('signup-father').value;
-      const school = document.getElementById('signup-school').value;
-      const address = document.getElementById('signup-address').value;
-      const phone = document.getElementById('signup-phone').value;
-      const email = document.getElementById('signup-email').value;
-      const password = document.getElementById('signup-password').value;
-
-      try {
-        const result = await auth.createUserWithEmailAndPassword(email, password);
-        const user = result.user;
-
-        // Store additional data in Firestore
-        await db.collection(`Class-${selectedClass.toUpperCase()}`).doc(user.uid).set({
-          fullName: name,
-          fatherName: father,
-          schoolName: school,
-          address: address,
-          phone: phone,
-          email: user.email,
-          uid: user.uid,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                // Get the data-class attribute, which will be undefined for quick links (<a> tags)
+                selectedClass = btn.dataset.class;
+                
+                // Only show sign-in/sign-up for actual class selections (v-xii)
+                // The quick links will trigger their default behavior (e.g., scroll to section)
+                if (['v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii'].includes(selectedClass)) {
+                    document.getElementById('signin-class-title').innerText = `Sign In for Class ${selectedClass.toUpperCase()}`;
+                    document.getElementById('signup-class-title').innerText = `Sign Up for Class ${selectedClass.toUpperCase()}`;
+                    signinOverlay.classList.remove('hidden');
+                    signupOverlay.classList.add('hidden');
+                    displayMessage(signinMessageElement, ''); // Clear previous messages
+                    displayMessage(signupMessageElement, ''); // Clear previous messages
+                } else if (btn.tagName === 'A' && btn.href) {
+                    // For quick links that are <a> tags, allow their default navigation (e.g., #contact)
+                    window.location.href = btn.href;
+                }
+            });
         });
 
-        window.location.href = `class-${selectedClass}.html`;
+        // Toggle to sign up
+        document.getElementById('show-signup').addEventListener('click', (e) => {
+            e.preventDefault();
+            signinOverlay.classList.add('hidden');
+            signupOverlay.classList.remove('hidden');
+            displayMessage(signinMessageElement, ''); // Clear previous messages
+            displayMessage(signupMessageElement, ''); // Clear previous messages
+        });
 
-      } catch (error) {
-        document.getElementById('signup-message').innerText = error.message;
-        alert("Sign Up Error: " + error.message); // ✅ Debug alert
-      }
+        // Toggle back to sign in
+        document.getElementById('back-to-signin').addEventListener('click', (e) => {
+            e.preventDefault();
+            signupOverlay.classList.add('hidden');
+            signinOverlay.classList.remove('hidden');
+            displayMessage(signinMessageElement, ''); // Clear previous messages
+            displayMessage(signupMessageElement, ''); // Clear previous messages
+        });
+
+        // Handle sign in
+        document.getElementById('signin-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signin-email').value;
+            const password = document.getElementById('signin-password').value;
+
+            try {
+                const result = await auth.signInWithEmailAndPassword(email, password);
+                const user = result.user;
+
+                // Save login timestamp
+                await db.collection(`Class-${selectedClass.toUpperCase()}`).doc(user.uid).set({
+                    email: user.email,
+                    uid: user.uid,
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
+                displayMessage(signinMessageElement, `Signed in successfully! Redirecting...`, false);
+                window.location.href = `class-${selectedClass}.html`;
+
+            } catch (error) {
+                displayMessage(signinMessageElement, `Sign In Error: ${error.message}`);
+            }
+        });
+
+        // Handle sign up
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const father = document.getElementById('signup-father').value;
+            const school = document.getElementById('signup-school').value;
+            const address = document.getElementById('signup-address').value;
+            const phone = document.getElementById('signup-phone').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            try {
+                const result = await auth.createUserWithEmailAndPassword(email, password);
+                const user = result.user;
+
+                // Store additional data in Firestore
+                await db.collection(`Class-${selectedClass.toUpperCase()}`).doc(user.uid).set({
+                    fullName: name,
+                    fatherName: father,
+                    schoolName: school,
+                    address: address,
+                    phone: phone,
+                    email: user.email,
+                    uid: user.uid,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                displayMessage(signupMessageElement, `Signed up successfully! Redirecting...`, false);
+                window.location.href = `class-${selectedClass}.html`;
+
+            } catch (error) {
+                displayMessage(signupMessageElement, `Sign Up Error: ${error.message}`);
+            }
+        });
     });
   </script>
 </body>

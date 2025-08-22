@@ -3,172 +3,305 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Class X Dashboard</title>
+  <title>EduConnect - Your School Portal</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
+    :root {
+      --primary-color: #4A90E2;
+      --secondary-color: #50E3C2;
+      --tertiary-color: #F5A623;
+      --background-color: #F8F9FA;
+      --card-background: #FFFFFF;
+      --text-color: #333333;
+      --light-text-color: #f4f4f4;
+      --link-hover-color: #3A72BB;
+    }
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #f8f9fa;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      color: #333;
+      background-color: var(--background-color);
+      margin: 0;
+      color: var(--text-color);
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 0 20px;
     }
     header {
-      background-image: linear-gradient(to right, #2c5282, #38a169);
+      background-color: var(--primary-color);
       color: white;
-      padding: 1.5rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      position: relative;
-      z-index: 50;
+      padding: 20px 0;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      position: relative; /* Needed for z-index with dropdown */
+      z-index: 10; /* Ensure header is above other content */
+    }
+    .logo {
+      max-width: 80px;
+      margin-bottom: 10px;
+      border-radius: 50%;
+      border: 3px solid white;
     }
     h1 {
-      font-size: 2rem;
+      font-size: 2.5em;
       font-weight: 700;
-    }
-    main {
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 2rem;
-      text-align: center;
-    }
-    .welcome-message {
-      font-size: 2.25rem;
-      font-weight: 600;
-      color: #2d3748;
-      margin-bottom: 2rem;
-    }
-    .dashboard-buttons {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      width: 100%;
-      max-width: 300px;
-    }
-    .dashboard-button {
-      padding: 1.5rem 1rem;
-      border-radius: 0.75rem;
-      font-weight: 600;
-      font-size: 1.25rem;
+      margin: 0;
       color: white;
-      cursor: pointer;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
-    .dashboard-button.blue {
-      background-color: #4299e1;
-    }
-    .dashboard-button.blue:hover:not(.disabled) {
-      background-color: #3182ce;
-      transform: translateY(-3px);
-    }
-    .dashboard-button.green {
-      background-color: #48bb78;
-    }
-    .dashboard-button.green:hover:not(.disabled) {
-      background-color: #38a169;
-      transform: translateY(-3px);
-    }
-    .dashboard-button.disabled {
-      background-color: #a0aec0;
-      cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
-    }
-    #signout {
-      background-color: #e53e3e;
-      padding: 0.75rem 1.25rem;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      transition: background-color 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    #signout:hover {
-      background-color: #c53030;
+    .tagline {
+      font-size: 1.2em;
+      opacity: 0.8;
     }
 
-    /* Account Dropdown Styles */
-    .account-dropdown {
-      position: relative;
-      display: inline-block;
-      margin-left: 1rem;
+    /* Navigation Bar */
+    nav {
+      background-color: var(--secondary-color);
+      text-align: center;
+      padding: 15px 0;
+      position: relative; /* For positioning dropdown */
+      z-index: 9; /* Slightly lower than header */
     }
-    .account-button {
-      background-color: #50E3C2;
-      color: #333;
-      padding: 0.75rem 1.25rem;
-      border-radius: 0.5rem;
+    .nav-menu {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .nav-menu li {
+        position: relative; /* For dropdown */
+    }
+    .nav-menu li a {
+      color: var(--text-color);
+      text-decoration: none;
       font-weight: 600;
-      cursor: pointer;
-      border: none;
+      font-size: 1.1em;
+      padding: 8px 15px;
+      border-radius: 5px;
       transition: background-color 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      display: block; /* Ensure padding applies to the whole area */
     }
-    .account-button:hover {
-      background-color: #38c1a1;
+    .nav-menu li a:hover {
+      background-color: rgba(0, 0, 0, 0.1);
     }
-    .dropdown-content {
+
+    /* Contact Us Dropdown Styles */
+    .contact-dropdown-content {
       display: none;
       position: absolute;
-      background-color: #f9f9f9;
-      min-width: 180px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.25);
-      z-index: 100;
-      border-radius: 0.5rem;
-      right: 0;
-      top: 100%;
-      margin-top: 0.75rem;
-      border: 1px solid #e2e8f0;
+      background-color: var(--card-background);
+      min-width: 200px;
+      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+      z-index: 1;
+      border-radius: 8px;
+      padding: 10px 0;
+      top: 100%; /* Position below the Contact Us link */
+      left: 50%; /* Center under the link */
+      transform: translateX(-50%);
+      margin-top: 10px; /* Space below the link */
     }
-    .dropdown-content a {
-      color: #333;
-      padding: 12px 20px;
+    .contact-dropdown-content a {
+      color: var(--text-color);
+      padding: 12px 16px;
       text-decoration: none;
-      display: block;
-      text-align: left;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 500;
       transition: background-color 0.2s ease, color 0.2s ease;
-      border-radius: 0.4rem;
     }
-    .dropdown-content a:hover {
+    .contact-dropdown-content a:hover {
       background-color: var(--primary-color);
       color: white;
     }
-    .account-dropdown.open .dropdown-content {
+    .contact-dropdown-content a svg {
+        fill: currentColor; /* Inherit color from parent for SVG icons */
+    }
+    .contact-dropdown-content.show {
       display: block;
     }
 
-    /* Modal Styles */
-    .modal-overlay {
+    /* Dashboard Section */
+    .dashboard-section {
+      padding: 60px 0;
+    }
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+    }
+    .dashboard-card {
+      background-color: var(--card-background);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .dashboard-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    }
+    .dashboard-card h3 {
+      font-size: 1.5em;
+      font-weight: 600;
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+    .class-link-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      list-style-type: none;
+      padding: 0;
+    }
+    .class-link-grid .class-select-btn {
+      display: block;
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      padding: 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+    .class-link-grid .class-select-btn:hover {
+      background-color: var(--link-hover-color);
+      color: white;
+    }
+
+    /* Quick link buttons (new class) */
+    .quick-link-btn {
+      display: block;
+      background-color: var(--secondary-color);
+      color: var(--text-color);
+      padding: 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      width: 100%;
+      transition: background-color 0.3s ease;
+    }
+    .quick-link-btn:hover {
+      background-color: var(--link-hover-color);
+      color: white;
+    }
+
+    /* Teacher Testimonials/Quotes Section */
+    .testimonials-section {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 60px 0;
+      text-align: center;
+      position: relative; /* For absolute positioning of navigation buttons */
+    }
+    .testimonials-section h2 {
+      font-size: 2em;
+      font-weight: 700;
+      margin-bottom: 30px;
+    }
+    .teachers-carousel {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+        overflow: hidden; /* Hide overflow content */
+        max-width: 800px; /* Limit width */
+        margin: 0 auto; /* Center the carousel */
+    }
+    .teacher-card {
+      background-color: rgba(255, 255, 255, 0.15);
+      padding: 25px;
+      border-radius: 12px;
+      min-width: 90%; /* Take full width within carousel for single display */
+      box-sizing: border-box;
+      flex-shrink: 0; /* Prevent shrinking */
+      display: none; /* Hidden by default, managed by JS */
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .teacher-card.active {
+        display: flex; /* Show active card */
+        opacity: 1;
+    }
+    .teacher-photo {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 4px solid var(--secondary-color);
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+    .quote {
+      font-style: italic;
+      margin-bottom: 10px;
+    }
+    .teacher-name {
+      font-weight: 600;
+      color: var(--secondary-color);
+    }
+    .carousel-button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background-color: rgba(0, 0, 0, 0.3);
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        font-size: 1.5rem;
+        cursor: pointer;
+        border-radius: 50%;
+        transition: background-color 0.3s ease;
+        z-index: 2; /* Above cards */
+    }
+    .carousel-button:hover {
+        background-color: rgba(0, 0, 0, 0.6);
+    }
+    .carousel-button.prev {
+        left: 10px;
+    }
+    .carousel-button.next {
+        right: 10px;
+    }
+
+
+    /* Form specific styles (copied from previous index.html) */
+    .form-overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.6);
+      background-color: rgba(0, 0, 0, 0.5);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 1000;
     }
-    .modal-content {
+    .form-container {
       background-color: white;
-      padding: 2.5rem;
+      padding: 2rem;
       border-radius: 0.75rem;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      max-width: 500px;
-      width: 90%;
-      text-align: left;
-      position: relative;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      max-width: 450px;
+      width: 100%;
+      margin: 1rem; /* Added margin for smaller screens */
+      position: relative; /* For close button */
     }
-    .modal-close-button {
+    .form-close-button { /* Style for new close buttons on forms */
       position: absolute;
       top: 1rem;
       right: 1rem;
@@ -176,447 +309,639 @@
       border: none;
       font-size: 1.5rem;
       cursor: pointer;
-      color: #718096;
+      color: #718096; /* Gray-500 */
     }
-    .modal-close-button:hover {
-      color: #2d3748;
+    .form-close-button:hover {
+      color: #2d3748; /* Gray-800 */
     }
-    .modal-content h2 {
-      font-size: 1.75rem;
-      font-weight: 600;
-      color: var(--primary-color);
-      margin-bottom: 1.5rem;
-      text-align: center;
+    input[type="email"],
+    input[type="password"],
+    input[type="text"],
+    input[type="tel"],
+    textarea { /* Added textarea to styling */
+      padding: 0.75rem 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 0.5rem;
+      width: 100%;
+      box-sizing: border-box;
+      margin-bottom: 1rem;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
-    .profile-info p {
-      margin-bottom: 0.75rem;
-      font-size: 1.05rem;
-      color: #4a5568;
+    input[type="email"]:focus,
+    input[type="password"]:focus,
+    input[type="text"]:focus,
+    input[type="tel"]:focus,
+    textarea:focus { /* Added textarea to styling */
+      outline: none;
+      border-color: #4299e1;
+      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
     }
-    .profile-info strong {
-      color: #2d3748;
-      display: inline-block;
-      width: 120px;
-    }
-    .pay-fees-button {
-      background-color: #48bb78;
-      color: white;
-      padding: 1rem 1.5rem;
+    button[type="submit"] {
+      padding: 0.75rem 1.5rem;
       border-radius: 0.5rem;
       font-weight: 600;
       cursor: pointer;
-      border: none;
       width: 100%;
       transition: background-color 0.3s ease;
-      margin-top: 1.5rem;
     }
-    .pay-fees-button:hover {
-      background-color: #38a169;
+    .btn-green {
+      background-color: #38a169; /* Green-600 */
+      color: white;
     }
-    .fee-status-message {
+    .btn-green:hover {
+      background-color: #2f855a; /* Green-700 */
+    }
+    .btn-blue {
+      background-color: #4299e1; /* Blue-600 */
+      color: white;
+    }
+    .btn-blue:hover {
+      background-color: #3182ce; /* Blue-700 */
+    }
+    .message {
       margin-top: 1rem;
-      font-weight: 600;
-      color: #e53e3e;
       text-align: center;
+      font-weight: 500;
     }
-    .fee-status-message.paid {
-      color: #38a169;
+    .message.error {
+      color: #e53e3e; /* Red-600 */
+    }
+    .message.success {
+      color: #38a169; /* Green-600 */
+    }
+    .toggle-link {
+      color: #4299e1;
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+    .toggle-link:hover {
+      color: #3182ce;
+      text-decoration: underline;
+    }
+    .hidden {
+      display: none !important;
+    }
+
+    /* Styles for the Submitted Questions Viewer */
+    .question-list-item {
+      background-color: #f0f4f8; /* Light blue-gray background */
+      padding: 1rem;
+      border-radius: 0.5rem;
+      margin-bottom: 0.75rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      text-align: left;
+    }
+    .question-list-item p {
+      margin-bottom: 0.25rem;
+    }
+    .question-list-item strong {
+      color: #2c5282; /* Primary color dark shade */
+    }
+    .question-list-item .question-text {
+      margin-top: 0.5rem;
+      font-style: italic;
+      color: #4a5568;
+    }
+    .no-questions-message {
+        text-align: center;
+        color: #718096;
+        padding: 2rem;
+        font-size: 1.1em;
     }
 
     /* Responsive adjustments */
     @media (max-width: 768px) {
-      h1 {
-        font-size: 1.75rem;
+      .nav-menu {
+        flex-direction: column;
+        gap: 10px;
       }
-      .welcome-message {
-        font-size: 1.75rem;
+      .nav-menu li {
+        width: 100%;
       }
-      .modal-content {
-        padding: 1.5rem;
+      .nav-menu li a {
+        padding: 10px;
+      }
+      .contact-dropdown-content {
+        position: static; /* Stack dropdown items normally on mobile */
+        transform: none;
+        box-shadow: none;
+        border-radius: 0;
+        margin-top: 0;
+        min-width: unset;
+        width: 100%;
       }
     }
   </style>
-  <!-- Razorpay SDK (will be loaded conditionally in JS for real integration) -->
-  <!-- <script src="https://checkout.razorpay.com/v1/checkout.js"></script> -->
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col">
+<body>
 
-  <!-- Header -->
-  <header class="bg-gradient-to-r from-blue-700 to-green-600 text-white py-4 px-6 flex justify-between items-center">
-    <h1 class="text-2xl font-bold">Class X Dashboard</h1>
-    <div class="flex items-center space-x-4">
-      <!-- Account Dropdown -->
-      <div class="account-dropdown" id="accountDropdown">
-        <button class="account-button">Account</button>
-        <div class="dropdown-content">
-          <a href="#" id="viewProfileBtn">View Profile</a>
-          <a href="#" id="payFeesBtn">Pay Fees</a>
-          <a href="#" id="lastReceiptBtn">Last Fees Receipt</a>
-        </div>
-      </div>
-      <button id="signout" class="bg-red-500 text-white px-4 py-2 rounded">Sign Out</button>
+  <!-- Header Section -->
+  <header>
+    <div class="container">
+      <img src="logo.jpeg" alt="School Logo" class="logo">
+      <h1>EduConnect</h1>
+      <p class="tagline">Connecting Minds, Building Futures</p>
     </div>
   </header>
 
-  <!-- Main -->
-  <main class="flex-grow flex flex-col items-center justify-center space-y-6">
-    <h2 id="welcome-message" class="text-3xl font-bold text-gray-800">Welcome, Student</h2>
-    <div class="dashboard-buttons">
-      <button class="dashboard-button blue" id="joinClassBtn">Join Class</button>
-      <button class="dashboard-button green" id="resourcesBtn">Resources</button>
-    </div>
-    <p id="fee-status-alert" class="fee-status-message hidden"></p>
-  </main>
+  <!-- Navigation Bar -->
+  <nav>
+    <ul class="nav-menu">
+      <li><a href="#dashboard">Dashboard</a></li>
+      <li><a href="#about">About Us</a></li>
+      <li><a href="#teachers" id="teachers-nav-link">Teachers</a></li>
+      <li class="relative group">
+        <a href="#" id="contact-us-link">Contact Us</a>
+        <div id="contact-dropdown" class="contact-dropdown-content">
+          <a href="mailto:learner.studenthub@gmail.com">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            learner.studenthub@gmail.com
+          </a>
+          <a href="https://www.facebook.com/dummy_page" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M19 0H5C2.243 0 0 2.243 0 5v14c0 2.757 2.243 5 5 5h14c2.757 0 5-2.243 5-5V5c0-2.757-2.243-5-5-5zm-3 7h-2v2h2v3h-2v7h-3v-7h-2V9h2V7h-2V5h4v2z"/></svg>
+            Facebook
+          </a>
+          <a href="https://www.instagram.com/dummy_page" target="_blank">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M12 2.163c3.204 0 3.584.012 4.85.07c3.252.148 4.674 1.625 4.823 4.85.058 1.265.069 1.645.069 4.85 0 3.204-.012 3.584-.07 4.85-0.148 3.252-1.625 4.674-4.85 4.823-1.265.058-1.645.069-4.85.069-3.204 0-3.584-.012-4.85-.07-3.252-0.148-4.674-1.625-4.823-4.85-0.058-1.265-0.069-1.645-0.069-4.85 0-3.204.012-3.584.07-4.85 0.148-3.252 1.625-4.674 4.85-4.823 1.265-0.058 1.645-0.069 4.85-0.069zm0 0.99C8.75 3.153 8.36 3.165 7.095 3.223c-2.784.126-3.876 1.157-3.999 3.999-0.058 1.265-0.07 1.655-0.07 4.85 0 3.195.012 3.584.07 4.85 0.126 2.784 1.157 3.876 3.999 3.999 1.265.058 1.655.07 4.85.07s3.584-.012 4.85-.07c2.784-0.126 3.876-1.157 3.999-3.999 0.058-1.265 0.07-1.655 0.07-4.85 0-3.195-.012-3.584-.07-4.85-0.126-2.784-1.157-3.876-3.999-3.999-1.265-0.058-1.655-0.07-4.85-0.07zM12 6.818c-2.85 0-5.182 2.332-5.182 5.182s2.332 5.182 5.182 5.182 5.182-2.332 5.182-5.182-2.332-5.182-5.182-5.182zm0 1.99c1.766 0 3.192 1.426 3.192 3.192s-1.426 3.192-3.192 3.192-3.192-1.426-3.192-3.192 1.426-3.192 3.192-3.192zM18.435 5.53a1.202 1.202 0 1 1 0 2.404 1.202 1.202 0 0 1 0-2.404z"/></svg>
+            Instagram
+          </a>
+        </div>
+      </li>
+      <li><a href="#submit" id="submit-questions-nav-link">Submit Questions</a></li>
+    </ul>
+  </nav>
 
-  <!-- View Profile Modal -->
-  <div id="profileModal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <button class="modal-close-button" id="closeProfileModal">&times;</button>
-      <h2>Your Profile</h2>
-      <div id="profileInfo" class="profile-info">
-        <!-- Profile data will be inserted here by JavaScript -->
+  <!-- Dashboard Section -->
+  <section class="dashboard-section" id="dashboard">
+    <div class="container">
+      <h2>Student Dashboard</h2>
+      <div class="dashboard-grid">
+        <div class="dashboard-card">
+          <h3>My Classes</h3>
+          <ul class="class-link-grid">
+            <li><button class="class-select-btn" data-class="v">Class V</button></li>
+            <li><button class="class-select-btn" data-class="vi">Class VI</button></li>
+            <li><button class="class-select-btn" data-class="vii">Class VII</button></li>
+            <li><button class="class-select-btn" data-class="viii">Class VIII</button></li>
+            <li><button class="class-select-btn" data-class="ix">Class IX</button></li>
+            <li><button class="class-select-btn" data-class="x">Class X</button></li>
+            <li><button class="class-select-btn" data-class="xi">Class XI</button></li>
+            <li><button class="class-select-btn" data-class="xii">Class XII</button></li>
+          </ul>
+        </div>
+        <div class="dashboard-card">
+          <h3>Quick Links</h3>
+          <ul class="class-link-grid">
+            <!-- Quick Link for Contact Us - now triggers the dropdown -->
+            <li><a href="#" class="quick-link-btn" id="quick-contact-us-link">Contact Us</a></li>
+            <!-- Quick Link for Teachers - scrolls to the section -->
+            <li><a href="#teachers" class="quick-link-btn">Teachers</a></li>
+            <li><a href="#" class="quick-link-btn" id="quick-submit-questions-link">Submit Questions</a></li>
+            <li><a href="#" class="quick-link-btn" id="view-submitted-questions-link">View Submitted Questions</a></li>
+            <li><a href="#" class="quick-link-btn">Resources</a></li>
+            <li><a href="#" class="quick-link-btn">Events</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Teacher Testimonials/Quotes Section -->
+  <section class="testimonials-section" id="teachers">
+    <div class="container">
+      <h2>Meet Our Educators</h2>
+      <div class="teachers-carousel">
+        <button class="carousel-button prev" id="prevTeacher">&larr;</button>
+        <div class="teacher-card" id="teacher-card-container">
+          <!-- Teacher details will be loaded here by JavaScript -->
+        </div>
+        <button class="carousel-button next" id="nextTeacher">&rarr;</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sign In Form Overlay -->
+  <div id="signin-overlay" class="hidden form-overlay">
+    <div id="signin-form-container" class="form-container">
+      <button class="form-close-button" id="close-signin-form">&times;</button>
+      <h3 id="signin-class-title" class="text-xl font-bold mb-6 text-center">Sign In for Class</h3>
+      <form id="signin-form">
+        <input type="email" id="signin-email" placeholder="Email" required>
+        <input type="password" id="signin-password" placeholder="Password" required>
+        <button type="submit" class="btn-green">Sign In</button>
+      </form>
+      <p id="signin-message" class="message error"></p>
+      <p class="mt-4 text-center text-sm">Don’t have an account?
+        <a href="#" id="show-signup" class="toggle-link">Sign Up</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Sign Up Form Overlay -->
+  <div id="signup-overlay" class="hidden form-overlay">
+    <div id="signup-form-container" class="form-container">
+      <button class="form-close-button" id="close-signup-form">&times;</button>
+      <h3 id="signup-class-title" class="text-xl font-bold mb-6 text-center">Sign Up for Class</h3>
+      <form id="signup-form">
+        <input type="text" id="signup-name" placeholder="Full Name" required>
+        <input type="text" id="signup-father" placeholder="Father's Name" required>
+        <input type="text" id="signup-school" placeholder="School Name" required>
+        <input type="text" id="signup-address" placeholder="Address" required>
+        <input type="tel" id="signup-phone" placeholder="Mobile Number" required>
+        <input type="email" id="signup-email" placeholder="Email" required>
+        <input type="password" id="signup-password" placeholder="Password" required>
+        <button type="submit" class="btn-blue">Sign Up</button>
+      </form>
+      <p id="signup-message" class="message error"></p>
+      <p class="mt-4 text-center text-sm">Already have an account?
+        <a href="#" id="back-to-signin" class="toggle-link">Sign In</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- Submit Questions Form Overlay -->
+  <div id="submit-questions-overlay" class="hidden form-overlay">
+    <div id="submit-questions-form-container" class="form-container">
+      <button class="form-close-button" id="close-submit-questions-form">&times;</button>
+      <h3 class="text-xl font-bold mb-6 text-center">Submit Your Question</h3>
+      <form id="submit-question-form">
+        <label for="whatsapp-number" class="block text-sm font-medium text-gray-700 mb-1">WhatsApp Number</label>
+        <input type="tel" id="whatsapp-number" placeholder="e.g., +91 9876543210" class="mb-4" required>
+
+        <label for="question-name" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
+        <input type="text" id="question-name" placeholder="Your Name" class="mb-4" required>
+
+        <label for="your-question" class="block text-sm font-medium text-gray-700 mb-1">Your Question</label>
+        <textarea id="your-question" rows="5" placeholder="Write your question here..." class="mb-4" required></textarea>
+        
+        <button type="submit" class="btn-green">Submit Question</button>
+      </form>
+      <p id="submit-question-message" class="message error"></p>
+    </div>
+  </div>
+
+  <!-- View Submitted Questions Overlay -->
+  <div id="view-questions-overlay" class="hidden form-overlay">
+    <div id="view-questions-container" class="form-container" style="max-width: 600px;">
+      <button class="form-close-button" id="close-view-questions-form">&times;</button>
+      <h3 class="text-xl font-bold mb-6 text-center">Submitted Questions</h3>
+      <div id="questions-list" class="space-y-4">
+        <!-- Questions will be loaded here by JavaScript -->
+        <p class="no-questions-message">Loading questions...</p>
       </div>
     </div>
   </div>
 
-  <!-- Pay Fees Modal -->
-  <div id="payFeesModal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <button class="modal-close-button" id="closePayFeesModal">&times;</button>
-      <h2>Pay Monthly Fees</h2>
-      <p class="text-gray-700 mb-4 text-center">Your current fee status: <span id="currentFeeStatus" class="font-bold"></span></p>
-      <button id="razorpayPaymentBtn" class="pay-fees-button">Pay with Razorpay (Simulated)</button>
-      <p id="paymentMessage" class="fee-status-message hidden"></p>
-      <div class="mt-4 p-3 bg-gray-100 rounded-md text-sm text-gray-700">
-        <p class="font-semibold text-lg">Razorpay Integration Details:</p>
-        <p class="mt-2">To integrate **Razorpay** for real payments, you would typically follow these steps:</p>
-        <ul class="list-disc list-inside ml-4">
-          <li>**Backend Order Creation**: Your server (backend) must create a Razorpay Order to get an `order_id`. This is crucial for security.</li>
-          <li>**Load Razorpay SDK**: Dynamically load `<script src="https://checkout.razorpay.com/v1/checkout.js"></script>` in your page or ensure it's loaded.</li>
-          <li>**Initialize Razorpay Options**:
-            <pre class="bg-gray-200 p-2 rounded-md text-xs mt-2 overflow-x-auto"><code>const options = {
-  key: "YOUR_RAZORPAY_KEY_ID",
-  amount: "50000",
-  currency: "INR",
-  name: "EduConnect Fees",
-  description: "Monthly Class X Fees",
-  order_id: "ORDERID_FROM_YOUR_BACKEND",
-  handler: function (response) {
-    const paymentDetails = {
-      razorpay_payment_id: response.razorpay_payment_id,
-      razorpay_order_id: response.razorpay_order_id,
-      razorpay_signature: response.razorpay_signature,
-      amount: options.amount,
-      currency: options.currency,
-      date: firebase.firestore.FieldValue.serverTimestamp(),
-      status: "success",
-      month: new Date().toLocaleString('default', { month: 'long' }),
-      year: new Date().getFullYear()
-    };
-    storePaymentRecordInFirestore(paymentDetails);
-  },
-  prefill: {
-    name: "Student Name (from profile)",
-    email: "student@example.com (from profile)",
-    contact: "9876543210 (from profile)"
-  },
-  notes: {
-    address: "Student Address"
-  },
-  theme: {
-    color: "#4A90E2"
-  }
-};</code></pre>
-          </li>
-          <li>**Open Razorpay Checkout**: `const rzp1 = new Razorpay(options); rzp1.open();`</li>
-          <li>**Error Handling**: Implement `rzp1.on('payment.failed', function (response){...})` to handle payment failures.</li>
-        </ul>
-        <p class="mt-2 text-red-600 font-semibold">Security Warning: Never expose your Razorpay API `key_secret` on the client-side. All order creation and payment verification should happen securely on your backend server.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- Last Fees Receipt Modal -->
-  <div id="lastReceiptModal" class="modal-overlay hidden">
-    <div class="modal-content">
-      <button class="modal-close-button" id="closeLastReceiptModal">&times;</button>
-      <h2>Last Fees Receipt</h2>
-      <div id="receiptInfo" class="profile-info">
-        <!-- Receipt data will be inserted here by JavaScript -->
-      </div>
-    </div>
-  </div>
-
-
-  <!-- Firebase -->
+  <!-- Firebase and JavaScript -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script>
-    const firebaseConfig = {
-      apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg",
-      authDomain: "educonnectapp-ae08d.firebaseapp.com",
-      projectId: "educonnectapp-ae08d",
-      storageBucket: "educonnectapp-ae08d.appspot.com",
-      messagingSenderId: "10974354104",
-      appId: "1:10974354104:web:228ca789dfb241f43ff24d"
-    };
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
-    const FieldValue = firebase.firestore.FieldValue;
+    // Ensure all DOM content is loaded before executing the script
+    document.addEventListener('DOMContentLoaded', () => {
+        const firebaseConfig = {
+            apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg",
+            authDomain: "educonnectapp-ae08d.firebaseapp.com",
+            projectId: "educonnectapp-ae08d",
+            storageBucket: "educonnectapp-ae08d.appspot.com",
+            messagingSenderId: "10974354104",
+            appId: "1:10974354104:web:228ca789dfb241f43ff24d"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-    const classId = "X"; // !!! IMPORTANT: Changed classId for Class X !!!
-
-    const joinClassBtn = document.getElementById('joinClassBtn');
-    const resourcesBtn = document.getElementById('resourcesBtn');
-    const feeStatusAlert = document.getElementById('fee-status-alert');
-
-    const accountDropdown = document.getElementById('accountDropdown');
-    const accountButton = accountDropdown.querySelector('.account-button');
-    const dropdownContent = accountDropdown.querySelector('.dropdown-content');
-
-    const profileModal = document.getElementById('profileModal');
-    const closeProfileModalBtn = document.getElementById('closeProfileModal');
-    const profileInfoDiv = document.getElementById('profileInfo');
-
-    const payFeesModal = document.getElementById('payFeesModal');
-    const closePayFeesModalBtn = document.getElementById('closePayFeesModal');
-    const razorpayPaymentBtn = document.getElementById('razorpayPaymentBtn');
-    const paymentMessage = document.getElementById('paymentMessage');
-    const currentFeeStatusSpan = document.getElementById('currentFeeStatus');
-
-    const lastReceiptModal = document.getElementById('lastReceiptModal');
-    const closeLastReceiptModalBtn = document.getElementById('closeLastReceiptModal');
-    const receiptInfoDiv = document.getElementById('receiptInfo');
+        let selectedClass = null;
+        const signinMessageElement = document.getElementById('signin-message');
+        const signupMessageElement = document.getElementById('signup-message');
+        const signinOverlay = document.getElementById('signin-overlay');
+        const signupOverlay = document.getElementById('signup-overlay');
+        const submitQuestionsOverlay = document.getElementById('submit-questions-overlay');
+        const submitQuestionMessageElement = document.getElementById('submit-question-message');
+        // New elements for viewing questions
+        const viewQuestionsOverlay = document.getElementById('view-questions-overlay');
+        const questionsListDiv = document.getElementById('questions-list');
+        const closeViewQuestionsFormBtn = document.getElementById('close-view-questions-form');
 
 
-    const checkPaymentStatus = async (userUid) => {
-      const userDocRef = db.collection(`Class-${classId}`).doc(userUid);
-      const userDoc = await userDocRef.get();
-
-      if (userDoc.exists && userDoc.data().payments && userDoc.data().payments.length > 0) {
-        const allPayments = userDoc.data().payments;
-        allPayments.sort((a, b) => b.date.toDate().getTime() - a.date.toDate().getTime());
-        const lastPayment = allPayments[0];
-
-        const lastPaymentDate = lastPayment.date.toDate();
-        const currentMonth = new Date().getMonth();
-        const currentYear = new Date().getFullYear();
-
-        if (lastPaymentDate.getMonth() === currentMonth && lastPaymentDate.getFullYear() === currentYear) {
-            return true;
-        }
-      }
-      return false;
-    };
-
-    const updateAccessUI = (hasPaid) => {
-      if (hasPaid) {
-        joinClassBtn.classList.remove('disabled');
-        joinClassBtn.disabled = false;
-        resourcesBtn.classList.remove('disabled');
-        resourcesBtn.disabled = false;
-        feeStatusAlert.classList.add('hidden');
-        feeStatusAlert.classList.remove('error', 'paid');
-      } else {
-        joinClassBtn.classList.add('disabled');
-        joinClassBtn.disabled = true;
-        resourcesBtn.classList.add('disabled');
-        resourcesBtn.disabled = true;
-        feeStatusAlert.classList.remove('hidden');
-        feeStatusAlert.classList.add('error');
-        feeStatusAlert.innerText = "Fees not paid for the current month. Please pay to access content.";
-      }
-    };
-
-    auth.onAuthStateChanged(async (user) => {
-      if (!user) {
-        window.location.href = "index.html";
-      } else {
-        const docRef = db.collection(`Class-${classId}`).doc(user.uid);
-        const doc = await docRef.get();
-
-        if (doc.exists) {
-          let userName = doc.data().fullName || user.email;
-          document.getElementById("welcome-message").innerText = `Welcome, ${userName}`;
-          const hasPaid = await checkPaymentStatus(user.uid);
-          updateAccessUI(hasPaid);
-        } else {
-          await auth.signOut();
-          window.location.href = "index.html";
-        }
-      }
-    });
-
-    document.getElementById("signout").addEventListener("click", async () => {
-      await auth.signOut();
-      window.location.href = "index.html";
-    });
-
-    accountButton.addEventListener('click', () => {
-      accountDropdown.classList.toggle('open');
-    });
-
-    window.addEventListener('click', (event) => {
-      if (!accountDropdown.contains(event.target)) {
-        accountDropdown.classList.remove('open');
-      }
-    });
-
-    const storePaymentRecordInFirestore = async (paymentDetails) => {
-        const user = auth.currentUser;
-        if (user) {
-            const userDocRef = db.collection(`Class-${classId}`).doc(user.uid);
-            try {
-                await userDocRef.update({
-                    payments: FieldValue.arrayUnion(paymentDetails)
-                });
-                console.log("Payment record stored in Firestore.");
-                paymentMessage.classList.remove('hidden', 'error');
-                paymentMessage.classList.add('paid');
-                paymentMessage.innerText = "Payment successful! Access granted.";
-                razorpayPaymentBtn.disabled = true;
-                razorpayPaymentBtn.classList.add('disabled');
-                
-                const hasPaid = await checkPaymentStatus(user.uid);
-                updateAccessUI(hasPaid);
-                const today = new Date();
-                const currentMonth = today.toLocaleString('default', { month: 'long' });
-                const currentYear = today.getFullYear();
-                currentFeeStatusSpan.innerHTML = `<span class="text-green-600">Paid for ${currentMonth} ${currentYear}</span>`;
-
-            } catch (error) {
-                console.error("Error storing payment record: ", error);
-                paymentMessage.classList.remove('hidden', 'paid');
-                paymentMessage.classList.add('error');
-                paymentMessage.innerText = `Error storing payment: ${error.message}`;
+        function displayMessage(element, message, isError = true) {
+            element.innerText = message;
+            if (isError) {
+                element.classList.remove('success');
+                element.classList.add('error');
+            } else {
+                element.classList.remove('error');
+                element.classList.add('success');
             }
         }
-    };
 
-
-    document.getElementById('viewProfileBtn').addEventListener('click', async (e) => {
-      e.preventDefault();
-      accountDropdown.classList.remove('open');
-      const user = auth.currentUser;
-      if (user) {
-        const docRef = db.collection(`Class-${classId}`).doc(user.uid);
-        const doc = await docRef.get();
-        if (doc.exists) {
-          const userData = doc.data();
-          profileInfoDiv.innerHTML = `
-            <p><strong>Full Name:</strong> ${userData.fullName || 'N/A'}</p>
-            <p><strong>Father's Name:</strong> ${userData.fatherName || 'N/A'}</p>
-            <p><strong>School Name:</strong> ${userData.schoolName || 'N/A'}</p>
-            <p><strong>Address:</strong> ${userData.address || 'N/A'}</p>
-            <p><strong>Mobile:</strong> ${userData.phone || 'N/A'}</p>
-            <p><strong>Email:</strong> ${userData.email || 'N/A'}</p>
-            <p><strong>Registered On:</strong> ${userData.createdAt ? userData.createdAt.toDate().toLocaleDateString() : 'N/A'}</p>
-          `;
-          profileModal.classList.remove('hidden');
-        } else {
-          feeStatusAlert.classList.remove('hidden', 'paid');
-          feeStatusAlert.classList.add('error');
-          feeStatusAlert.innerText = "Could not retrieve profile data. Please try again.";
+        // Function to hide all overlays
+        function hideAllOverlays() {
+            signinOverlay.classList.add('hidden');
+            signupOverlay.classList.add('hidden');
+            submitQuestionsOverlay.classList.add('hidden');
+            viewQuestionsOverlay.classList.add('hidden'); // Hide new overlay
+            contactDropdown.classList.remove('show'); // Ensure contact dropdown is hidden
         }
-      }
-    });
 
-    closeProfileModalBtn.addEventListener('click', () => {
-      profileModal.classList.add('hidden');
-    });
+        // --- Contact Us Dropdown Logic ---
+        const contactUsLink = document.getElementById('contact-us-link');
+        const contactDropdown = document.getElementById('contact-dropdown');
+        const quickContactUsLink = document.getElementById('quick-contact-us-link');
 
-    document.getElementById('payFeesBtn').addEventListener('click', async (e) => {
-      e.preventDefault();
-      accountDropdown.classList.remove('open');
-      const user = auth.currentUser;
-      if (user) {
-        const hasPaid = await checkPaymentStatus(user.uid);
-        const today = new Date();
-        const currentMonth = today.toLocaleString('default', { month: 'long' });
-        const currentYear = today.getFullYear();
-
-        if (hasPaid) {
-          currentFeeStatusSpan.innerHTML = `<span class="text-green-600">Paid for ${currentMonth} ${currentYear}</span>`;
-          razorpayPaymentBtn.disabled = true;
-          razorpayPaymentBtn.classList.add('disabled');
-          paymentMessage.classList.remove('hidden', 'error');
-          paymentMessage.classList.add('paid');
-          paymentMessage.innerText = `You have already paid for ${currentMonth}.`;
-        } else {
-          currentFeeStatusSpan.innerHTML = `<span class="text-red-600">Unpaid for ${currentMonth} ${currentYear}</span>`;
-          razorpayPaymentBtn.disabled = false;
-          razorpayPaymentBtn.classList.remove('disabled');
-          paymentMessage.classList.add('hidden');
+        // Function to toggle contact dropdown
+        function toggleContactDropdown() {
+            hideAllOverlays(); // Hide other overlays first
+            contactDropdown.classList.toggle('show');
         }
-        payFeesModal.classList.remove('hidden');
-      }
-    });
 
-    razorpayPaymentBtn.addEventListener('click', async () => {
-      const user = auth.currentUser;
-      if (user) {
-        paymentMessage.classList.remove('hidden', 'paid', 'error');
-        paymentMessage.innerText = "Initiating payment...";
-        
-        setTimeout(() => {
-            const simulatedPaymentId = 'pay_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            const simulatedOrderId = 'order_' + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
-            const simulatedAmount = 50000;
+        // Event listener for the main navigation Contact Us link
+        contactUsLink.addEventListener('click', (e) => {
+            e.preventDefault(); // Prevent default link behavior
+            toggleContactDropdown();
+        });
 
-            const paymentDetails = {
-                paymentId: simulatedPaymentId,
-                orderId: simulatedOrderId,
-                amount: simulatedAmount,
-                currency: "INR",
-                date: FieldValue.serverTimestamp(),
-                status: "success",
-                month: new Date().toLocaleString('default', { month: 'long' }),
-                year: new Date().getFullYear()
-            };
-            storePaymentRecordInFirestore(paymentDetails);
-        }, 1500);
-      }
-    });
+        // Event listener for the Quick Links Contact Us link
+        quickContactUsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            toggleContactDropdown();
+        });
 
-    closePayFeesModalBtn.addEventListener('click', () => {
-      payFeesModal.classList.add('hidden');
-      paymentMessage.classList.add('hidden');
-    });
+        // Close the dropdown if the user clicks outside of it
+        window.addEventListener('click', (e) => {
+            if (!contactUsLink.contains(e.target) && !contactDropdown.contains(e.target) && !quickContactUsLink.contains(e.target)) {
+                contactDropdown.classList.remove('show');
+            }
+        });
 
-    document.getElementById('lastReceiptBtn').addEventListener('click', async (e) => {
-      e.preventDefault();
-      accountDropdown.classList.remove('open');
-      const user = auth.currentUser;
-      if (user) {
-        const userDocRef = db.collection(`Class-${classId}`).doc(user.uid);
-        const userDoc = await userDocRef.get();
-        
-        if (userDoc.exists && userDoc.data().payments && userDoc.data().payments.length > 0) {
-          const allPayments = userDoc.data().payments;
-          allPayments.sort((a, b) => b.date.toDate().getTime() - a.date.toDate().getTime());
-          const latestPayment = allPayments[0];
+        // --- Teachers Section Carousel Logic ---
+        const teachers = [
+            {
+                name: "Mr. Biswajit Maity, English Teacher",
+                quote: "Education is not the filling of a pail, but the lighting of a fire.",
+                photo: "teacher1.jpeg" // Placeholder, replace with actual image URL if available
+            },
+            {
+                name: "Mr. Sumit Das, Science Teacher",
+                quote: "The beautiful thing about learning is that no one can take it away from you.",
+                photo: "https://placehold.co/100x100/50E3C2/333333?text=SD" // Placeholder
+            },
+            {
+                name: "Ms. Priya Sharma, Math Teacher",
+                quote: "Mathematics is the language in which God has written the universe.",
+                photo: "https://placehold.co/100x100/F5A623/FFFFFF?text=PS" // Placeholder
+            },
+            {
+                name: "Dr. Alok Kumar, History Teacher",
+                quote: "Those who do not learn history are doomed to repeat it.",
+                photo: "https://placehold.co/100x100/3A72BB/FFFFFF?text=AK" // Placeholder
+            }
+        ];
 
-          receiptInfoDiv.innerHTML = `
-            <p><strong>Payment ID:</strong> ${latestPayment.paymentId || 'N/A'}</p>
-            <p><strong>Order ID:</strong> ${latestPayment.orderId || 'N/A'}</p>
-            <p><strong>Amount:</strong> ₹${(latestPayment.amount / 100).toFixed(2) || 'N/A'} ${latestPayment.currency || ''}</p>
-            <p><strong>Date Paid:</strong> ${latestPayment.date ? latestPayment.date.toDate().toLocaleDateString() : 'N/A'}</p>
-            <p><strong>For Month:</strong> ${latestPayment.month || 'N/A'} ${latestPayment.year || ''}</p>
-            <p><strong>Status:</strong> <span class="text-green-600">${latestPayment.status || 'N/A'}</span></p>
-          `;
-        } else {
-          receiptInfoDiv.innerHTML = `<p><strong>No payment records found.</strong></p>`;
+        let currentTeacherIndex = 0;
+        const teacherCardContainer = document.getElementById('teacher-card-container');
+        const prevTeacherBtn = document.getElementById('prevTeacher');
+        const nextTeacherBtn = document.getElementById('nextTeacher');
+
+        function showTeacher(index) {
+            teacherCardContainer.style.opacity = '0';
+            setTimeout(() => {
+                const teacher = teachers[index];
+                teacherCardContainer.innerHTML = `
+                    <img src="${teacher.photo}" alt="${teacher.name}" class="teacher-photo">
+                    <p class="quote">"${teacher.quote}"</p>
+                    <p class="teacher-name">- ${teacher.name}</p>
+                `;
+                teacherCardContainer.classList.add('active');
+                teacherCardContainer.style.opacity = '1';
+            }, 300);
         }
-        lastReceiptModal.classList.remove('hidden');
-      }
-    });
 
-    closeLastReceiptModalBtn.addEventListener('click', () => {
-      lastReceiptModal.classList.add('hidden');
-    });
+        prevTeacherBtn.addEventListener('click', () => {
+            currentTeacherIndex = (currentTeacherIndex - 1 + teachers.length) % teachers.length;
+            showTeacher(currentTeacherIndex);
+        });
 
+        nextTeacherBtn.addEventListener('click', () => {
+            currentTeacherIndex = (currentTeacherIndex + 1) % teachers.length;
+            showTeacher(currentTeacherIndex);
+        });
+
+        showTeacher(currentTeacherIndex);
+
+        // Scroll to teachers section when nav link is clicked (and hide dropdown)
+        document.getElementById('teachers-nav-link').addEventListener('click', (e) => {
+            e.preventDefault();
+            document.getElementById('teachers').scrollIntoView({ behavior: 'smooth' });
+            hideAllOverlays(); // Hide other overlays
+        });
+
+        // --- Submit Questions Form Logic ---
+        const submitQuestionsNavLink = document.getElementById('submit-questions-nav-link');
+        const quickSubmitQuestionsLink = document.getElementById('quick-submit-questions-link');
+        const submitQuestionForm = document.getElementById('submit-question-form');
+        const closeSubmitQuestionsFormBtn = document.getElementById('close-submit-questions-form');
+
+        // Function to show submit questions form
+        function showSubmitQuestionsForm() {
+            hideAllOverlays(); // Hide other overlays
+            submitQuestionsOverlay.classList.remove('hidden');
+            displayMessage(submitQuestionMessageElement, ''); // Clear previous messages
+        }
+
+        submitQuestionsNavLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSubmitQuestionsForm();
+        });
+
+        quickSubmitQuestionsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showSubmitQuestionsForm();
+        });
+
+        closeSubmitQuestionsFormBtn.addEventListener('click', () => {
+            submitQuestionsOverlay.classList.add('hidden');
+            submitQuestionForm.reset(); // Clear form fields
+            displayMessage(submitQuestionMessageElement, ''); // Clear message
+        });
+
+        submitQuestionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const whatsappNumber = document.getElementById('whatsapp-number').value;
+            const questionName = document.getElementById('question-name').value;
+            const yourQuestion = document.getElementById('your-question').value;
+
+            displayMessage(submitQuestionMessageElement, 'Submitting your question...', false);
+
+            try {
+                // Store the question in a Firestore collection named 'submittedQuestions'
+                await db.collection("submittedQuestions").add({
+                    whatsappNumber: whatsappNumber,
+                    name: questionName,
+                    question: yourQuestion,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp() // Add a timestamp
+                });
+
+                setTimeout(() => {
+                    displayMessage(submitQuestionMessageElement, 'Your question has been submitted successfully! We will get back to you soon.', false);
+                    submitQuestionForm.reset(); // Clear form
+                }, 1500);
+
+            } catch (error) {
+                console.error("Error submitting question:", error);
+                displayMessage(submitQuestionMessageElement, `Error submitting question: ${error.message}`);
+            }
+        });
+
+        // --- View Submitted Questions Logic ---
+        const viewSubmittedQuestionsLink = document.getElementById('view-submitted-questions-link');
+
+        // Function to fetch and display questions
+        async function fetchAndDisplayQuestions() {
+            questionsListDiv.innerHTML = '<p class="no-questions-message">Loading questions...</p>'; // Show loading
+            try {
+                const querySnapshot = await db.collection("submittedQuestions").orderBy("timestamp", "desc").get(); // Order by timestamp
+                if (querySnapshot.empty) {
+                    questionsListDiv.innerHTML = '<p class="no-questions-message">No questions submitted yet.</p>';
+                    return;
+                }
+
+                questionsListDiv.innerHTML = ''; // Clear loading message
+                querySnapshot.forEach((doc) => {
+                    const questionData = doc.data();
+                    const timestamp = questionData.timestamp ? questionData.timestamp.toDate().toLocaleString() : 'N/A';
+                    const questionItem = `
+                        <div class="question-list-item">
+                            <p><strong>Name:</strong> ${questionData.name || 'N/A'}</p>
+                            <p><strong>WhatsApp:</strong> ${questionData.whatsappNumber || 'N/A'}</p>
+                            <p><strong>Submitted On:</strong> ${timestamp}</p>
+                            <p class="question-text">"${questionData.question || 'N/A'}"</p>
+                        </div>
+                    `;
+                    questionsListDiv.insertAdjacentHTML('beforeend', questionItem);
+                });
+
+            } catch (error) {
+                console.error("Error fetching questions:", error);
+                questionsListDiv.innerHTML = `<p class="no-questions-message error">Error loading questions: ${error.message}</p>`;
+            }
+        }
+
+        viewSubmittedQuestionsLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            hideAllOverlays(); // Hide other overlays
+            viewQuestionsOverlay.classList.remove('hidden');
+            fetchAndDisplayQuestions(); // Fetch and display questions when the modal opens
+        });
+
+        closeViewQuestionsFormBtn.addEventListener('click', () => {
+            viewQuestionsOverlay.classList.add('hidden');
+            questionsListDiv.innerHTML = ''; // Clear content when closed
+        });
+
+
+        // --- Existing Login/Signup Logic ---
+        document.querySelectorAll('.class-select-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                hideAllOverlays(); // Hide other overlays
+                selectedClass = btn.dataset.class;
+
+                if (['v', 'vi', 'vii', 'viii', 'ix', 'x', 'xi', 'xii'].includes(selectedClass)) {
+                    document.getElementById('signin-class-title').innerText = `Sign In for Class ${selectedClass.toUpperCase()}`;
+                    document.getElementById('signup-class-title').innerText = `Sign Up for Class ${selectedClass.toUpperCase()}`;
+                    signinOverlay.classList.remove('hidden');
+                    displayMessage(signinMessageElement, '');
+                    displayMessage(signupMessageElement, '');
+                }
+            });
+        });
+
+        // Close buttons for Sign In/Sign Up forms
+        document.getElementById('close-signin-form').addEventListener('click', () => {
+            signinOverlay.classList.add('hidden');
+            document.getElementById('signin-form').reset();
+            displayMessage(signinMessageElement, '');
+        });
+        document.getElementById('close-signup-form').addEventListener('click', () => {
+            signupOverlay.classList.add('hidden');
+            document.getElementById('signup-form').reset();
+            displayMessage(signupMessageElement, '');
+        });
+
+        document.getElementById('show-signup').addEventListener('click', (e) => {
+            e.preventDefault();
+            signinOverlay.classList.add('hidden');
+            signupOverlay.classList.remove('hidden');
+            displayMessage(signinMessageElement, '');
+            displayMessage(signupMessageElement, '');
+        });
+
+        document.getElementById('back-to-signin').addEventListener('click', (e) => {
+            e.preventDefault();
+            signupOverlay.classList.add('hidden');
+            signinOverlay.classList.remove('hidden');
+            displayMessage(signinMessageElement, '');
+            displayMessage(signupMessageElement, '');
+        });
+
+        document.getElementById('signin-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('signin-email').value;
+            const password = document.getElementById('signin-password').value;
+
+            try {
+                const result = await auth.signInWithEmailAndPassword(email, password);
+                const user = result.user;
+
+                await db.collection(`Class-${selectedClass.toUpperCase()}`).doc(user.uid).set({
+                    email: user.email,
+                    uid: user.uid,
+                    lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+                }, { merge: true });
+
+                displayMessage(signinMessageElement, `Signed in successfully! Redirecting...`, false);
+                window.location.href = `class-${selectedClass}.html`;
+
+            } catch (error) {
+                displayMessage(signinMessageElement, `Sign In Error: ${error.message}`);
+            }
+        });
+
+        document.getElementById('signup-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const father = document.getElementById('signup-father').value;
+            const school = document.getElementById('signup-school').value;
+            const address = document.getElementById('signup-address').value;
+            const phone = document.getElementById('signup-phone').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            try {
+                const result = await auth.createUserWithEmailAndPassword(email, password);
+                const user = result.user;
+
+                await db.collection(`Class-${selectedClass.toUpperCase()}`).doc(user.uid).set({
+                    fullName: name,
+                    fatherName: father,
+                    schoolName: school,
+                    address: address,
+                    phone: phone,
+                    email: user.email,
+                    uid: user.uid,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                displayMessage(signupMessageElement, `Signed up successfully! Redirecting...`, false);
+                window.location.href = `class-${selectedClass}.html`;
+
+            } catch (error) {
+                displayMessage(signupMessageElement, `Sign Up Error: ${error.message}`);
+            }
+        });
+    });
   </script>
 </body>
 </html>

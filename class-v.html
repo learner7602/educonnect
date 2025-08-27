@@ -173,14 +173,26 @@
         
         // Fetch and display resources
         db.collection(CLASS_ID).doc("resources").collection("items")
-          .orderBy("uploadedAt", "desc")
+          // Removed .orderBy("uploadedAt", "desc") to avoid requiring a custom index.
           .onSnapshot((snapshot) => {
+            const resources = [];
+            snapshot.forEach((doc) => {
+                resources.push(doc.data());
+            });
+
+            // Sort resources by 'uploadedAt' timestamp in descending order on the client-side
+            resources.sort((a, b) => {
+                if (a.uploadedAt && b.uploadedAt) {
+                    return b.uploadedAt.toMillis() - a.uploadedAt.toMillis();
+                }
+                return 0;
+            });
+            
             resourcesList.innerHTML = "";
-            if (snapshot.empty) {
+            if (resources.length === 0) {
               resourcesList.innerHTML = "<li class='text-gray-500'>No resources have been added yet.</li>";
             } else {
-              snapshot.forEach((doc) => {
-                const item = doc.data();
+              resources.forEach((item) => {
                 const li = document.createElement("li");
                 li.innerHTML = `<a href="${item.link}" target="_blank" class="resource-link">${item.title}</a>`;
                 resourcesList.appendChild(li);

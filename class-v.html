@@ -166,65 +166,76 @@
     const liveClassStatus = document.getElementById("liveClassStatus");
     const resourcesList = document.getElementById("resourcesList");
 
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        // User is signed in, show the dashboard and hide the loader
-        container.style.display = 'block';
-        loader.style.display = 'none';
-        
-        welcomeMessageElement.classList.remove("hidden");
-        signOutBtn.classList.remove("hidden");
-        
-        const userDocRef = db.collection(CLASS_ID).doc(user.uid);
-        try {
-          const userDoc = await userDocRef.get();
-          if (userDoc.exists) {
-            studentNameElement.innerText = userDoc.data().fullName || user.email;
-          } else {
-            studentNameElement.innerText = user.email;
-            console.warn("User document not found in this class collection:", CLASS_ID);
-          }
-        } catch (error) {
-          console.error("Error fetching user data:", error);
-          studentNameElement.innerText = user.email;
-        }
+    // --- NEW: More robust authentication check ---
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
+      .then(() => {
+        // Persistence is set, now listen for auth state changes.
+        auth.onAuthStateChanged(async (user) => {
+          if (user) {
+            // User is signed in, show the dashboard and hide the loader
+            container.style.display = 'block';
+            loader.style.display = 'none';
+            
+            welcomeMessageElement.classList.remove("hidden");
+            signOutBtn.classList.remove("hidden");
+            
+            const userDocRef = db.collection(CLASS_ID).doc(user.uid);
+            try {
+              const userDoc = await userDocRef.get();
+              if (userDoc.exists) {
+                studentNameElement.innerText = userDoc.data().fullName || user.email;
+              } else {
+                studentNameElement.innerText = user.email;
+                console.warn("User document not found in this class collection:", CLASS_ID);
+              }
+            } catch (error) {
+              console.error("Error fetching user data:", error);
+              studentNameElement.innerText = user.email;
+            }
 
-        db.collection(CLASS_ID).doc("liveClass").onSnapshot((doc) => {
-          if (doc.exists && doc.data().link) {
-            joinClassBtn.href = doc.data().link;
-            joinClassBtn.classList.remove("disabled");
-            liveClassStatus.innerText = "✅ Live class is available! Click 'Join Live Class' to enter.";
+            db.collection(CLASS_ID).doc("liveClass").onSnapshot((doc) => {
+              if (doc.exists && doc.data().link) {
+                joinClassBtn.href = doc.data().link;
+                joinClassBtn.classList.remove("disabled");
+                liveClassStatus.innerText = "✅ Live class is available! Click 'Join Live Class' to enter.";
+              } else {
+                joinClassBtn.href = "#";
+                joinClassBtn.classList.add("disabled");
+                liveClassStatus.innerText = "⚠️ No live class link has been added yet.";
+              }
+            });
+            
+            db.collection(CLASS_ID).doc("resources").collection("items")
+              .orderBy("uploadedAt", "desc")
+              .onSnapshot((snapshot) => {
+                resourcesList.innerHTML = "";
+                if (snapshot.empty) {
+                  resourcesList.innerHTML = "<li class='text-gray-500'>No resources have been added yet.</li>";
+                } else {
+                  snapshot.forEach((doc) => {
+                    const item = doc.data();
+                    const li = document.createElement("li");
+                    li.innerHTML = `<a href="${item.link}" target="_blank" class="resource-link">${item.title}</a>`;
+                    resourcesList.appendChild(li);
+                  });
+                }
+              }, (error) => {
+                console.error("Error fetching resources:", error);
+                resourcesList.innerHTML = "<li class='text-gray-500'>Could not load resources.</li>";
+              });
+              
           } else {
-            joinClassBtn.href = "#";
-            joinClassBtn.classList.add("disabled");
-            liveClassStatus.innerText = "⚠️ No live class link has been added yet.";
+            // User is not signed in. It's now safe to redirect.
+            window.location.href = "index.html";
           }
         });
-        
-        db.collection(CLASS_ID).doc("resources").collection("items")
-          .orderBy("uploadedAt", "desc")
-          .onSnapshot((snapshot) => {
-            resourcesList.innerHTML = "";
-            if (snapshot.empty) {
-              resourcesList.innerHTML = "<li class='text-gray-500'>No resources have been added yet.</li>";
-            } else {
-              snapshot.forEach((doc) => {
-                const item = doc.data();
-                const li = document.createElement("li");
-                li.innerHTML = `<a href="${item.link}" target="_blank" class="resource-link">${item.title}</a>`;
-                resourcesList.appendChild(li);
-              });
-            }
-          }, (error) => {
-            console.error("Error fetching resources:", error);
-            resourcesList.innerHTML = "<li class='text-gray-500'>Could not load resources.</li>";
-          });
-          
-      } else {
-        // User is not signed in. It's now safe to redirect.
-        window.location.href = "index.html";
-      }
-    });
+      })
+      .catch((error) => {
+        // Handle errors from setPersistence here.
+        console.error("Firebase Persistence Error:", error);
+        loader.innerHTML = `<p class="text-red-500">Error: Could not initialize session. Please try again.</p>`;
+      });
+
 
     signOutBtn.addEventListener("click", async () => {
       try {

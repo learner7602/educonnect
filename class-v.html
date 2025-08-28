@@ -9,7 +9,7 @@
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #f8f9fa;
+      background-color: #f0f4f8; /* Light blue-gray background */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -22,8 +22,9 @@
       padding: 1.5rem;
       background-color: white;
       border-radius: 1rem;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Deeper shadow */
       text-align: center;
+      margin: 2rem; /* Add margin for better spacing on all screens */
     }
     .header {
       width: 100%;
@@ -35,46 +36,73 @@
     .welcome-message {
       font-size: 1.5rem;
       font-weight: 600;
-      color: #2c5282;
+      color: #2c5282; /* Darker blue for welcome */
     }
     .sign-out-btn {
       background-color: #e53e3e;
       color: white;
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
+      padding: 0.75rem 1.5rem; /* Larger padding */
+      border-radius: 0.75rem; /* More rounded */
       font-weight: 600;
-      transition: background-color 0.2s ease-in-out;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+      box-shadow: 0 4px 10px rgba(229, 62, 62, 0.3); /* Shadow for button */
     }
     .sign-out-btn:hover {
       background-color: #c53030;
+      transform: translateY(-2px); /* Slight lift on hover */
     }
     .join-class-btn {
-      background-color: #38a169;
+      background-color: #4299e1; /* Blue shade */
       color: white;
-      padding: 0.75rem 2rem;
+      padding: 1rem 2.5rem; /* Generous padding */
       border-radius: 0.75rem;
       font-weight: 700;
-      transition: background-color 0.2s ease-in-out;
+      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
       display: inline-block;
-      margin-top: 1rem;
+      margin-top: 1.5rem;
+      box-shadow: 0 6px 15px rgba(66, 153, 225, 0.4);
+      text-decoration: none; /* Ensure no underline */
     }
     .join-class-btn:hover:not(.disabled) {
-      background-color: #2f855a;
+      background-color: #3182ce; /* Darker blue on hover */
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(66, 153, 225, 0.5);
     }
     .disabled {
       background-color: #a0aec0;
       cursor: not-allowed;
       opacity: 0.7;
+      transform: none;
+      box-shadow: none;
     }
     .resource-link {
-      color: #4c72b2;
+      color: #38a169; /* Green shade for resources */
       text-decoration: none;
       font-weight: 500;
       transition: color 0.2s ease-in-out;
     }
     .resource-link:hover {
-      color: #354a7c;
+      color: #2f855a; /* Darker green on hover */
       text-decoration: underline;
+    }
+    .card-section {
+      background-color: #edf2f7; /* Light gray background for sections */
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      margin-top: 1.5rem;
+      text-align: left;
+    }
+    .card-section h2 {
+      color: #2d3748; /* Darker text for headings */
+      margin-bottom: 1rem;
+    }
+    ul {
+        list-style: none; /* Remove default list style */
+        padding-left: 0;
+    }
+    ul li::before {
+        content: '📚 '; /* Custom bullet point for resources */
+        margin-right: 0.5rem;
     }
   </style>
 </head>
@@ -82,26 +110,26 @@
   <div class="container">
     <div class="header">
       <div id="welcomeMessage" class="welcome-message hidden">
-        👋 Welcome, <span id="studentName"></span>!
+        👋 Welcome, <span id="studentName" class="font-bold"></span>!
       </div>
       <button id="signOutBtn" class="sign-out-btn hidden">Sign Out</button>
     </div>
 
-    <h1 class="text-2xl font-bold mb-4">Class V Dashboard</h1>
+    <h1 class="text-3xl font-extrabold text-gray-800 mb-6">Class V Dashboard</h1>
     
     <!-- Live Class Section -->
-    <div class="mb-6">
-      <h2 class="text-xl font-semibold mb-2">Live Class</h2>
-      <p id="statusMsg" class="text-sm text-gray-500 mb-4">Loading live class link...</p>
-      <a id="joinBtn" href="#" target="_blank" class="join-class-btn disabled">
-        Join Class
+    <div class="card-section">
+      <h2 class="text-xl font-semibold">Live Class</h2>
+      <p id="liveClassStatus" class="text-sm text-gray-600 mb-4">Loading live class link...</p>
+      <a id="joinClassBtn" href="#" target="_blank" class="join-class-btn disabled">
+        Join Live Class
       </a>
     </div>
 
     <!-- Resources Section -->
-    <div>
-      <h2 class="text-xl font-semibold mb-2">Resources</h2>
-      <ul id="resourcesList" class="text-left space-y-3 p-4 bg-gray-100 rounded-lg">
+    <div class="card-section">
+      <h2 class="text-xl font-semibold">Resources</h2>
+      <ul id="resourcesList" class="space-y-3">
         <li class="text-gray-500">Loading resources...</li>
       </ul>
     </div>
@@ -128,13 +156,13 @@
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    const CLASS_ID = "Class-V";
+    const CLASS_ID = "Class-V"; // This is hardcoded for class-v.html, adjust for other class pages
 
     const welcomeMessageElement = document.getElementById("welcomeMessage");
     const studentNameElement = document.getElementById("studentName");
     const signOutBtn = document.getElementById("signOutBtn");
-    const joinBtn = document.getElementById("joinBtn");
-    const statusMsg = document.getElementById("statusMsg");
+    const joinClassBtn = document.getElementById("joinClassBtn");
+    const liveClassStatus = document.getElementById("liveClassStatus");
     const resourcesList = document.getElementById("resourcesList");
 
     // Listen for authentication state changes and fetch user data
@@ -161,38 +189,26 @@
         // Fetch and display live class link
         db.collection(CLASS_ID).doc("liveClass").onSnapshot((doc) => {
           if (doc.exists && doc.data().link) {
-            joinBtn.href = doc.data().link;
-            joinBtn.classList.remove("disabled");
-            statusMsg.innerText = "✅ Live class is available! Click 'Join Class' to enter.";
+            joinClassBtn.href = doc.data().link;
+            joinClassBtn.classList.remove("disabled");
+            liveClassStatus.innerText = "✅ Live class is available! Click 'Join Live Class' to enter.";
           } else {
-            joinBtn.href = "#";
-            joinBtn.classList.add("disabled");
-            statusMsg.innerText = "⚠️ No live class link has been added yet.";
+            joinClassBtn.href = "#";
+            joinClassBtn.classList.add("disabled");
+            liveClassStatus.innerText = "⚠️ No live class link has been added yet.";
           }
         });
         
-        // Fetch and display resources
+        // Fetch and display resources from the "items" sub-collection
         db.collection(CLASS_ID).doc("resources").collection("items")
-          // Removed .orderBy("uploadedAt", "desc") to avoid requiring a custom index.
+          .orderBy("uploadedAt", "desc") // Sort resources by 'uploadedAt' timestamp
           .onSnapshot((snapshot) => {
-            const resources = [];
-            snapshot.forEach((doc) => {
-                resources.push(doc.data());
-            });
-
-            // Sort resources by 'uploadedAt' timestamp in descending order on the client-side
-            resources.sort((a, b) => {
-                if (a.uploadedAt && b.uploadedAt) {
-                    return b.uploadedAt.toMillis() - a.uploadedAt.toMillis();
-                }
-                return 0;
-            });
-            
-            resourcesList.innerHTML = "";
-            if (resources.length === 0) {
+            resourcesList.innerHTML = ""; // Clear existing list
+            if (snapshot.empty) {
               resourcesList.innerHTML = "<li class='text-gray-500'>No resources have been added yet.</li>";
             } else {
-              resources.forEach((item) => {
+              snapshot.forEach((doc) => {
+                const item = doc.data();
                 const li = document.createElement("li");
                 li.innerHTML = `<a href="${item.link}" target="_blank" class="resource-link">${item.title}</a>`;
                 resourcesList.appendChild(li);

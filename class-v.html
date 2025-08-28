@@ -1,124 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Class V - Dashboard</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: #f0f4f8;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .container {
-      max-width: 650px;
-      width: 100%;
-      background: white;
-      padding: 2rem;
-      border-radius: 1rem;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
-      margin: 2rem;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 2rem;
-    }
-    .btn {
-      padding: 0.75rem 1.25rem;
-      border-radius: 0.5rem;
-      font-weight: 600;
-    }
-    .btn-primary {
-      background-color: #4299e1;
-      color: white;
-    }
-    .btn-primary:hover {
-      background-color: #3182ce;
-    }
-    .btn-danger {
-      background-color: #e53e3e;
-      color: white;
-    }
-    .btn-danger:hover {
-      background-color: #c53030;
-    }
-    .disabled {
-      background-color: #a0aec0;
-      cursor: not-allowed;
-      opacity: 0.6;
-    }
-    .card {
-      background: #edf2f7;
-      padding: 1.5rem;
-      border-radius: 0.75rem;
-      margin-top: 1.5rem;
-    }
-    .resource-link {
-      color: #2b6cb0;
-      font-weight: 500;
-      text-decoration: none;
-    }
-    .resource-link:hover {
-      text-decoration: underline;
-      color: #2c5282;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Class V Dashboard</title>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
-  <div id="loader" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white">
-    <p class="text-lg font-semibold">Loading Dashboard...</p>
-  </div>
-
-  <div id="dashboard" class="container hidden">
-    <div class="header">
-      <h1 class="text-2xl font-bold text-blue-700">👋 Welcome, <span id="studentName"></span></h1>
-      <button id="signOutBtn" class="btn btn-danger">Sign Out</button>
+<body class="bg-gray-100">
+  <div id="loader" class="flex items-center justify-center h-screen">Loading...</div>
+  <div id="dashboard" class="hidden p-4">
+    <h1 class="text-2xl font-bold mb-4">Welcome, <span id="studentName"></span></h1>
+    <button id="signOutBtn" class="px-4 py-2 bg-red-500 text-white rounded">Sign Out</button>
+    <div class="mt-6">
+      <h2 class="text-xl font-semibold">Live Class</h2>
+      <p id="liveClassStatus" class="text-gray-600">Loading live class...</p>
+      <a id="joinClassBtn" href="#" class="mt-2 inline-block px-4 py-2 bg-blue-500 text-white rounded disabled">Join Class</a>
     </div>
-
-    <h2 class="text-xl font-semibold">Class V Dashboard</h2>
-
-    <!-- Live Class Section -->
-    <div class="card">
-      <h3 class="font-bold text-lg">Live Class</h3>
-      <p id="liveClassStatus" class="text-gray-600 mb-3">Loading...</p>
-      <a id="joinClassBtn" target="_blank" class="btn btn-primary disabled">Join Live Class</a>
-    </div>
-
-    <!-- Resources Section -->
-    <div class="card">
-      <h3 class="font-bold text-lg">Resources</h3>
-      <ul id="resourcesList" class="space-y-2 mt-2">
-        <li class="text-gray-500">Loading resources...</li>
-      </ul>
+    <div class="mt-6">
+      <h2 class="text-xl font-semibold">Resources</h2>
+      <ul id="resourcesList" class="list-disc ml-6 text-blue-600"></ul>
     </div>
   </div>
 
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script>
+    // Firebase config (replace with your own)
     const firebaseConfig = {
-      apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg",
-      authDomain: "educonnectapp-ae08d.firebaseapp.com",
-      projectId: "educonnectapp-ae08d",
-      storageBucket: "educonnectapp-ae08d.appspot.com",
-      messagingSenderId: "10974354104",
-      appId: "1:10974354104:web:228ca789dfb241f43ff24d"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID"
     };
-    firebase.initializeApp(firebaseConfig);
+    const app = firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
-
-    const CLASS_ID = "Class-V";
 
     const loader = document.getElementById("loader");
     const dashboard = document.getElementById("dashboard");
@@ -128,57 +44,78 @@
     const liveClassStatus = document.getElementById("liveClassStatus");
     const resourcesList = document.getElementById("resourcesList");
 
-    // Ensure session persists
-    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
-      auth.onAuthStateChanged(async (user) => {
-        if (user) {
-          loader.style.display = "none";
-          dashboard.classList.remove("hidden");
+    const CLASS_ID = "Class-V";
 
-          // Load student profile
-          try {
-            const userDoc = await db.collection(CLASS_ID).doc(user.uid).get();
-            studentName.textContent = userDoc.exists ? (userDoc.data().fullName || user.email) : user.email;
-          } catch {
-            studentName.textContent = user.email;
-          }
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        loader.style.display = "none";
+        dashboard.classList.remove("hidden");
 
-          // Live class listener
-          db.collection(CLASS_ID).doc("liveClass").onSnapshot((doc) => {
-            if (doc.exists && doc.data().link) {
-              joinClassBtn.href = doc.data().link;
-              joinClassBtn.target = "_blank";  // open in new tab
-              joinClassBtn.classList.remove("disabled");
-              liveClassStatus.textContent = "✅ Live class is available!";
-            } else {
-              joinClassBtn.href = "#";
-              joinClassBtn.classList.add("disabled");
-              liveClassStatus.textContent = "⚠️ No live class link yet.";
-            }
-          });
-
-          // Resources listener
-          db.collection(CLASS_ID).doc("resources").collection("items").orderBy("uploadedAt","desc")
-            .onSnapshot(snapshot => {
-              resourcesList.innerHTML = "";
-              if (snapshot.empty) {
-                resourcesList.innerHTML = "<li class='text-gray-500'>No resources yet.</li>";
-              } else {
-                snapshot.forEach(doc => {
-                  const r = doc.data();
-                  resourcesList.innerHTML += `<li><a href="${r.link}" target="_blank" class="resource-link">📘 ${r.title}</a></li>`;
-                });
-              }
-            });
-
-        } else {
-          // If no user, redirect back to index.html (prevents infinite loader issue)
-          window.location.href = "index.html";
+        // Load student profile
+        try {
+          const userDoc = await db.collection(CLASS_ID).doc(user.uid).get();
+          studentName.textContent = userDoc.exists
+            ? (userDoc.data().fullName || user.email)
+            : user.email;
+        } catch (err) {
+          console.error("Profile load error:", err.message);
+          studentName.textContent = user.email;
         }
-      });
+
+        // Live class listener
+        try {
+          db.collection(CLASS_ID).doc("liveClass").onSnapshot(
+            (doc) => {
+              if (doc.exists && doc.data().link) {
+                joinClassBtn.href = doc.data().link;
+                joinClassBtn.target = "_blank";
+                joinClassBtn.classList.remove("disabled");
+                liveClassStatus.textContent = "✅ Live class is available!";
+              } else {
+                joinClassBtn.href = "#";
+                joinClassBtn.classList.add("disabled");
+                liveClassStatus.textContent = "⚠️ No live class link yet.";
+              }
+            },
+            (err) => {
+              console.error("Live class listener error:", err.message);
+              liveClassStatus.textContent = "⚠️ Cannot load live class.";
+            }
+          );
+        } catch (err) {
+          console.error("Live class setup error:", err.message);
+        }
+
+        // Resources listener
+        try {
+          db.collection(CLASS_ID).doc("resources").collection("items").orderBy("uploadedAt", "desc")
+            .onSnapshot(
+              (snapshot) => {
+                resourcesList.innerHTML = "";
+                if (snapshot.empty) {
+                  resourcesList.innerHTML = "<li class='text-gray-500'>No resources yet.</li>";
+                } else {
+                  snapshot.forEach(doc => {
+                    const r = doc.data();
+                    resourcesList.innerHTML += `<li><a href="${r.link}" target="_blank" class="resource-link">📘 ${r.title}</a></li>`;
+                  });
+                }
+              },
+              (err) => {
+                console.error("Resources listener error:", err.message);
+                resourcesList.innerHTML = "<li class='text-red-500'>⚠️ Cannot load resources.</li>";
+              }
+            );
+        } catch (err) {
+          console.error("Resources setup error:", err.message);
+        }
+
+      } else {
+        loader.style.display = "flex";
+        dashboard.classList.add("hidden");
+      }
     });
 
-    // Sign out should explicitly redirect
     signOutBtn.addEventListener("click", async () => {
       await auth.signOut();
       window.location.href = "index.html";

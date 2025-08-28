@@ -172,9 +172,8 @@
             });
 
         } else {
-          // Keep loader visible but DON'T redirect automatically
-          loader.style.display = "flex";
-          dashboard.classList.add("hidden");
+          // If no user, redirect back to index.html (prevents infinite loader issue)
+          window.location.href = "index.html";
         }
       });
     });

@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Class V Dashboard</title>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
@@ -10,15 +10,27 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-  <div id="loader" class="flex items-center justify-center h-screen">Loading...</div>
-  <div id="dashboard" class="hidden p-4">
-    <h1 class="text-2xl font-bold mb-4">Welcome, <span id="studentName"></span></h1>
+
+  <!-- Loader -->
+  <div id="loader" class="flex items-center justify-center h-screen text-xl font-semibold">
+    Loading dashboard...
+  </div>
+
+  <!-- Dashboard -->
+  <div id="dashboard" class="hidden p-6">
+    <h1 class="text-2xl font-bold mb-4">
+      Welcome, <span id="studentName"></span>
+    </h1>
     <button id="signOutBtn" class="px-4 py-2 bg-red-500 text-white rounded">Sign Out</button>
+
+    <!-- Live Class -->
     <div class="mt-6">
       <h2 class="text-xl font-semibold">Live Class</h2>
-      <p id="liveClassStatus" class="text-gray-600">Loading live class...</p>
+      <p id="liveClassStatus" class="text-gray-600">Checking live class...</p>
       <a id="joinClassBtn" href="#" class="mt-2 inline-block px-4 py-2 bg-blue-500 text-white rounded disabled">Join Class</a>
     </div>
+
+    <!-- Resources -->
     <div class="mt-6">
       <h2 class="text-xl font-semibold">Resources</h2>
       <ul id="resourcesList" class="list-disc ml-6 text-blue-600"></ul>
@@ -26,16 +38,19 @@
   </div>
 
   <script>
-    // Firebase config (replace with your own)
+    // 🔑 Firebase config (replace with your actual config)
     const firebaseConfig = {
       apiKey: "YOUR_API_KEY",
       authDomain: "YOUR_AUTH_DOMAIN",
       projectId: "YOUR_PROJECT_ID"
     };
-    const app = firebase.initializeApp(firebaseConfig);
+
+    // Init
+    firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
+    // DOM refs
     const loader = document.getElementById("loader");
     const dashboard = document.getElementById("dashboard");
     const studentName = document.getElementById("studentName");
@@ -46,12 +61,13 @@
 
     const CLASS_ID = "Class-V";
 
+    // Auth state
     auth.onAuthStateChanged(async (user) => {
       if (user) {
         loader.style.display = "none";
         dashboard.classList.remove("hidden");
 
-        // Load student profile
+        // Student Profile
         try {
           const userDoc = await db.collection(CLASS_ID).doc(user.uid).get();
           studentName.textContent = userDoc.exists
@@ -62,7 +78,7 @@
           studentName.textContent = user.email;
         }
 
-        // Live class listener
+        // Live Class listener
         try {
           db.collection(CLASS_ID).doc("liveClass").onSnapshot(
             (doc) => {
@@ -78,7 +94,7 @@
               }
             },
             (err) => {
-              console.error("Live class listener error:", err.message);
+              console.error("Live class error:", err.message);
               liveClassStatus.textContent = "⚠️ Cannot load live class.";
             }
           );
@@ -97,12 +113,12 @@
                 } else {
                   snapshot.forEach(doc => {
                     const r = doc.data();
-                    resourcesList.innerHTML += `<li><a href="${r.link}" target="_blank" class="resource-link">📘 ${r.title}</a></li>`;
+                    resourcesList.innerHTML += `<li><a href=\"${r.link}\" target=\"_blank\">📘 ${r.title}</a></li>`;
                   });
                 }
               },
               (err) => {
-                console.error("Resources listener error:", err.message);
+                console.error("Resources error:", err.message);
                 resourcesList.innerHTML = "<li class='text-red-500'>⚠️ Cannot load resources.</li>";
               }
             );
@@ -111,11 +127,13 @@
         }
 
       } else {
+        // No user signed in
         loader.style.display = "flex";
         dashboard.classList.add("hidden");
       }
     });
 
+    // Sign out
     signOutBtn.addEventListener("click", async () => {
       await auth.signOut();
       window.location.href = "index.html";

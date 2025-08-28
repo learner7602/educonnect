@@ -36,8 +36,8 @@
       padding: 20px 0;
       text-align: center;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      position: relative; /* Needed for z-index with dropdown */
-      z-index: 10; /* Ensure header is above other content */
+      position: relative;
+      z-index: 10;
     }
     .logo {
       max-width: 80px;
@@ -55,14 +55,12 @@
       font-size: 1.2em;
       opacity: 0.8;
     }
-
-    /* Navigation Bar */
     nav {
       background-color: var(--secondary-color);
       text-align: center;
       padding: 15px 0;
-      position: relative; /* For positioning dropdown */
-      z-index: 9; /* Slightly lower than header */
+      position: relative;
+      z-index: 9;
     }
     .nav-menu {
       list-style-type: none;
@@ -74,7 +72,7 @@
       flex-wrap: wrap;
     }
     .nav-menu li {
-        position: relative; /* For dropdown */
+        position: relative;
     }
     .nav-menu li a {
       color: var(--text-color);
@@ -84,13 +82,11 @@
       padding: 8px 15px;
       border-radius: 5px;
       transition: background-color 0.3s ease;
-      display: block; /* Ensure padding applies to the whole area */
+      display: block;
     }
     .nav-menu li a:hover {
       background-color: rgba(0, 0, 0, 0.1);
     }
-
-    /* Contact Us Dropdown Styles */
     .contact-dropdown-content {
       display: none;
       position: absolute;
@@ -100,10 +96,10 @@
       z-index: 1;
       border-radius: 8px;
       padding: 10px 0;
-      top: 100%; /* Position below the Contact Us link */
-      left: 50%; /* Center under the link */
+      top: 100%;
+      left: 50%;
       transform: translateX(-50%);
-      margin-top: 10px; /* Space below the link */
+      margin-top: 10px;
     }
     .contact-dropdown-content a {
       color: var(--text-color);
@@ -120,13 +116,11 @@
       color: white;
     }
     .contact-dropdown-content a svg {
-        fill: currentColor; /* Inherit color from parent for SVG icons */
+        fill: currentColor;
     }
     .contact-dropdown-content.show {
       display: block;
     }
-
-    /* Dashboard Section */
     .dashboard-section {
       padding: 60px 0;
     }
@@ -160,8 +154,6 @@
       list-style-type: none;
       padding: 0;
     }
-   
-    /* Quick link buttons (new class) */
     .quick-link-btn {
       display: block;
       background-color: var(--secondary-color);
@@ -179,14 +171,12 @@
       background-color: var(--link-hover-color);
       color: white;
     }
-
-    /* Teacher Testimonials/Quotes Section */
     .testimonials-section {
       background-color: var(--primary-color);
       color: white;
       padding: 60px 0;
       text-align: center;
-      position: relative; /* For absolute positioning of navigation buttons */
+      position: relative;
     }
     .testimonials-section h2 {
       font-size: 2em;
@@ -198,18 +188,18 @@
         justify-content: center;
         align-items: center;
         position: relative;
-        overflow: hidden; /* Hide overflow content */
-        max-width: 800px; /* Limit width */
-        margin: 0 auto; /* Center the carousel */
+        overflow: hidden;
+        max-width: 800px;
+        margin: 0 auto;
     }
     .teacher-card {
       background-color: rgba(255, 255, 255, 0.15);
       padding: 25px;
       border-radius: 12px;
-      min-width: 90%; /* Take full width within carousel for single display */
+      min-width: 90%;
       box-sizing: border-box;
-      flex-shrink: 0; /* Prevent shrinking */
-      display: none; /* Hidden by default, managed by JS */
+      flex-shrink: 0;
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
@@ -217,7 +207,7 @@
       transition: opacity 0.5s ease-in-out;
     }
     .teacher-card.active {
-        display: flex; /* Show active card */
+        display: flex;
         opacity: 1;
     }
     .teacher-photo {
@@ -248,7 +238,7 @@
         cursor: pointer;
         border-radius: 50%;
         transition: background-color 0.3s ease;
-        z-index: 2; /* Above cards */
+        z-index: 2;
     }
     .carousel-button:hover {
         background-color: rgba(0, 0, 0, 0.6);
@@ -259,9 +249,6 @@
     .carousel-button.next {
         right: 10px;
     }
-
-
-    /* Form specific styles */
     .form-overlay {
       position: fixed;
       top: 0;
@@ -281,10 +268,10 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
       max-width: 450px;
       width: 100%;
-      margin: 1rem; /* Added margin for smaller screens */
-      position: relative; /* For close button */
+      margin: 1rem;
+      position: relative;
     }
-    .form-close-button { /* Style for new close buttons on forms */
+    .form-close-button {
       position: absolute;
       top: 1rem;
       right: 1rem;
@@ -292,17 +279,17 @@
       border: none;
       font-size: 1.5rem;
       cursor: pointer;
-      color: #718096; /* Gray-500 */
+      color: #718096;
     }
     .form-close-button:hover {
-      color: #2d3748; /* Gray-800 */
+      color: #2d3748;
     }
     input[type="email"],
     input[type="password"],
     input[type="text"],
     input[type="tel"],
     textarea,
-    select { /* Added select to styling */
+    select {
       padding: 0.75rem 1rem;
       border: 1px solid #e2e8f0;
       border-radius: 0.5rem;
@@ -310,14 +297,14 @@
       box-sizing: border-box;
       margin-bottom: 1rem;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      background-color: white; /* Ensure select has a background */
+      background-color: white;
     }
     input[type="email"]:focus,
     input[type="password"]:focus,
     input[type="text"]:focus,
     input[type="tel"]:focus,
     textarea:focus,
-    select:focus { /* Added select to styling */
+    select:focus {
       outline: none;
       border-color: #4299e1;
       box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
@@ -331,18 +318,18 @@
       transition: background-color 0.3s ease;
     }
     .btn-green {
-      background-color: #38a169; /* Green-600 */
+      background-color: #38a169;
       color: white;
     }
     .btn-green:hover {
-      background-color: #2f855a; /* Green-700 */
+      background-color: #2f855a;
     }
     .btn-blue {
-      background-color: #4299e1; /* Blue-600 */
+      background-color: #4299e1;
       color: white;
     }
     .btn-blue:hover {
-      background-color: #3182ce; /* Blue-700 */
+      background-color: #3182ce;
     }
     .message {
       margin-top: 1rem;
@@ -350,10 +337,10 @@
       font-weight: 500;
     }
     .message.error {
-      color: #e53e3e; /* Red-600 */
+      color: #e53e3e;
     }
     .message.success {
-      color: #38a169; /* Green-600 */
+      color: #38a169;
     }
     .toggle-link {
       color: #4299e1;
@@ -368,10 +355,8 @@
     .hidden {
       display: none !important;
     }
-
-    /* Styles for the Submitted Questions Viewer */
     .question-list-item {
-      background-color: #f0f4f8; /* Light blue-gray background */
+      background-color: #f0f4f8;
       padding: 1rem;
       border-radius: 0.5rem;
       margin-bottom: 0.75rem;
@@ -382,7 +367,7 @@
       margin-bottom: 0.25rem;
     }
     .question-list-item strong {
-      color: #2c5282; /* Primary color dark shade */
+      color: #2c5282;
     }
     .question-list-item .question-text {
       margin-top: 0.5rem;
@@ -395,8 +380,6 @@
         padding: 2rem;
         font-size: 1.1em;
     }
-
-    /* Responsive adjustments */
     @media (max-width: 768px) {
       .nav-menu {
         flex-direction: column;
@@ -409,7 +392,7 @@
         padding: 10px;
       }
       .contact-dropdown-content {
-        position: static; /* Stack dropdown items normally on mobile */
+        position: static;
         transform: none;
         box-shadow: none;
         border-radius: 0;
@@ -422,7 +405,6 @@
 </head>
 <body>
 
-  <!-- Header Section -->
   <header>
     <div class="container">
       <img src="logo.jpeg" alt="School Logo" class="logo">
@@ -431,7 +413,6 @@
     </div>
   </header>
 
-  <!-- Navigation Bar -->
   <nav>
     <ul class="nav-menu">
       <li><a href="#dashboard">Dashboard</a></li>
@@ -459,7 +440,6 @@
     </ul>
   </nav>
 
-  <!-- Dashboard Section -->
   <section class="dashboard-section" id="dashboard">
     <div class="container">
       <h2>Student Dashboard</h2>
@@ -471,9 +451,7 @@
         <div class="dashboard-card">
           <h3>Quick Links</h3>
           <ul class="class-link-grid">
-            <!-- Quick Link for Contact Us - now triggers the dropdown -->
             <li><a href="#" class="quick-link-btn" id="quick-contact-us-link">Contact Us</a></li>
-            <!-- Quick Link for Teachers - scrolls to the section -->
             <li><a href="#teachers" class="quick-link-btn">Teachers</a></li>
             <li><a href="#" class="quick-link-btn" id="quick-submit-questions-link">Submit Questions</a></li>
             <li><a href="#" class="quick-link-btn" id="view-submitted-questions-link">View Submitted Questions</a></li>
@@ -485,50 +463,34 @@
     </div>
   </section>
 
-  <!-- Teacher Testimonials/Quotes Section -->
   <section class="testimonials-section" id="teachers">
     <div class="container">
       <h2>Meet Our Educators</h2>
       <div class="teachers-carousel">
         <button class="carousel-button prev" id="prevTeacher">&larr;</button>
         <div class="teacher-card" id="teacher-card-container">
-          <!-- Teacher details will be loaded here by JavaScript -->
         </div>
         <button class="carousel-button next" id="nextTeacher">&rarr;</button>
       </div>
     </div>
   </section>
 
-  <!-- Sign In Form Overlay -->
   <div id="signin-overlay" class="hidden form-overlay">
     <div id="signin-form-container" class="form-container">
       <button class="form-close-button" id="close-signin-form">&times;</button>
       <h3 class="text-xl font-bold mb-6 text-center">Sign In</h3>
       <form id="signin-form">
-        <label for="signin-class-select" class="block text-sm font-medium text-gray-700 mb-1">Select Your Class</label>
-        <select id="signin-class-select" required>
-            <option value="" disabled selected>-- Choose your class --</option>
-            <option value="v">Class V</option>
-            <option value="vi">Class VI</option>
-            <option value="vii">Class VII</option>
-            <option value="viii">Class VIII</option>
-            <option value="ix">Class IX</option>
-            <option value="x">Class X</option>
-            <option value="xi">Class XI</option>
-            <option value="xii">Class XII</option>
-        </select>
         <input type="email" id="signin-email" placeholder="Enter your email" required>
         <input type="password" id="signin-password" placeholder="Enter your password" required>
         <button type="submit" class="btn-green">Sign In</button>
       </form>
       <p id="signin-message" class="message error"></p>
       <p class="mt-4 text-center text-sm">Don’t have an account?
-        <a href="#" id="show-signup" class="toggle-link">Sign Up</a>
+        <a href="#" id="show-signup" class="toggle-.link">Sign Up</a>
       </p>
     </div>
   </div>
 
-  <!-- Sign Up Form Overlay -->
   <div id="signup-overlay" class="hidden form-overlay">
     <div id="signup-form-container" class="form-container">
       <button class="form-close-button" id="close-signup-form">&times;</button>
@@ -564,7 +526,6 @@
     </div>
   </div>
 
-  <!-- Submit Questions Form Overlay -->
   <div id="submit-questions-overlay" class="hidden form-overlay">
     <div id="submit-questions-form-container" class="form-container">
       <button class="form-close-button" id="close-submit-questions-form">&times;</button>
@@ -585,27 +546,21 @@
     </div>
   </div>
 
-  <!-- View Submitted Questions Overlay -->
   <div id="view-questions-overlay" class="hidden form-overlay">
     <div id="view-questions-container" class="form-container" style="max-width: 600px;">
       <button class="form-close-button" id="close-view-questions-form">&times;</button>
       <h3 class="text-xl font-bold mb-6 text-center">Submitted Questions</h3>
       <div id="questions-list" class="space-y-4">
-        <!-- Questions will be loaded here by JavaScript -->
         <p class="no-questions-message">Loading questions...</p>
       </div>
     </div>
   </div>
 
-  <!-- Firebase and JavaScript -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script>
-    // Ensure all DOM content is loaded before executing the script
     document.addEventListener('DOMContentLoaded', () => {
-        // --- Firebase Configuration ---
-        // IMPORTANT: Replace with your actual Firebase project configuration
         const firebaseConfig = {
             apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg",
             authDomain: "educonnectapp-ae08d.firebaseapp.com",
@@ -614,12 +569,10 @@
             messagingSenderId: "10974354104",
             appId: "1:10974354104:web:228ca789dfb241f43ff24d"
         };
-        // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
 
-        // --- Element Selections ---
         const signinMessageElement = document.getElementById('signin-message');
         const signupMessageElement = document.getElementById('signup-message');
         const signinOverlay = document.getElementById('signin-overlay');
@@ -630,23 +583,12 @@
         const questionsListDiv = document.getElementById('questions-list');
         const contactDropdown = document.getElementById('contact-dropdown');
 
-        // --- Helper Functions ---
-        
-        /**
-         * Displays a message in a specified element, formatted as an error or success.
-         * @param {HTMLElement} element - The HTML element to display the message in.
-         * @param {string} message - The message to display.
-         * @param {boolean} [isError=true] - True for error styling, false for success.
-         */
         function displayMessage(element, message, isError = true) {
             element.textContent = message;
             element.classList.toggle('error', isError);
             element.classList.toggle('success', !isError);
         }
 
-        /**
-         * Hides all modal-like overlay elements on the page.
-         */
         function hideAllOverlays() {
             signinOverlay.classList.add('hidden');
             signupOverlay.classList.add('hidden');
@@ -655,14 +597,13 @@
             contactDropdown.classList.remove('show');
         }
 
-        // --- Contact Us Dropdown Logic ---
         const contactUsLink = document.getElementById('contact-us-link');
         const quickContactUsLink = document.getElementById('quick-contact-us-link');
 
         function toggleContactDropdown(e) {
             e.preventDefault();
             const isShowing = contactDropdown.classList.contains('show');
-            hideAllOverlays(); // Hide others first
+            hideAllOverlays();
             if (!isShowing) {
                 contactDropdown.classList.add('show');
             }
@@ -671,14 +612,12 @@
         contactUsLink.addEventListener('click', toggleContactDropdown);
         quickContactUsLink.addEventListener('click', toggleContactDropdown);
 
-        // Close dropdown if clicking outside
         window.addEventListener('click', (e) => {
             if (!contactUsLink.contains(e.target) && !quickContactUsLink.contains(e.target) && !contactDropdown.contains(e.target)) {
                 contactDropdown.classList.remove('show');
             }
         });
 
-        // --- Teachers Section Carousel Logic ---
         const teachers = [
             { name: "Mr. Biswajit Maity, English Teacher", quote: "Education is not the filling of a pail, but the lighting of a fire.", photo: "teacher1.jpeg" },
             { name: "Mr. Sumit Das, Science Teacher", quote: "The beautiful thing about learning is that no one can take it away from you.", photo: "teacher2.jpeg" },
@@ -700,7 +639,7 @@
                 `;
                 teacherCardContainer.classList.add('active');
                 teacherCardContainer.style.opacity = '1';
-            }, 300); // Wait for fade out
+            }, 300);
         }
 
         document.getElementById('prevTeacher').addEventListener('click', () => {
@@ -713,17 +652,14 @@
             showTeacher(currentTeacherIndex);
         });
         
-        // Initial load
         if(teacherCardContainer) showTeacher(currentTeacherIndex);
 
-        // Smooth scroll for teachers link
         document.getElementById('teachers-nav-link').addEventListener('click', (e) => {
             e.preventDefault();
             document.getElementById('teachers').scrollIntoView({ behavior: 'smooth' });
             hideAllOverlays();
         });
 
-        // --- Submit Questions Form Logic ---
         const submitQuestionForm = document.getElementById('submit-question-form');
 
         function showSubmitQuestionsForm(e) {
@@ -767,7 +703,6 @@
             }
         });
 
-        // --- View Submitted Questions Logic ---
         async function fetchAndDisplayQuestions() {
             questionsListDiv.innerHTML = '<p class="no-questions-message">Loading...</p>';
             try {
@@ -807,7 +742,6 @@
             viewQuestionsOverlay.classList.add('hidden');
         });
 
-        // --- UNIFIED Login/Signup Logic ---
         document.getElementById('login-nav-link').addEventListener('click', (e) => {
             e.preventDefault();
             hideAllOverlays();
@@ -838,29 +772,40 @@
             displayMessage(signinMessageElement, '');
         });
 
-        // Sign In Form Submission
         document.getElementById('signin-form').addEventListener('submit', async (e) => {
             e.preventDefault();
-            const selectedClass = document.getElementById('signin-class-select').value;
             const email = document.getElementById('signin-email').value;
             const password = document.getElementById('signin-password').value;
 
-            if (!selectedClass) {
-                displayMessage(signinMessageElement, 'Please select your class.');
-                return;
-            }
-
             displayMessage(signinMessageElement, 'Signing in...', false);
             try {
-                await auth.signInWithEmailAndPassword(email, password);
-                displayMessage(signinMessageElement, 'Success! Redirecting...', false);
-                window.location.href = `class-${selectedClass}.html`;
+                const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                const user = userCredential.user;
+
+                // Find the user's class
+                const classes = ["V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+                let userClass = null;
+
+                for (const cls of classes) {
+                    const userDoc = await db.collection(`Class-${cls}`).doc(user.uid).get();
+                    if (userDoc.exists) {
+                        userClass = cls.toLowerCase();
+                        break;
+                    }
+                }
+
+                if (userClass) {
+                    displayMessage(signinMessageElement, 'Success! Redirecting...', false);
+                    window.location.href = `class-${userClass}.html`;
+                } else {
+                    displayMessage(signinMessageElement, 'Could not find your class. Please sign up again.');
+                    auth.signOut();
+                }
             } catch (error) {
                 displayMessage(signinMessageElement, error.message);
             }
         });
 
-        // Sign Up Form Submission
         document.getElementById('signup-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const selectedClass = document.getElementById('signup-class-select').value;
@@ -877,7 +822,6 @@
                 const result = await auth.createUserWithEmailAndPassword(email, password);
                 const user = result.user;
 
-                // Store user details in Firestore
                 await db.collection(`Class-${selectedClass.toUpperCase()}`).doc(user.uid).set({
                     fullName: document.getElementById('signup-name').value,
                     fatherName: document.getElementById('signup-father').value,

@@ -3,95 +3,183 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Class VI - Live Class</title>
+  <title>Class VI - Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f0f4f8;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      max-width: 650px;
+      width: 100%;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      margin: 2rem;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+    }
+    .btn-primary {
+      background-color: #4299e1;
+      color: white;
+    }
+    .btn-primary:hover {
+      background-color: #3182ce;
+    }
+    .btn-danger {
+      background-color: #e53e3e;
+      color: white;
+    }
+    .btn-danger:hover {
+      background-color: #c53030;
+    }
+    .disabled {
+      background-color: #a0aec0;
+      cursor: not-allowed;
+      opacity: 0.6;
+    }
+    .card {
+      background: #edf2f7;
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      margin-top: 1.5rem;
+    }
+    .resource-link {
+      color: #2b6cb0;
+      font-weight: 500;
+      text-decoration: none;
+    }
+    .resource-link:hover {
+      text-decoration: underline;
+      color: #2c5282;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
-
-  <!-- Header -->
-  <div id="welcomeBox" class="text-center mb-6 hidden">
-    <h2 class="text-xl font-semibold text-gray-800">👋 Welcome, <span id="studentName"></span>!</h2>
+<body>
+  <div id="loader" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white">
+    <p class="text-lg font-semibold">Loading Dashboard...</p>
   </div>
 
-  <!-- Card -->
-  <div class="bg-white p-6 rounded-lg shadow-lg text-center max-w-md w-full">
-    <h1 class="text-2xl font-bold mb-4">Class VI</h1>
-    <p class="mb-4 text-gray-600">Click below to join your live class:</p>
-    <a id="joinBtn" href="#" target="_blank"
-       class="bg-blue-600 text-white px-6 py-2 rounded-lg shadow hover:bg-blue-700 pointer-events-none opacity-50">
-       Join Class
-    </a>
-    <p id="statusMsg" class="mt-3 text-sm text-gray-500"></p>
+  <div id="dashboard" class="container hidden">
+    <div class="header">
+      <h1 class="text-2xl font-bold text-blue-700">👋 Welcome, <span id="studentName"></span></h1>
+      <button id="signOutBtn" class="btn btn-danger">Sign Out</button>
+    </div>
 
-    <!-- Resources -->
-    <h2 class="text-xl font-semibold mt-6 mb-2">📚 Resources</h2>
-    <ul id="resourcesList" class="text-left list-disc pl-6 text-blue-600"></ul>
+    <h2 class="text-xl font-semibold">Class VI Dashboard</h2>
+
+    <div class="card">
+      <h3 class="font-bold text-lg">Live Class</h3>
+      <p id="liveClassStatus" class="text-gray-600 mb-3">Loading...</p>
+      <a id="joinClassBtn" target="_blank" class="btn btn-primary disabled">Join Live Class</a>
+    </div>
+
+    <div class="card">
+      <h3 class="font-bold text-lg">Resources</h3>
+      <ul id="resourcesList" class="space-y-2 mt-2">
+        <li class="text-gray-500">Loading resources...</li>
+      </ul>
+    </div>
   </div>
 
-  <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
   <script>
     const firebaseConfig = {
       apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg",
       authDomain: "educonnectapp-ae08d.firebaseapp.com",
       projectId: "educonnectapp-ae08d",
-      storageBucket: "educonnectapp-ae08d.firebasestorage.app",
+      storageBucket: "educonnectapp-ae08d.appspot.com",
       messagingSenderId: "10974354104",
-      appId: "1:10974354104:web:228ca789dfb241f43ff24d",
-      measurementId: "G-XMDY71K3ZR"
+      appId: "1:10974354104:web:228ca789dfb241f43ff24d"
     };
     firebase.initializeApp(firebaseConfig);
-
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    const joinBtn = document.getElementById("joinBtn");
-    const statusMsg = document.getElementById("statusMsg");
-    const resourcesList = document.getElementById("resourcesList");
-    const welcomeBox = document.getElementById("welcomeBox");
+    const CLASS_ID = "Class-VI";
+
+    const loader = document.getElementById("loader");
+    const dashboard = document.getElementById("dashboard");
     const studentName = document.getElementById("studentName");
+    const signOutBtn = document.getElementById("signOutBtn");
+    const joinClassBtn = document.getElementById("joinClassBtn");
+    const liveClassStatus = document.getElementById("liveClassStatus");
+    const resourcesList = document.getElementById("resourcesList");
 
-    // Show Welcome Message
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        const profileRef = db.collection("studentProfiles").doc(user.uid);
-        const profileDoc = await profileRef.get();
-        studentName.innerText = (profileDoc.exists && profileDoc.data().name) ? profileDoc.data().name : user.email;
-        welcomeBox.classList.remove("hidden");
-      }
-    });
+    // Ensure session persists
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          loader.style.display = "none";
+          dashboard.classList.remove("hidden");
 
-    // Fetch Live Class Link
-    db.collection("Class-VI").doc("liveClass").onSnapshot((doc) => {
-      if (doc.exists && doc.data().link) {
-        joinBtn.href = doc.data().link;
-        joinBtn.classList.remove("pointer-events-none", "opacity-50");
-        statusMsg.innerText = "✅ Live class link is available.";
-      } else {
-        joinBtn.href = "#";
-        joinBtn.classList.add("pointer-events-none", "opacity-50");
-        statusMsg.innerText = "⚠️ No live class link has been added yet.";
-      }
-    });
+          // Load student profile
+          try {
+            const userDoc = await db.collection(CLASS_ID).doc(user.uid).get();
+            studentName.textContent = userDoc.exists ? (userDoc.data().fullName || user.email) : user.email;
+          } catch {
+            studentName.textContent = user.email;
+          }
 
-    // Fetch Resources
-    db.collection("Class-VI").doc("resources").collection("items")
-      .orderBy("uploadedAt", "desc")
-      .onSnapshot((snapshot) => {
-        resourcesList.innerHTML = "";
-        if (snapshot.empty) {
-          resourcesList.innerHTML = "<li class='text-gray-500'>No resources added yet.</li>";
+          // Live class listener
+          db.collection(CLASS_ID).doc("liveClass").onSnapshot((doc) => {
+            if (doc.exists && doc.data().link) {
+              joinClassBtn.href = doc.data().link;
+              joinClassBtn.target = "_blank";  // open in new tab
+              joinClassBtn.classList.remove("disabled");
+              liveClassStatus.textContent = "✅ Live class is available!";
+            } else {
+              joinClassBtn.href = "#";
+              joinClassBtn.classList.add("disabled");
+              liveClassStatus.textContent = "⚠️ No live class link yet.";
+            }
+          });
+
+          // Resources listener
+          db.collection(CLASS_ID).doc("resources").collection("items").orderBy("uploadedAt","desc")
+            .onSnapshot(snapshot => {
+              resourcesList.innerHTML = "";
+              if (snapshot.empty) {
+                resourcesList.innerHTML = "<li class='text-gray-500'>No resources yet.</li>";
+              } else {
+                snapshot.forEach(doc => {
+                  const r = doc.data();
+                  resourcesList.innerHTML += `<li><a href="${r.link}" target="_blank" class="resource-link">📘 ${r.title}</a></li>`;
+                });
+              }
+            });
+
+        } else {
+          // Only redirect AFTER Firebase has fully checked session
+          setTimeout(() => {
+            if (!auth.currentUser) {
+              window.location.href = "index.html";
+            }
+          }, 1000);
         }
-        snapshot.forEach((doc) => {
-          const item = doc.data();
-          const li = document.createElement("li");
-          li.innerHTML = `<a href="${item.link}" target="_blank" class="hover:underline">${item.title}</a>`;
-          resourcesList.appendChild(li);
-        });
       });
+    });
+
+    signOutBtn.addEventListener("click", () => auth.signOut());
   </script>
 </body>
 </html>

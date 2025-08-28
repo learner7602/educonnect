@@ -128,50 +128,58 @@
     const liveClassStatus = document.getElementById("liveClassStatus");
     const resourcesList = document.getElementById("resourcesList");
 
-    // Auth check
-    auth.onAuthStateChanged(async (user) => {
-      if (user) {
-        loader.style.display = "none";
-        dashboard.classList.remove("hidden");
+    // Ensure session persists
+    auth.setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(() => {
+      auth.onAuthStateChanged(async (user) => {
+        if (user) {
+          loader.style.display = "none";
+          dashboard.classList.remove("hidden");
 
-        // Load student profile
-        try {
-          const userDoc = await db.collection(CLASS_ID).doc(user.uid).get();
-          studentName.textContent = userDoc.exists ? (userDoc.data().fullName || user.email) : user.email;
-        } catch {
-          studentName.textContent = user.email;
-        }
-
-        // Live class listener
-        db.collection(CLASS_ID).doc("liveClass").onSnapshot((doc) => {
-          if (doc.exists && doc.data().link) {
-            joinClassBtn.href = doc.data().link;
-            joinClassBtn.classList.remove("disabled");
-            liveClassStatus.textContent = "✅ Live class is available!";
-          } else {
-            joinClassBtn.href = "#";
-            joinClassBtn.classList.add("disabled");
-            liveClassStatus.textContent = "⚠️ No live class link yet.";
+          // Load student profile
+          try {
+            const userDoc = await db.collection(CLASS_ID).doc(user.uid).get();
+            studentName.textContent = userDoc.exists ? (userDoc.data().fullName || user.email) : user.email;
+          } catch {
+            studentName.textContent = user.email;
           }
-        });
 
-        // Resources listener
-        db.collection(CLASS_ID).doc("resources").collection("items").orderBy("uploadedAt","desc")
-          .onSnapshot(snapshot => {
-            resourcesList.innerHTML = "";
-            if (snapshot.empty) {
-              resourcesList.innerHTML = "<li class='text-gray-500'>No resources yet.</li>";
+          // Live class listener
+          db.collection(CLASS_ID).doc("liveClass").onSnapshot((doc) => {
+            if (doc.exists && doc.data().link) {
+              joinClassBtn.href = doc.data().link;
+              joinClassBtn.target = "_blank";  // open in new tab
+              joinClassBtn.classList.remove("disabled");
+              liveClassStatus.textContent = "✅ Live class is available!";
             } else {
-              snapshot.forEach(doc => {
-                const r = doc.data();
-                resourcesList.innerHTML += `<li><a href="${r.link}" target="_blank" class="resource-link">📘 ${r.title}</a></li>`;
-              });
+              joinClassBtn.href = "#";
+              joinClassBtn.classList.add("disabled");
+              liveClassStatus.textContent = "⚠️ No live class link yet.";
             }
           });
 
-      } else {
-        window.location.href = "index.html";
-      }
+          // Resources listener
+          db.collection(CLASS_ID).doc("resources").collection("items").orderBy("uploadedAt","desc")
+            .onSnapshot(snapshot => {
+              resourcesList.innerHTML = "";
+              if (snapshot.empty) {
+                resourcesList.innerHTML = "<li class='text-gray-500'>No resources yet.</li>";
+              } else {
+                snapshot.forEach(doc => {
+                  const r = doc.data();
+                  resourcesList.innerHTML += `<li><a href="${r.link}" target="_blank" class="resource-link">📘 ${r.title}</a></li>`;
+                });
+              }
+            });
+
+        } else {
+          // Only redirect AFTER Firebase has fully checked session
+          setTimeout(() => {
+            if (!auth.currentUser) {
+              window.location.href = "index.html";
+            }
+          }, 1000);
+        }
+      });
     });
 
     signOutBtn.addEventListener("click", () => auth.signOut());

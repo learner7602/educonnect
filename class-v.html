@@ -6,344 +6,175 @@
   <title>Class V - Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Import Google Font (Poppins) */
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
-    
-    /* Base Body Styles */
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #f0f4f8; /* Light gray background */
+      background-color: #f0f4f8;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      color: #333; /* Dark gray text */
     }
-    
-    /* Main Container Styles */
     .container {
-      max-width: 600px;
-      padding: 1.5rem;
-      background-color: white;
-      border-radius: 1rem; /* Rounded corners */
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); /* Soft shadow */
-      text-align: center;
-      margin: 2rem; /* Margin for spacing */
-      width: 90%; /* Responsive width */
-    }
-    
-    /* Header Styles */
-    .header {
+      max-width: 650px;
       width: 100%;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      margin: 2rem;
+    }
+    .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 2rem;
-      flex-wrap: wrap; /* Allow items to wrap on smaller screens */
-      gap: 1rem; /* Space between items when wrapped */
     }
-    
-    /* Welcome Message Styles */
-    .welcome-message {
-      font-size: 1.5rem;
+    .btn {
+      padding: 0.75rem 1.25rem;
+      border-radius: 0.5rem;
       font-weight: 600;
-      color: #2c5282; /* Deep blue color */
     }
-    
-    /* Sign Out Button Styles */
-    .sign-out-btn {
-      background-color: #e53e3e; /* Red color */
+    .btn-primary {
+      background-color: #4299e1;
       color: white;
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.75rem;
-      font-weight: 600;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-      box-shadow: 0 4px 10px rgba(229, 62, 62, 0.3);
     }
-    .sign-out-btn:hover {
-      background-color: #c53030; /* Darker red on hover */
-      transform: translateY(-2px); /* Slight lift on hover */
+    .btn-primary:hover {
+      background-color: #3182ce;
     }
-    
-    /* Join Class Button Styles */
-    .join-class-btn {
-      background-color: #4299e1; /* Blue color */
+    .btn-danger {
+      background-color: #e53e3e;
       color: white;
-      padding: 1rem 2.5rem;
-      border-radius: 0.75rem;
-      font-weight: 700;
-      transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
-      display: inline-block;
-      margin-top: 1.5rem;
-      box-shadow: 0 6px 15px rgba(66, 153, 225, 0.4);
-      text-decoration: none;
     }
-    .join-class-btn:hover:not(.disabled) {
-      background-color: #3182ce; /* Darker blue on hover */
-      transform: translateY(-3px); /* More pronounced lift on hover */
-      box-shadow: 0 8px 20px rgba(66, 153, 225, 0.5);
+    .btn-danger:hover {
+      background-color: #c53030;
     }
-    
-    /* Disabled Button Styles */
     .disabled {
-      background-color: #a0aec0; /* Gray for disabled */
+      background-color: #a0aec0;
       cursor: not-allowed;
-      opacity: 0.7;
-      transform: none;
-      box-shadow: none;
+      opacity: 0.6;
     }
-    
-    /* Resource Link Styles */
-    .resource-link {
-      color: #38a169; /* Green color */
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.2s ease-in-out;
-    }
-    .resource-link:hover {
-      color: #2f855a; /* Darker green on hover */
-      text-decoration: underline;
-    }
-    
-    /* Card Section Styles */
-    .card-section {
-      background-color: #edf2f7; /* Light blue-gray background */
+    .card {
+      background: #edf2f7;
       padding: 1.5rem;
       border-radius: 0.75rem;
       margin-top: 1.5rem;
-      text-align: left;
     }
-    .card-section h2 {
-      color: #2d3748; /* Darker gray-blue */
-      margin-bottom: 1rem;
-      font-size: 1.25rem; /* Larger heading */
-      font-weight: 600;
+    .resource-link {
+      color: #2b6cb0;
+      font-weight: 500;
+      text-decoration: none;
     }
-    
-    /* List Styles for Resources */
-    ul {
-        list-style: none; /* Remove default bullet points */
-        padding-left: 0;
-    }
-    ul li::before {
-        content: '📚 '; /* Custom bullet point (book emoji) */
-        margin-right: 0.5rem;
-    }
-
-    /* Loader Styles */
-    #loader {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent white */
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 50;
-        flex-direction: column;
-        gap: 1rem;
-    }
-    #loader p {
-        font-size: 1.25rem;
-        font-weight: 600;
-        color: #4a5568;
+    .resource-link:hover {
+      text-decoration: underline;
+      color: #2c5282;
     }
   </style>
 </head>
 <body>
-  <!-- Loader Screen -->
-  <div id="loader">
-      <p class="text-xl font-semibold">Loading Dashboard...</p>
-      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900"></div>
+  <div id="loader" class="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-white">
+    <p class="text-lg font-semibold">Loading Dashboard...</p>
   </div>
 
-  <!-- Main Dashboard Container (hidden by default) -->
-  <div class="container hidden">
+  <div id="dashboard" class="container hidden">
     <div class="header">
-      <!-- Welcome Message with Student Name -->
-      <div id="welcomeMessage" class="welcome-message hidden">
-        👋 Welcome, <span id="studentName" class="font-bold"></span>!
-      </div>
-      <!-- Sign Out Button -->
-      <button id="signOutBtn" class="sign-out-btn hidden">Sign Out</button>
+      <h1 class="text-2xl font-bold text-blue-700">👋 Welcome, <span id="studentName"></span></h1>
+      <button id="signOutBtn" class="btn btn-danger">Sign Out</button>
     </div>
 
-    <h1 class="text-3xl font-extrabold text-gray-800 mb-6">Class V Dashboard</h1>
-    
+    <h2 class="text-xl font-semibold">Class V Dashboard</h2>
+
     <!-- Live Class Section -->
-    <div class="card-section">
-      <h2 class="text-xl font-semibold">Live Class</h2>
-      <p id="liveClassStatus" class="text-sm text-gray-600 mb-4">Loading live class link...</p>
-      <a id="joinClassBtn" href="#" target="_blank" class="join-class-btn disabled">
-        Join Live Class
-      </a>
+    <div class="card">
+      <h3 class="font-bold text-lg">Live Class</h3>
+      <p id="liveClassStatus" class="text-gray-600 mb-3">Loading...</p>
+      <a id="joinClassBtn" target="_blank" class="btn btn-primary disabled">Join Live Class</a>
     </div>
 
     <!-- Resources Section -->
-    <div class="card-section">
-      <h2 class="text-xl font-semibold">Resources</h2>
-      <ul id="resourcesList" class="space-y-3">
+    <div class="card">
+      <h3 class="font-bold text-lg">Resources</h3>
+      <ul id="resourcesList" class="space-y-2 mt-2">
         <li class="text-gray-500">Loading resources...</li>
       </ul>
     </div>
   </div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
   <script>
-    // Firebase Configuration
     const firebaseConfig = {
       apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg",
       authDomain: "educonnectapp-ae08d.firebaseapp.com",
       projectId: "educonnectapp-ae08d",
-      storageBucket: "educonnectapp-ae08d.firebasestorage.app",
+      storageBucket: "educonnectapp-ae08d.appspot.com",
       messagingSenderId: "10974354104",
-      appId: "1:10974354104:web:228ca789dfb241f43ff24d",
-      measurementId: "G-XMDY71K3ZR"
+      appId: "1:10974354104:web:228ca789dfb241f43ff24d"
     };
-
-    // Initialize Firebase
-    const app = firebase.initializeApp(firebaseConfig);
+    firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
     const db = firebase.firestore();
 
-    // Define the class ID for this page
     const CLASS_ID = "Class-V";
 
-    // Get DOM elements
-    const loader = document.getElementById('loader');
-    const container = document.querySelector('.container');
-    const welcomeMessageElement = document.getElementById("welcomeMessage");
-    const studentNameElement = document.getElementById("studentName");
+    const loader = document.getElementById("loader");
+    const dashboard = document.getElementById("dashboard");
+    const studentName = document.getElementById("studentName");
     const signOutBtn = document.getElementById("signOutBtn");
     const joinClassBtn = document.getElementById("joinClassBtn");
     const liveClassStatus = document.getElementById("liveClassStatus");
     const resourcesList = document.getElementById("resourcesList");
 
-    /**
-     * Handles user sign-out.
-     * Redirects to index.html upon successful sign-out.
-     */
-    async function handleSignOut() {
-      try {
-        await auth.signOut();
-        // Redirect will be handled by onAuthStateChanged listener
-      } catch (error) {
-        console.error("Error signing out:", error);
-        // In a real app, you might show a user-friendly message here instead of alert
-        // For example, a custom modal or toast notification.
-        // alert("Error signing out. Please try again.");
-      }
-    }
+    // Auth check
+    auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        loader.style.display = "none";
+        dashboard.classList.remove("hidden");
 
-    /**
-     * Fetches and displays live class link.
-     * Sets up a real-time listener for the liveClass document.
-     */
-    function fetchLiveClassLink() {
-      db.collection(CLASS_ID).doc("liveClass").onSnapshot((doc) => {
-        if (doc.exists && doc.data().link) {
-          joinClassBtn.href = doc.data().link;
-          joinClassBtn.classList.remove("disabled");
-          liveClassStatus.innerText = "✅ Live class is available! Click 'Join Live Class' to enter.";
-        } else {
-          joinClassBtn.href = "#";
-          joinClassBtn.classList.add("disabled");
-          liveClassStatus.innerText = "⚠️ No live class link has been added yet.";
+        // Load student profile
+        try {
+          const userDoc = await db.collection(CLASS_ID).doc(user.uid).get();
+          studentName.textContent = userDoc.exists ? (userDoc.data().fullName || user.email) : user.email;
+        } catch {
+          studentName.textContent = user.email;
         }
-      }, (error) => {
-        console.error("Error fetching live class link:", error);
-        liveClassStatus.innerText = "❌ Could not load live class link.";
-      });
-    }
 
-    /**
-     * Fetches and displays resources for the class.
-     * Sets up a real-time listener for the resources collection.
-     */
-    function fetchResources() {
-      db.collection(CLASS_ID).doc("resources").collection("items")
-        .orderBy("uploadedAt", "desc") // Order by timestamp, assuming 'uploadedAt' exists
-        .onSnapshot((snapshot) => {
-          resourcesList.innerHTML = ""; // Clear existing resources
-          if (snapshot.empty) {
-            resourcesList.innerHTML = "<li class='text-gray-500'>No resources have been added yet.</li>";
+        // Live class listener
+        db.collection(CLASS_ID).doc("liveClass").onSnapshot((doc) => {
+          if (doc.exists && doc.data().link) {
+            joinClassBtn.href = doc.data().link;
+            joinClassBtn.classList.remove("disabled");
+            liveClassStatus.textContent = "✅ Live class is available!";
           } else {
-            snapshot.forEach((doc) => {
-              const item = doc.data();
-              const li = document.createElement("li");
-              li.className = "mb-2"; // Add some bottom margin for spacing
-              li.innerHTML = `<a href="${item.link}" target="_blank" class="resource-link">${item.title}</a>`;
-              resourcesList.appendChild(li);
-            });
+            joinClassBtn.href = "#";
+            joinClassBtn.classList.add("disabled");
+            liveClassStatus.textContent = "⚠️ No live class link yet.";
           }
-        }, (error) => {
-          console.error("Error fetching resources:", error);
-          resourcesList.innerHTML = "<li class='text-red-500'>Could not load resources. Please try again.</li>";
         });
-    }
 
-    // --- Core Authentication Logic ---
-    // Set Firebase persistence to local for consistent user sessions
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
-      .then(() => {
-        // Listen for authentication state changes
-        auth.onAuthStateChanged(async (user) => {
-          if (user) {
-            // User is signed in.
-            // Check if the user's document exists in this specific class collection.
-            const userDocRef = db.collection(CLASS_ID).doc(user.uid);
-            try {
-              const userDoc = await userDocRef.get();
-              if (userDoc.exists) {
-                // User document found for this class, proceed to show dashboard.
-                studentNameElement.innerText = userDoc.data().fullName || user.email;
-                welcomeMessageElement.classList.remove("hidden");
-                signOutBtn.classList.remove("hidden");
-                
-                // Fetch and display data
-                fetchLiveClassLink();
-                fetchResources();
-
-                container.classList.remove('hidden'); // Show the dashboard
-                loader.style.display = 'none'; // Hide the loader
-
-              } else {
-                // User is authenticated but their profile does not exist in this class collection.
-                // This means they tried to access a class page they are not registered for.
-                console.warn(`User ${user.uid} not found in ${CLASS_ID} collection. Redirecting.`);
-                await auth.signOut(); // Sign out the user
-                window.location.href = "index.html"; // Redirect to login page
-              }
-            } catch (error) {
-              console.error("Error checking user document:", error);
-              await auth.signOut(); // Sign out on error
-              window.location.href = "index.html"; // Redirect to login page
+        // Resources listener
+        db.collection(CLASS_ID).doc("resources").collection("items").orderBy("uploadedAt","desc")
+          .onSnapshot(snapshot => {
+            resourcesList.innerHTML = "";
+            if (snapshot.empty) {
+              resourcesList.innerHTML = "<li class='text-gray-500'>No resources yet.</li>";
+            } else {
+              snapshot.forEach(doc => {
+                const r = doc.data();
+                resourcesList.innerHTML += `<li><a href="${r.link}" target="_blank" class="resource-link">📘 ${r.title}</a></li>`;
+              });
             }
-          } else {
-            // No user is signed in. Redirect to the login page.
-            console.log("No user signed in. Redirecting to index.html");
-            window.location.href = "index.html";
-          }
-        });
-      })
-      .catch((error) => {
-        // Handle errors during persistence setting
-        console.error("Firebase Persistence Error:", error);
-        loader.innerHTML = `<p class="text-red-500">Error: Could not initialize session. Please try again.</p>`;
-        // After an error, ensure the user is redirected or sees an appropriate message.
-        setTimeout(() => {
-            window.location.href = "index.html";
-        }, 3000); // Redirect after 3 seconds
-      });
+          });
 
-    // Add event listener for the sign-out button
-    signOutBtn.addEventListener("click", handleSignOut);
+      } else {
+        window.location.href = "index.html";
+      }
+    });
+
+    signOutBtn.addEventListener("click", () => auth.signOut());
   </script>
 </body>
 </html>

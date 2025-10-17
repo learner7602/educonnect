@@ -1,846 +1,773 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>EduConnect - Your School Portal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduLearn - Your Online Classroom</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Jitsi Meet API for Live Classes -->
+    <script src='https://meet.jit.si/external_api.js'></script>
 
-    :root {
-      --primary-color: #4A90E2;
-      --secondary-color: #50E3C2;
-      --tertiary-color: #F5A623;
-      --background-color: #F8F9FA;
-      --card-background: #FFFFFF;
-      --text-color: #333333;
-      --light-text-color: #f4f4f4;
-      --link-hover-color: #3A72BB;
-    }
-    body {
-      font-family: 'Poppins', sans-serif;
-      background-color: var(--background-color);
-      margin: 0;
-      color: var(--text-color);
-      line-height: 1.6;
-    }
-    .container {
-      max-width: 1200px;
-      margin: auto;
-      padding: 0 20px;
-    }
-    header {
-      background-color: var(--primary-color);
-      color: white;
-      padding: 20px 0;
-      text-align: center;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-      position: relative;
-      z-index: 10;
-    }
-    .logo {
-      max-width: 80px;
-      margin-bottom: 10px;
-      border-radius: 50%;
-      border: 3px solid white;
-    }
-    h1 {
-      font-size: 2.5em;
-      font-weight: 700;
-      margin: 0;
-      color: white;
-    }
-    .tagline {
-      font-size: 1.2em;
-      opacity: 0.8;
-    }
-    nav {
-      background-color: var(--secondary-color);
-      text-align: center;
-      padding: 15px 0;
-      position: relative;
-      z-index: 9;
-    }
-    .nav-menu {
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      flex-wrap: wrap;
-    }
-    .nav-menu li {
-        position: relative;
-    }
-    .nav-menu li a {
-      color: var(--text-color);
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1em;
-      padding: 8px 15px;
-      border-radius: 5px;
-      transition: background-color 0.3s ease;
-      display: block;
-    }
-    .nav-menu li a:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-    }
-    .contact-dropdown-content {
-      display: none;
-      position: absolute;
-      background-color: var(--card-background);
-      min-width: 200px;
-      box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-      z-index: 1;
-      border-radius: 8px;
-      padding: 10px 0;
-      top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
-      margin-top: 10px;
-    }
-    .contact-dropdown-content a {
-      color: var(--text-color);
-      padding: 12px 16px;
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-weight: 500;
-      transition: background-color 0.2s ease, color 0.2s ease;
-    }
-    .contact-dropdown-content a:hover {
-      background-color: var(--primary-color);
-      color: white;
-    }
-    .contact-dropdown-content a svg {
-        fill: currentColor;
-    }
-    .contact-dropdown-content.show {
-      display: block;
-    }
-    .dashboard-section {
-      padding: 60px 0;
-    }
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-    }
-    .dashboard-card {
-      background-color: var(--card-background);
-      border-radius: 12px;
-      padding: 30px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
-      text-align: center;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .dashboard-card:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
-    }
-    .dashboard-card h3 {
-      font-size: 1.5em;
-      font-weight: 600;
-      color: var(--primary-color);
-      margin-top: 0;
-    }
-    .class-link-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      list-style-type: none;
-      padding: 0;
-    }
-    .quick-link-btn {
-      display: block;
-      background-color: var(--secondary-color);
-      color: var(--text-color);
-      padding: 15px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      width: 100%;
-      transition: background-color 0.3s ease;
-    }
-    .quick-link-btn:hover {
-      background-color: var(--link-hover-color);
-      color: white;
-    }
-    .testimonials-section {
-      background-color: var(--primary-color);
-      color: white;
-      padding: 60px 0;
-      text-align: center;
-      position: relative;
-    }
-    .testimonials-section h2 {
-      font-size: 2em;
-      font-weight: 700;
-      margin-bottom: 30px;
-    }
-    .teachers-carousel {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        position: relative;
-        overflow: hidden;
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    .teacher-card {
-      background-color: rgba(255, 255, 255, 0.15);
-      padding: 25px;
-      border-radius: 12px;
-      min-width: 90%;
-      box-sizing: border-box;
-      flex-shrink: 0;
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      transition: opacity 0.5s ease-in-out;
-    }
-    .teacher-card.active {
-        display: flex;
-        opacity: 1;
-    }
-    .teacher-photo {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 4px solid var(--secondary-color);
-      object-fit: cover;
-      margin-bottom: 15px;
-    }
-    .quote {
-      font-style: italic;
-      margin-bottom: 10px;
-    }
-    .teacher-name {
-      font-weight: 600;
-      color: var(--secondary-color);
-    }
-    .carousel-button {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: rgba(0, 0, 0, 0.3);
-        color: white;
-        border: none;
-        padding: 10px 15px;
-        font-size: 1.5rem;
-        cursor: pointer;
-        border-radius: 50%;
-        transition: background-color 0.3s ease;
-        z-index: 2;
-    }
-    .carousel-button:hover {
-        background-color: rgba(0, 0, 0, 0.6);
-    }
-    .carousel-button.prev {
-        left: 10px;
-    }
-    .carousel-button.next {
-        right: 10px;
-    }
-    .form-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.5);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-    }
-    .form-container {
-      background-color: white;
-      padding: 2rem;
-      border-radius: 0.75rem;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-      max-width: 450px;
-      width: 100%;
-      margin: 1rem;
-      position: relative;
-    }
-    .form-close-button {
-      position: absolute;
-      top: 1rem;
-      right: 1rem;
-      background: none;
-      border: none;
-      font-size: 1.5rem;
-      cursor: pointer;
-      color: #718096;
-    }
-    .form-close-button:hover {
-      color: #2d3748;
-    }
-    input[type="email"],
-    input[type="password"],
-    input[type="text"],
-    input[type="tel"],
-    textarea,
-    select {
-      padding: 0.75rem 1rem;
-      border: 1px solid #e2e8f0;
-      border-radius: 0.5rem;
-      width: 100%;
-      box-sizing: border-box;
-      margin-bottom: 1rem;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      background-color: white;
-    }
-    input[type="email"]:focus,
-    input[type="password"]:focus,
-    input[type="text"]:focus,
-    input[type="tel"]:focus,
-    textarea:focus,
-    select:focus {
-      outline: none;
-      border-color: #4299e1;
-      box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
-    }
-    button[type="submit"] {
-      padding: 0.75rem 1.5rem;
-      border-radius: 0.5rem;
-      font-weight: 600;
-      cursor: pointer;
-      width: 100%;
-      transition: background-color 0.3s ease;
-    }
-    .btn-green {
-      background-color: #38a169;
-      color: white;
-    }
-    .btn-green:hover {
-      background-color: #2f855a;
-    }
-    .btn-blue {
-      background-color: #4299e1;
-      color: white;
-    }
-    .btn-blue:hover {
-      background-color: #3182ce;
-    }
-    .message {
-      margin-top: 1rem;
-      text-align: center;
-      font-weight: 500;
-    }
-    .message.error {
-      color: #e53e3e;
-    }
-    .message.success {
-      color: #38a169;
-    }
-    .toggle-link {
-      color: #4299e1;
-      text-decoration: none;
-      font-weight: 500;
-      transition: color 0.3s ease;
-    }
-    .toggle-link:hover {
-      color: #3182ce;
-      text-decoration: underline;
-    }
-    .hidden {
-      display: none !important;
-    }
-    .question-list-item {
-      background-color: #f0f4f8;
-      padding: 1rem;
-      border-radius: 0.5rem;
-      margin-bottom: 0.75rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-      text-align: left;
-    }
-    .question-list-item p {
-      margin-bottom: 0.25rem;
-    }
-    .question-list-item strong {
-      color: #2c5282;
-    }
-    .question-list-item .question-text {
-      margin-top: 0.5rem;
-      font-style: italic;
-      color: #4a5568;
-    }
-    .no-questions-message {
-        text-align: center;
-        color: #718096;
-        padding: 2rem;
-        font-size: 1.1em;
-    }
-    @media (max-width: 768px) {
-      .nav-menu {
-        flex-direction: column;
-        gap: 10px;
-      }
-      .nav-menu li {
-        width: 100%;
-      }
-      .nav-menu li a {
-        padding: 10px;
-      }
-      .contact-dropdown-content {
-        position: static;
-        transform: none;
-        box-shadow: none;
-        border-radius: 0;
-        margin-top: 0;
-        min-width: unset;
-        width: 100%;
-      }
-    }
-  </style>
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .view {
+            display: none;
+        }
+        .active-view {
+            display: block;
+        }
+        /* Simple transition for view changes */
+        .view-transition {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+    </style>
 </head>
-<body>
+<body class="antialiased text-slate-800">
 
-  <header>
-    <div class="container">
-      <img src="logo.jpeg" alt="School Logo" class="logo">
-      <h1>EduConnect</h1>
-      <p class="tagline">Connecting Minds, Building Futures</p>
-    </div>
-  </header>
+    <!-- Main Container -->
+    <div id="app-container" class="min-h-screen">
 
-  <nav>
-    <ul class="nav-menu">
-      <li><a href="#dashboard">Dashboard</a></li>
-      <li><a href="#about">About Us</a></li>
-      <li><a href="#teachers" id="teachers-nav-link">Teachers</a></li>
-      <li class="relative group">
-        <a href="#" id="contact-us-link">Contact Us</a>
-        <div id="contact-dropdown" class="contact-dropdown-content">
-          <a href="mailto:learner.studenthub@gmail.com">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            learner.studenthub@gmail.com
-          </a>
-          <a href="https://www.facebook.com/dummy_page" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M19 0H5C2.243 0 0 2.243 0 5v14c0 2.757 2.243 5 5 5h14c2.757 0 5-2.243 5-5V5c0-2.757-2.243-5-5-5zm-3 7h-2v2h2v3h-2v7h-3v-7h-2V9h2V7h-2V5h4v2z"/></svg>
-            Facebook
-          </a>
-          <a href="https://www.instagram.com/dummy_page" target="_blank">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="20" height="20"><path d="M12 2.163c3.204 0 3.584.012 4.85.07c3.252.148 4.674 1.625 4.823 4.85.058 1.265.069 1.645.069 4.85 0 3.204-.012 3.584-.07 4.85-0.148 3.252-1.625 4.674-4.85 4.823-1.265.058-1.645.069-4.85.069-3.204 0-3.584-.012-4.85-.07-3.252-0.148-4.674-1.625-4.823-4.85-0.058-1.265-0.069-1.645-0.069-4.85 0-3.204.012-3.584.07-4.85 0.148-3.252 1.625-4.674 4.85-4.823 1.265-0.058 1.645-0.069 4.85-0.069zm0 0.99C8.75 3.153 8.36 3.165 7.095 3.223c-2.784.126-3.876 1.157-3.999 3.999-0.058 1.265-0.07 1.655-0.07 4.85 0 3.195.012 3.584.07 4.85 0.126 2.784 1.157 3.876 3.999 3.999 1.265.058 1.655.07 4.85.07s3.584-.012 4.85-.07c2.784-0.126 3.876-1.157 3.999-3.999 0.058-1.265 0.07-1.655 0.07-4.85 0-3.195-.012-3.584-.07-4.85-0.126-2.784-1.157-3.876-3.999-3.999-1.265-0.058-1.655-0.07-4.85-0.07zM12 6.818c-2.85 0-5.182 2.332-5.182 5.182s2.332 5.182 5.182 5.182 5.182-2.332 5.182-5.182-2.332-5.182-5.182-5.182zm0 1.99c1.766 0 3.192 1.426 3.192 3.192s-1.426 3.192-3.192 3.192-3.192-1.426-3.192-3.192 1.426-3.192 3.192-3.192zM18.435 5.53a1.202 1.202 0 1 1 0 2.404 1.202 1.202 0 0 1 0-2.404z"/></svg>
-            Instagram
-          </a>
-        </div>
-      </li>
-      <li><a href="#submit" id="submit-questions-nav-link">Submit Questions</a></li>
-      <li><a href="#" id="login-nav-link" style="background-color: var(--primary-color); color: white; font-weight: 700;">Login / Sign Up</a></li>
-    </ul>
-  </nav>
-
-  <section class="dashboard-section" id="dashboard">
-    <div class="container">
-      <h2>Student Dashboard</h2>
-      <div class="dashboard-grid">
-        <div class="dashboard-card">
-          <h3>Student Portal</h3>
-          <p>Please use the "Login / Sign Up" button in the navigation bar to access your class materials and dashboard.</p>
-        </div>
-        <div class="dashboard-card">
-          <h3>Quick Links</h3>
-          <ul class="class-link-grid">
-            <li><a href="#" class="quick-link-btn" id="quick-contact-us-link">Contact Us</a></li>
-            <li><a href="#teachers" class="quick-link-btn">Teachers</a></li>
-            <li><a href="#" class="quick-link-btn" id="quick-submit-questions-link">Submit Questions</a></li>
-            <li><a href="#" class="quick-link-btn" id="view-submitted-questions-link">View Submitted Questions</a></li>
-            <li><a href="#" class="quick-link-btn">Resources</a></li>
-            <li><a href="#" class="quick-link-btn">Events</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="testimonials-section" id="teachers">
-    <div class="container">
-      <h2>Meet Our Educators</h2>
-      <div class="teachers-carousel">
-        <button class="carousel-button prev" id="prevTeacher">&larr;</button>
-        <div class="teacher-card" id="teacher-card-container">
-        </div>
-        <button class="carousel-button next" id="nextTeacher">&rarr;</button>
-      </div>
-    </div>
-  </section>
-
-  <div id="signin-overlay" class="hidden form-overlay">
-    <div id="signin-form-container" class="form-container">
-      <button class="form-close-button" id="close-signin-form">&times;</button>
-      <h3 class="text-xl font-bold mb-6 text-center">Sign In</h3>
-      <form id="signin-form">
-        <input type="email" id="signin-email" placeholder="Enter your email" required>
-        <input type="password" id="signin-password" placeholder="Enter your password" required>
-        <button type="submit" class="btn-green">Sign In</button>
-      </form>
-      <p id="signin-message" class="message error"></p>
-      <p class="mt-4 text-center text-sm">Don’t have an account?
-        <a href="#" id="show-signup" class="toggle-.link">Sign Up</a>
-      </p>
-    </div>
-  </div>
-
-  <div id="signup-overlay" class="hidden form-overlay">
-    <div id="signup-form-container" class="form-container">
-      <button class="form-close-button" id="close-signup-form">&times;</button>
-      <h3 class="text-xl font-bold mb-6 text-center">Sign Up</h3>
-      <form id="signup-form">
-        <input type="text" id="signup-name" placeholder="Enter your full name" required>
-        <input type="text" id="signup-father" placeholder="Enter your father's name" required>
-        <input type="text" id="signup-school" placeholder="Enter your school name" required>
+        <!-- Header -->
+        <header class="bg-white shadow-md sticky top-0 z-50">
+            <nav class="container mx-auto px-6 py-4 flex justify-between items-center">
+                <a href="#" class="text-2xl font-bold text-indigo-600">
+                    <i class="fas fa-book-open-reader mr-2"></i>EduLearn
+                </a>
+                <div>
+                    <button id="sign-in-nav-btn" class="bg-indigo-600 text-white font-semibold px-4 py-2 rounded-lg hover:bg-indigo-700 transition duration-300">
+                        Sign In
+                    </button>
+                    <button id="logout-btn" class="hidden bg-red-500 text-white font-semibold px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300">
+                        Logout
+                    </button>
+                </div>
+            </nav>
+        </header>
         
-        <label for="signup-class-select" class="block text-sm font-medium text-gray-700 mb-1">Select Your Class</label>
-        <select id="signup-class-select" required>
-            <option value="" disabled selected>-- Choose your class --</option>
-            <option value="v">Class V</option>
-            <option value="vi">Class VI</option>
-            <option value="vii">Class VII</option>
-            <option value="viii">Class VIII</option>
-            <option value="ix">Class IX</option>
-            <option value="x">Class X</option>
-            <option value="xi">Class XI</option>
-            <option value="xii">Class XII</option>
-        </select>
+        <!-- Loading Spinner -->
+        <div id="loading-spinner" class="fixed inset-0 bg-white bg-opacity-75 z-50 flex items-center justify-center hidden">
+            <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-indigo-600"></div>
+        </div>
 
-        <input type="text" id="signup-address" placeholder="Enter your address" required>
-        <input type="tel" id="signup-phone" placeholder="Enter your mobile number" required>
-        <input type="email" id="signup-email" placeholder="Enter your email" required>
-        <input type="password" id="signup-password" placeholder="Create a password" required>
-        <button type="submit" class="btn-blue">Sign Up</button>
-      </form>
-      <p id="signup-message" class="message error"></p>
-      <p class="mt-4 text-center text-sm">Already have an account?
-        <a href="#" id="back-to-signin" class="toggle-link">Sign In</a>
-      </p>
-    </div>
-  </div>
 
-  <div id="submit-questions-overlay" class="hidden form-overlay">
-    <div id="submit-questions-form-container" class="form-container">
-      <button class="form-close-button" id="close-submit-questions-form">&times;</button>
-      <h3 class="text-xl font-bold mb-6 text-center">Submit Your Question</h3>
-      <form id="submit-question-form">
-        <label for="whatsapp-number" class="block text-sm font-medium text-gray-700 mb-1">WhatsApp Number</label>
-        <input type="tel" id="whatsapp-number" placeholder="e.g., +91 9876543210" class="mb-4" required>
+        <!-- ===== VIEWS ===== -->
 
-        <label for="question-name" class="block text-sm font-medium text-gray-700 mb-1">Your Name</label>
-        <input type="text" id="question-name" placeholder="Your Name" class="mb-4" required>
+        <!-- Home/Public Dashboard View -->
+        <main id="home-view" class="view active-view p-4 md:p-8">
+            <div class="container mx-auto">
+                <div class="bg-white rounded-xl shadow-lg p-8 mb-8 text-center">
+                    <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">Welcome to Your Digital Classroom</h1>
+                    <p class="text-lg text-gray-600 mb-6 max-w-2xl mx-auto">Empowering students and teachers with the tools for modern, collaborative learning.</p>
+                    <blockquote class="border-l-4 border-indigo-500 pl-4 italic text-gray-500">
+                        "The beautiful thing about learning is that nobody can take it away from you." – B.B. King
+                    </blockquote>
+                </div>
 
-        <label for="your-question" class="block text-sm font-medium text-gray-700 mb-1">Your Question</label>
-        <textarea id="your-question" rows="5" placeholder="Write your question here..." class="mb-4" required></textarea>
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <!-- Cards -->
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                        <i class="fas fa-address-book text-3xl text-indigo-500 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2">Contacts</h3>
+                        <p class="text-gray-600">Get in touch with our administration and support staff.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                        <i class="fas fa-life-ring text-3xl text-green-500 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2">Help & Support</h3>
+                        <p class="text-gray-600">Find answers to your questions and technical support.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                        <i class="fas fa-users text-3xl text-blue-500 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2">Our Teachers</h3>
+                        <p class="text-gray-600">Meet our team of dedicated and experienced educators.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+                        <i class="fas fa-puzzle-piece text-3xl text-yellow-500 mb-4"></i>
+                        <h3 class="font-bold text-xl mb-2">Demo Quizzes</h3>
+                        <p class="text-gray-600">Try out some sample quizzes to test your knowledge.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
         
-        <button type="submit" class="btn-green">Submit Question</button>
-      </form>
-      <p id="submit-question-message" class="message error"></p>
-    </div>
-  </div>
+        <!-- Auth Modal -->
+        <div id="auth-modal" class="hidden fixed inset-0 bg-gray-900 bg-opacity-60 flex items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md relative view-transition">
+                <button id="close-auth-modal" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 text-2xl">&times;</button>
+                
+                <!-- Sign In Form -->
+                <div id="sign-in-form-container" class="p-8">
+                    <h2 class="text-3xl font-bold text-center mb-6">Sign In</h2>
+                    <form id="sign-in-form">
+                        <div class="mb-4">
+                            <label for="signin-email" class="block text-gray-700 font-semibold mb-2">Email</label>
+                            <input type="email" id="signin-email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="signin-password" class="block text-gray-700 font-semibold mb-2">Password</label>
+                            <input type="password" id="signin-password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition duration-300">Sign In</button>
+                    </form>
+                    <div class="my-4 text-center text-gray-500">OR</div>
+                    <button id="google-signin-btn" class="w-full bg-white border border-gray-300 text-gray-700 font-bold py-3 rounded-lg hover:bg-gray-100 transition duration-300 flex items-center justify-center">
+                        <i class="fab fa-google mr-2"></i> Sign In with Google
+                    </button>
+                    <p class="mt-6 text-center">Don't have an account? <a href="#" id="show-register-form" class="text-indigo-600 hover:underline font-semibold">Register now</a></p>
+                </div>
 
-  <div id="view-questions-overlay" class="hidden form-overlay">
-    <div id="view-questions-container" class="form-container" style="max-width: 600px;">
-      <button class="form-close-button" id="close-view-questions-form">&times;</button>
-      <h3 class="text-xl font-bold mb-6 text-center">Submitted Questions</h3>
-      <div id="questions-list" class="space-y-4">
-        <p class="no-questions-message">Loading questions...</p>
-      </div>
-    </div>
-  </div>
+                <!-- Register Form -->
+                <div id="register-form-container" class="p-8 hidden">
+                    <h2 class="text-3xl font-bold text-center mb-6">Register as a Student</h2>
+                    <form id="register-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="md:col-span-2">
+                             <label for="register-name" class="block text-gray-700 font-semibold mb-1 text-sm">Student's Name</label>
+                            <input type="text" id="register-name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                         <div>
+                            <label for="register-father-name" class="block text-gray-700 font-semibold mb-1 text-sm">Father's Name</label>
+                            <input type="text" id="register-father-name" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="register-contact" class="block text-gray-700 font-semibold mb-1 text-sm">Contact No.</label>
+                            <input type="tel" id="register-contact" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="register-address" class="block text-gray-700 font-semibold mb-1 text-sm">Address</label>
+                            <input type="text" id="register-address" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="register-zip" class="block text-gray-700 font-semibold mb-1 text-sm">ZIP Code</label>
+                            <input type="text" id="register-zip" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="register-school" class="block text-gray-700 font-semibold mb-1 text-sm">School</label>
+                            <input type="text" id="register-school" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div>
+                            <label for="register-class" class="block text-gray-700 font-semibold mb-1 text-sm">Class</label>
+                            <select id="register-class" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white" required>
+                                <option value="V">Class - V</option>
+                                <option value="VI">Class - VI</option>
+                                <option value="VII">Class - VII</option>
+                                <option value="VIII">Class - VIII</option>
+                                <option value="IX">Class - IX</option>
+                                <option value="X">Class - X</option>
+                                <option value="XI">Class - XI</option>
+                                <option value="XII">Class - XII</option>
+                            </select>
+                        </div>
+                        <div class="md:col-span-2">
+                             <label for="register-email" class="block text-gray-700 font-semibold mb-1 text-sm">Email</label>
+                            <input type="email" id="register-email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                         <div class="md:col-span-2">
+                            <label for="register-password" class="block text-gray-700 font-semibold mb-1 text-sm">Password</label>
+                            <input type="password" id="register-password" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                        </div>
+                        <div class="md:col-span-2">
+                           <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition duration-300">Register</button>
+                        </div>
+                    </form>
+                    <p class="mt-6 text-center">Already have an account? <a href="#" id="show-signin-form" class="text-indigo-600 hover:underline font-semibold">Sign In</a></p>
+                </div>
+            </div>
+        </div>
 
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
+        <!-- Student Dashboard View -->
+        <div id="student-dashboard-view" class="view p-4 md:p-8">
+            <div class="container mx-auto">
+                <h1 class="text-3xl font-bold mb-2">Welcome, <span id="student-name"></span>!</h1>
+                <p class="text-lg text-gray-600 mb-6">You are in <span id="student-class" class="font-semibold"></span>. Here's your dashboard.</p>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Live Class Section -->
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">Live Class</h2>
+                        <div id="class-status" class="mb-4 p-4 rounded-lg text-center">
+                            <!-- Status updated by JS -->
+                        </div>
+                        <button id="join-class-btn" class="w-full bg-green-500 text-white font-bold py-3 rounded-lg hover:bg-green-600 transition duration-300 disabled:bg-gray-400 disabled:cursor-not-allowed" disabled>
+                            <i class="fas fa-video mr-2"></i> Join Class
+                        </button>
+                        <div id="jitsi-container-student" class="mt-4 w-full h-96 rounded-lg overflow-hidden hidden"></div>
+                         <button id="leave-class-btn-student" class="hidden w-full mt-4 bg-red-500 text-white font-bold py-3 rounded-lg hover:bg-red-600 transition duration-300">
+                            Leave Class
+                        </button>
+                    </div>
+
+                    <!-- Resources Section -->
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">Class Resources</h2>
+                        <div id="resources-list" class="space-y-3 max-h-96 overflow-y-auto">
+                            <!-- Resources will be populated by JS -->
+                             <p class="text-center text-gray-500">No resources available yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Teacher Dashboard View -->
+        <div id="teacher-dashboard-view" class="view p-4 md:p-8">
+            <div class="container mx-auto">
+                <h1 class="text-3xl font-bold mb-6">Teacher Dashboard</h1>
+                 <p class="text-lg text-gray-600 mb-6">Welcome, <span id="teacher-name" class="font-semibold"></span>! Select a class to manage.</p>
+                <div id="teacher-class-grid" class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                    <!-- Class cards will be populated by JS -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Teacher Class Management View -->
+        <div id="teacher-class-management-view" class="view p-4 md:p-8">
+             <div class="container mx-auto">
+                <button id="back-to-teacher-dashboard" class="mb-6 bg-gray-200 text-gray-800 font-semibold px-4 py-2 rounded-lg hover:bg-gray-300 transition">
+                    <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+                </button>
+                <h1 class="text-3xl font-bold mb-6">Manage <span id="manage-class-name" class="text-indigo-600"></span></h1>
+                
+                 <div class="grid md:grid-cols-2 gap-8">
+                    <!-- Live Class Control -->
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">Live Class Control</h2>
+                        <button id="start-class-btn" class="w-full bg-blue-500 text-white font-bold py-3 rounded-lg hover:bg-blue-600 transition duration-300">
+                           <i class="fas fa-play-circle mr-2"></i> Start Class
+                        </button>
+                         <button id="end-class-btn" class="hidden w-full bg-red-500 text-white font-bold py-3 rounded-lg hover:bg-red-600 transition duration-300">
+                           <i class="fas fa-stop-circle mr-2"></i> End Class
+                        </button>
+                        <div id="jitsi-container-teacher" class="mt-4 w-full h-96 rounded-lg overflow-hidden hidden"></div>
+                    </div>
+
+                    <!-- Manage Resources -->
+                    <div class="bg-white rounded-xl shadow-lg p-6">
+                        <h2 class="text-2xl font-bold mb-4">Manage Resources</h2>
+                        <form id="resource-upload-form" class="mb-6 space-y-4">
+                            <div>
+                                <label for="resource-title" class="block text-gray-700 font-semibold mb-1 text-sm">Resource Title</label>
+                                <input type="text" id="resource-title" placeholder="e.g., Chapter 5 Notes" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                            </div>
+                            <div>
+                                <label for="resource-link" class="block text-gray-700 font-semibold mb-1 text-sm">Google Drive Link</label>
+                                <input type="url" id="resource-link" placeholder="https://docs.google.com/..." class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+                            </div>
+                            <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-3 rounded-lg hover:bg-indigo-700 transition">
+                                <i class="fas fa-upload mr-2"></i> Upload Resource
+                            </button>
+                        </form>
+                        <h3 class="font-bold text-lg mb-2">Uploaded Resources</h3>
+                        <div id="teacher-resources-list" class="space-y-3 max-h-60 overflow-y-auto">
+                            <p class="text-center text-gray-500">No resources uploaded yet.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { 
+            getAuth, 
+            onAuthStateChanged, 
+            createUserWithEmailAndPassword, 
+            signInWithEmailAndPassword,
+            signInWithPopup,
+            GoogleAuthProvider,
+            signOut
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { 
+            getFirestore, 
+            doc, 
+            setDoc, 
+            getDoc,
+            collection,
+            addDoc,
+            query,
+            onSnapshot,
+            serverTimestamp,
+            deleteDoc
+        } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // --- PLACEHOLDER for Firebase Configuration ---
         const firebaseConfig = {
             apiKey: "AIzaSyApjKA34mwvz_gWH9V0RY4wHbmMEP6oqRg",
             authDomain: "educonnectapp-ae08d.firebaseapp.com",
             projectId: "educonnectapp-ae08d",
-            storageBucket: "educonnectapp-ae08d.appspot.com",
+            storageBucket: "educonnectapp-ae08d.firebasestorage.app",
             messagingSenderId: "10974354104",
             appId: "1:10974354104:web:228ca789dfb241f43ff24d"
         };
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-
-        const signinMessageElement = document.getElementById('signin-message');
-        const signupMessageElement = document.getElementById('signup-message');
-        const signinOverlay = document.getElementById('signin-overlay');
-        const signupOverlay = document.getElementById('signup-overlay');
-        const submitQuestionsOverlay = document.getElementById('submit-questions-overlay');
-        const submitQuestionMessageElement = document.getElementById('submit-question-message');
-        const viewQuestionsOverlay = document.getElementById('view-questions-overlay');
-        const questionsListDiv = document.getElementById('questions-list');
-        const contactDropdown = document.getElementById('contact-dropdown');
-
-        function displayMessage(element, message, isError = true) {
-            element.textContent = message;
-            element.classList.toggle('error', isError);
-            element.classList.toggle('success', !isError);
-        }
-
-        function hideAllOverlays() {
-            signinOverlay.classList.add('hidden');
-            signupOverlay.classList.add('hidden');
-            submitQuestionsOverlay.classList.add('hidden');
-            viewQuestionsOverlay.classList.add('hidden');
-            contactDropdown.classList.remove('show');
-        }
-
-        const contactUsLink = document.getElementById('contact-us-link');
-        const quickContactUsLink = document.getElementById('quick-contact-us-link');
-
-        function toggleContactDropdown(e) {
-            e.preventDefault();
-            const isShowing = contactDropdown.classList.contains('show');
-            hideAllOverlays();
-            if (!isShowing) {
-                contactDropdown.classList.add('show');
-            }
-        }
-
-        contactUsLink.addEventListener('click', toggleContactDropdown);
-        quickContactUsLink.addEventListener('click', toggleContactDropdown);
-
-        window.addEventListener('click', (e) => {
-            if (!contactUsLink.contains(e.target) && !quickContactUsLink.contains(e.target) && !contactDropdown.contains(e.target)) {
-                contactDropdown.classList.remove('show');
-            }
-        });
-
-        const teachers = [
-            { name: "Mr. Biswajit Maity, English Teacher", quote: "Education is not the filling of a pail, but the lighting of a fire.", photo: "teacher1.jpeg" },
-            { name: "Mr. Sumit Das, Science Teacher", quote: "The beautiful thing about learning is that no one can take it away from you.", photo: "teacher2.jpeg" },
-            { name: "Ms. Susmita Roy, Math Teacher", quote: "Mathematics is the language in which God has written the universe.", photo: "teacher3.jpeg" },
-            { name: "Dr. Alok Kumar, History Teacher", quote: "Those who do not learn history are doomed to repeat it.", photo: "https://placehold.co/100x100/3A72BB/FFFFFF?text=AK" }
-        ];
-
-        let currentTeacherIndex = 0;
-        const teacherCardContainer = document.getElementById('teacher-card-container');
         
-        function showTeacher(index) {
-            teacherCardContainer.style.opacity = '0';
-            setTimeout(() => {
-                const teacher = teachers[index];
-                teacherCardContainer.innerHTML = `
-                    <img src="${teacher.photo}" alt="${teacher.name}" class="teacher-photo" onerror="this.onerror=null;this.src='https://placehold.co/100x100/cccccc/ffffff?text=Img';">
-                    <p class="quote">"${teacher.quote}"</p>
-                    <p class="teacher-name">- ${teacher.name}</p>
-                `;
-                teacherCardContainer.classList.add('active');
-                teacherCardContainer.style.opacity = '1';
-            }, 300);
-        }
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
 
-        document.getElementById('prevTeacher').addEventListener('click', () => {
-            currentTeacherIndex = (currentTeacherIndex - 1 + teachers.length) % teachers.length;
-            showTeacher(currentTeacherIndex);
-        });
+        // Global state
+        let currentUser = null;
+        let userData = null;
+        let currentClassUnsubscribe = null;
+        let currentResourcesUnsubscribe = null;
+        let jitsiApi = null;
+        let currentManagedClass = null;
 
-        document.getElementById('nextTeacher').addEventListener('click', () => {
-            currentTeacherIndex = (currentTeacherIndex + 1) % teachers.length;
-            showTeacher(currentTeacherIndex);
-        });
+        // DOM Elements
+        const views = document.querySelectorAll('.view');
+        const homeView = document.getElementById('home-view');
+        const authModal = document.getElementById('auth-modal');
+        const studentDashboardView = document.getElementById('student-dashboard-view');
+        const teacherDashboardView = document.getElementById('teacher-dashboard-view');
+        const teacherClassManagementView = document.getElementById('teacher-class-management-view');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        const signInNavBtn = document.getElementById('sign-in-nav-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const closeAuthModalBtn = document.getElementById('close-auth-modal');
+        const showRegisterFormBtn = document.getElementById('show-register-form');
+        const showSigninFormBtn = document.getElementById('show-signin-form');
+
+        const signInForm = document.getElementById('sign-in-form');
+        const registerForm = document.getElementById('register-form');
+        const googleSignInBtn = document.getElementById('google-signin-btn');
         
-        if(teacherCardContainer) showTeacher(currentTeacherIndex);
+        const signInFormContainer = document.getElementById('sign-in-form-container');
+        const registerFormContainer = document.getElementById('register-form-container');
 
-        document.getElementById('teachers-nav-link').addEventListener('click', (e) => {
-            e.preventDefault();
-            document.getElementById('teachers').scrollIntoView({ behavior: 'smooth' });
-            hideAllOverlays();
-        });
-
-        const submitQuestionForm = document.getElementById('submit-question-form');
-
-        function showSubmitQuestionsForm(e) {
-            e.preventDefault();
-            hideAllOverlays();
-            submitQuestionsOverlay.classList.remove('hidden');
-            displayMessage(submitQuestionMessageElement, '');
-        }
-
-        document.getElementById('submit-questions-nav-link').addEventListener('click', showSubmitQuestionsForm);
-        document.getElementById('quick-submit-questions-link').addEventListener('click', showSubmitQuestionsForm);
-
-        document.getElementById('close-submit-questions-form').addEventListener('click', () => {
-            submitQuestionsOverlay.classList.add('hidden');
-            submitQuestionForm.reset();
-        });
-
-        submitQuestionForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const whatsappNumber = document.getElementById('whatsapp-number').value;
-            const questionName = document.getElementById('question-name').value;
-            const yourQuestion = document.getElementById('your-question').value;
-
-            displayMessage(submitQuestionMessageElement, 'Submitting...', false);
-
-            try {
-                await db.collection("submittedQuestions").add({
-                    whatsappNumber,
-                    name: questionName,
-                    question: yourQuestion,
-                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
-                });
-                displayMessage(submitQuestionMessageElement, 'Submitted successfully!', false);
-                setTimeout(() => {
-                    submitQuestionsOverlay.classList.add('hidden');
-                    submitQuestionForm.reset();
-                }, 1500);
-            } catch (error) {
-                console.error("Error submitting question:", error);
-                displayMessage(submitQuestionMessageElement, `Error: ${error.message}`);
+        // --- UI HELPER FUNCTIONS ---
+        
+        const showSpinner = () => loadingSpinner.classList.remove('hidden');
+        const hideSpinner = () => loadingSpinner.classList.add('hidden');
+        
+        const showView = (viewId) => {
+            views.forEach(view => view.classList.remove('active-view', 'view-transition'));
+            const viewToShow = document.getElementById(viewId);
+            if(viewToShow) {
+                viewToShow.classList.add('active-view', 'view-transition');
             }
-        });
+        };
 
-        async function fetchAndDisplayQuestions() {
-            questionsListDiv.innerHTML = '<p class="no-questions-message">Loading...</p>';
-            try {
-                const querySnapshot = await db.collection("submittedQuestions").orderBy("timestamp", "desc").get();
-                if (querySnapshot.empty) {
-                    questionsListDiv.innerHTML = '<p class="no-questions-message">No questions submitted yet.</p>';
-                    return;
+        const showAlert = (message, isError = false) => {
+            // A simple alert for demonstration. In a real app, use a modal.
+            alert(message);
+        };
+
+        // --- AUTHENTICATION ---
+
+        onAuthStateChanged(auth, async (user) => {
+            showSpinner();
+            if (user) {
+                currentUser = user;
+                const userDoc = await getDoc(doc(db, "users", user.uid));
+                if (userDoc.exists()) {
+                    userData = userDoc.data();
+                    updateUIForUser();
+                } else {
+                    // This case handles Google sign-in for the first time
+                    // We assume new google signups are students
+                    userData = {
+                        email: user.email,
+                        name: user.displayName,
+                        role: 'student', // Default role
+                        class: 'V' // Default class, should be prompted to update
+                    };
+                    await setDoc(doc(db, "users", user.uid), userData);
+                    showAlert("Welcome! Please update your profile with your class information.", false);
+                    updateUIForUser();
                 }
-                questionsListDiv.innerHTML = '';
-                querySnapshot.forEach((doc) => {
-                    const data = doc.data();
-                    const timestamp = data.timestamp ? data.timestamp.toDate().toLocaleString() : 'N/A';
-                    const item = document.createElement('div');
-                    item.className = 'question-list-item';
-                    item.innerHTML = `
-                        <p><strong>Name:</strong> ${data.name || 'N/A'}</p>
-                        <p><strong>WhatsApp:</strong> ${data.whatsappNumber || 'N/A'}</p>
-                        <p><strong>Submitted:</strong> ${timestamp}</p>
-                        <p class="question-text">"${data.question || 'N/A'}"</p>
-                    `;
-                    questionsListDiv.appendChild(item);
-                });
-            } catch (error) {
-                console.error("Error fetching questions:", error);
-                questionsListDiv.innerHTML = `<p class="no-questions-message error">Could not load questions.</p>`;
+            } else {
+                currentUser = null;
+                userData = null;
+                updateUIForUser();
             }
-        }
-
-        document.getElementById('view-submitted-questions-link').addEventListener('click', (e) => {
-            e.preventDefault();
-            hideAllOverlays();
-            viewQuestionsOverlay.classList.remove('hidden');
-            fetchAndDisplayQuestions();
+            hideSpinner();
         });
 
-        document.getElementById('close-view-questions-form').addEventListener('click', () => {
-            viewQuestionsOverlay.classList.add('hidden');
+        const updateUIForUser = () => {
+            if (currentUser && userData) {
+                signInNavBtn.classList.add('hidden');
+                logoutBtn.classList.remove('hidden');
+                authModal.classList.add('hidden');
+
+                if (userData.role === 'student') {
+                    showView('student-dashboard-view');
+                    setupStudentDashboard();
+                } else if (userData.role === 'teacher') {
+                    showView('teacher-dashboard-view');
+                    setupTeacherDashboard();
+                }
+            } else {
+                signInNavBtn.classList.remove('hidden');
+                logoutBtn.classList.add('hidden');
+                showView('home-view');
+                if (currentClassUnsubscribe) currentClassUnsubscribe();
+                if (currentResourcesUnsubscribe) currentResourcesUnsubscribe();
+            }
+        };
+        
+        // Sign In/Up/Out Logic
+        signInForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showSpinner();
+            const email = signInForm['signin-email'].value;
+            const password = signInForm['signin-password'].value;
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+            } catch (error) {
+                showAlert(`Error: ${error.message}`, true);
+            } finally {
+                hideSpinner();
+            }
         });
 
-        document.getElementById('login-nav-link').addEventListener('click', (e) => {
+        googleSignInBtn.addEventListener('click', async () => {
+            showSpinner();
+            try {
+                const provider = new GoogleAuthProvider();
+                await signInWithPopup(auth, provider);
+            } catch (error) {
+                showAlert(`Error: ${error.message}`, true);
+            } finally {
+                hideSpinner();
+            }
+        });
+
+        registerForm.addEventListener('submit', async (e) => {
             e.preventDefault();
-            hideAllOverlays();
-            signinOverlay.classList.remove('hidden');
-            displayMessage(signinMessageElement, '');
+            showSpinner();
+            const email = registerForm['register-email'].value;
+            const password = registerForm['register-password'].value;
+            const studentData = {
+                name: registerForm['register-name'].value,
+                fatherName: registerForm['register-father-name'].value,
+                address: registerForm['register-address'].value,
+                contact: registerForm['register-contact'].value,
+                zip: registerForm['register-zip'].value,
+                school: registerForm['register-school'].value,
+                class: registerForm['register-class'].value,
+                role: 'student',
+                email: email
+            };
+
+            try {
+                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+                await setDoc(doc(db, "users", userCredential.user.uid), studentData);
+                showAlert("Registration successful!", false);
+            } catch (error) {
+                showAlert(`Error: ${error.message}`, true);
+            } finally {
+                hideSpinner();
+            }
+        });
+
+        logoutBtn.addEventListener('click', async () => {
+            showSpinner();
+            if (jitsiApi) {
+                jitsiApi.dispose();
+                jitsiApi = null;
+            }
+            await signOut(auth);
+            hideSpinner();
+        });
+
+        // Auth Modal UI
+        signInNavBtn.addEventListener('click', () => authModal.classList.remove('hidden'));
+        closeAuthModalBtn.addEventListener('click', () => authModal.classList.add('hidden'));
+        showRegisterFormBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            signInFormContainer.classList.add('hidden');
+            registerFormContainer.classList.remove('hidden');
+        });
+        showSigninFormBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            registerFormContainer.classList.add('hidden');
+            signInFormContainer.classList.remove('hidden');
         });
         
-        document.getElementById('close-signin-form').addEventListener('click', () => {
-            signinOverlay.classList.add('hidden');
-            document.getElementById('signin-form').reset();
-        });
-        document.getElementById('close-signup-form').addEventListener('click', () => {
-            signupOverlay.classList.add('hidden');
-            document.getElementById('signup-form').reset();
-        });
+        // --- STUDENT DASHBOARD ---
 
-        document.getElementById('show-signup').addEventListener('click', (e) => {
-            e.preventDefault();
-            hideAllOverlays();
-            signupOverlay.classList.remove('hidden');
-            displayMessage(signupMessageElement, '');
-        });
+        const setupStudentDashboard = () => {
+            document.getElementById('student-name').textContent = userData.name;
+            document.getElementById('student-class').textContent = `Class ${userData.class}`;
 
-        document.getElementById('back-to-signin').addEventListener('click', (e) => {
-            e.preventDefault();
-            hideAllOverlays();
-            signinOverlay.classList.remove('hidden');
-            displayMessage(signinMessageElement, '');
-        });
+            const classStatusEl = document.getElementById('class-status');
+            const joinClassBtn = document.getElementById('join-class-btn');
 
-        document.getElementById('signin-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = document.getElementById('signin-email').value;
-            const password = document.getElementById('signin-password').value;
-
-            displayMessage(signinMessageElement, 'Signing in...', false);
-            try {
-                const userCredential = await auth.signInWithEmailAndPassword(email, password);
-                const user = userCredential.user;
-
-                // Find the user's class
-                const classes = ["V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
-                let userClass = null;
-
-                for (const cls of classes) {
-                    const userDoc = await db.collection(`Class-${cls}`).doc(user.uid).get();
-                    if (userDoc.exists) {
-                        userClass = cls.toLowerCase();
-                        break;
+            if (currentClassUnsubscribe) currentClassUnsubscribe();
+            currentClassUnsubscribe = onSnapshot(doc(db, "live_classes", userData.class), (docSnap) => {
+                if (docSnap.exists() && docSnap.data().isLive) {
+                    classStatusEl.innerHTML = `<p class="bg-green-100 text-green-800 p-3 rounded-lg font-semibold">Class is Live! Join now.</p>`;
+                    joinClassBtn.disabled = false;
+                    joinClassBtn.dataset.room = docSnap.data().roomName;
+                } else {
+                    classStatusEl.innerHTML = `<p class="bg-yellow-100 text-yellow-800 p-3 rounded-lg font-semibold">No live class is running currently.</p>`;
+                    joinClassBtn.disabled = true;
+                    if(jitsiApi) {
+                        jitsiApi.dispose();
+                        jitsiApi = null;
+                        document.getElementById('jitsi-container-student').classList.add('hidden');
+                         document.getElementById('leave-class-btn-student').classList.add('hidden');
                     }
                 }
+            });
 
-                if (userClass) {
-                    displayMessage(signinMessageElement, 'Success! Redirecting...', false);
-                    window.location.href = `class-${userClass}.html`;
-                } else {
-                    displayMessage(signinMessageElement, 'Could not find your class. Please sign up again.');
-                    auth.signOut();
+            const resourcesList = document.getElementById('resources-list');
+            const resourcesQuery = query(collection(db, "resources", userData.class, "links"));
+            if (currentResourcesUnsubscribe) currentResourcesUnsubscribe();
+            currentResourcesUnsubscribe = onSnapshot(resourcesQuery, (snapshot) => {
+                if (snapshot.empty) {
+                    resourcesList.innerHTML = `<p class="text-center text-gray-500">No resources available yet.</p>`;
+                    return;
                 }
-            } catch (error) {
-                displayMessage(signinMessageElement, error.message);
-            }
-        });
-
-        document.getElementById('signup-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const selectedClass = document.getElementById('signup-class-select').value;
-            const email = document.getElementById('signup-email').value;
-            const password = document.getElementById('signup-password').value;
-            
-            if (!selectedClass) {
-                displayMessage(signupMessageElement, 'Please select your class.');
-                return;
-            }
-
-            displayMessage(signupMessageElement, 'Creating account...', false);
-            try {
-                const result = await auth.createUserWithEmailAndPassword(email, password);
-                const user = result.user;
-
-                await db.collection(`Class-${selectedClass.toUpperCase()}`).doc(user.uid).set({
-                    fullName: document.getElementById('signup-name').value,
-                    fatherName: document.getElementById('signup-father').value,
-                    schoolName: document.getElementById('signup-school').value,
-                    className: selectedClass.toUpperCase(),
-                    address: document.getElementById('signup-address').value,
-                    phone: document.getElementById('signup-phone').value,
-                    email: user.email,
-                    uid: user.uid,
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                resourcesList.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const resource = doc.data();
+                    const resourceEl = document.createElement('a');
+                    resourceEl.href = resource.url;
+                    resourceEl.target = '_blank';
+                    resourceEl.className = 'block p-4 bg-gray-100 rounded-lg hover:bg-indigo-100 transition duration-300';
+                    resourceEl.innerHTML = `
+                        <div class="flex items-center">
+                            <i class="fas fa-link text-indigo-500 mr-4"></i>
+                            <div>
+                                <p class="font-semibold text-gray-800">${resource.title}</p>
+                                <p class="text-sm text-gray-500">${resource.url.substring(0, 40)}...</p>
+                            </div>
+                        </div>
+                    `;
+                    resourcesList.appendChild(resourceEl);
                 });
-
-                displayMessage(signupMessageElement, 'Success! Redirecting...', false);
-                window.location.href = `class-${selectedClass}.html`;
-            } catch (error) {
-                displayMessage(signupMessageElement, error.message);
+            });
+        };
+        
+        document.getElementById('join-class-btn').addEventListener('click', () => {
+            const roomName = document.getElementById('join-class-btn').dataset.room;
+            if (roomName) {
+                const domain = 'meet.jit.si';
+                const options = {
+                    roomName: roomName,
+                    width: '100%',
+                    height: '100%',
+                    parentNode: document.querySelector('#jitsi-container-student'),
+                    userInfo: {
+                        displayName: userData.name
+                    },
+                    configOverwrite: { prejoinPageEnabled: false },
+                    interfaceConfigOverwrite: { TOOLBAR_BUTTONS: [ 'microphone', 'camera', 'chat', 'tileview', 'fullscreen', 'hangup'] }
+                };
+                jitsiApi = new JitsiMeetExternalAPI(domain, options);
+                document.getElementById('jitsi-container-student').classList.remove('hidden');
+                document.getElementById('leave-class-btn-student').classList.remove('hidden');
             }
         });
-    });
-  </script>
+        
+        document.getElementById('leave-class-btn-student').addEventListener('click', () => {
+            if(jitsiApi) {
+                jitsiApi.dispose();
+                jitsiApi = null;
+                document.getElementById('jitsi-container-student').classList.add('hidden');
+                document.getElementById('leave-class-btn-student').classList.add('hidden');
+            }
+        });
+
+        // --- TEACHER DASHBOARD ---
+
+        const setupTeacherDashboard = () => {
+            document.getElementById('teacher-name').textContent = userData.name;
+            const classGrid = document.getElementById('teacher-class-grid');
+            const classes = ["V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"];
+            classGrid.innerHTML = '';
+            classes.forEach(className => {
+                const card = document.createElement('div');
+                card.className = 'bg-white p-6 rounded-xl shadow-lg hover:shadow-xl hover:bg-indigo-50 transition-all duration-300 cursor-pointer text-center';
+                card.innerHTML = `<h3 class="text-2xl font-bold text-indigo-700">Class ${className}</h3>`;
+                card.addEventListener('click', () => {
+                    currentManagedClass = className;
+                    setupClassManagementView(className);
+                });
+                classGrid.appendChild(card);
+            });
+        };
+
+        const setupClassManagementView = (className) => {
+            showView('teacher-class-management-view');
+            document.getElementById('manage-class-name').textContent = `Class ${className}`;
+
+            const startClassBtn = document.getElementById('start-class-btn');
+            const endClassBtn = document.getElementById('end-class-btn');
+
+            // Check if a class is already live for this teacher/class
+            const liveClassRef = doc(db, "live_classes", className);
+            getDoc(liveClassRef).then(docSnap => {
+                if(docSnap.exists() && docSnap.data().isLive) {
+                    startClassBtn.classList.add('hidden');
+                    endClassBtn.classList.remove('hidden');
+                } else {
+                    startClassBtn.classList.remove('hidden');
+                    endClassBtn.classList.add('hidden');
+                }
+            });
+            
+            // Fetch and display resources for this class
+            const resourcesList = document.getElementById('teacher-resources-list');
+            const resourcesQuery = query(collection(db, "resources", className, "links"));
+            if (currentResourcesUnsubscribe) currentResourcesUnsubscribe();
+            currentResourcesUnsubscribe = onSnapshot(resourcesQuery, (snapshot) => {
+                 if (snapshot.empty) {
+                    resourcesList.innerHTML = `<p class="text-center text-gray-500">No resources uploaded yet.</p>`;
+                    return;
+                }
+                resourcesList.innerHTML = '';
+                snapshot.forEach(doc => {
+                    const resource = doc.data();
+                    const resourceEl = document.createElement('div');
+                    resourceEl.className = 'flex items-center justify-between p-3 bg-gray-50 rounded-lg';
+                    resourceEl.innerHTML = `
+                        <div>
+                            <p class="font-semibold">${resource.title}</p>
+                            <a href="${resource.url}" target="_blank" class="text-sm text-blue-500 hover:underline">${resource.url.substring(0, 30)}...</a>
+                        </div>
+                        <button data-id="${doc.id}" class="delete-resource-btn text-red-500 hover:text-red-700 p-2"><i class="fas fa-trash"></i></button>
+                    `;
+                    resourcesList.appendChild(resourceEl);
+                });
+            });
+        };
+        
+        document.getElementById('back-to-teacher-dashboard').addEventListener('click', () => {
+            showView('teacher-dashboard-view');
+            if (currentResourcesUnsubscribe) currentResourcesUnsubscribe();
+            currentManagedClass = null;
+        });
+
+        // Live Class controls for teacher
+        document.getElementById('start-class-btn').addEventListener('click', async () => {
+            showSpinner();
+            const roomName = `EduLearn-${currentManagedClass}-${Date.now()}`;
+            const liveClassData = {
+                isLive: true,
+                roomName: roomName,
+                teacherName: userData.name
+            };
+            try {
+                await setDoc(doc(db, "live_classes", currentManagedClass), liveClassData);
+                document.getElementById('start-class-btn').classList.add('hidden');
+                document.getElementById('end-class-btn').classList.remove('hidden');
+
+                const domain = 'meet.jit.si';
+                const options = {
+                    roomName: roomName,
+                    width: '100%',
+                    height: '100%',
+                    parentNode: document.querySelector('#jitsi-container-teacher'),
+                    userInfo: { displayName: `Teacher - ${userData.name}` },
+                    configOverwrite: { prejoinPageEnabled: false },
+                };
+                jitsiApi = new JitsiMeetExternalAPI(domain, options);
+                document.getElementById('jitsi-container-teacher').classList.remove('hidden');
+            } catch(error) {
+                 showAlert(`Error starting class: ${error.message}`, true);
+            } finally {
+                hideSpinner();
+            }
+        });
+
+        document.getElementById('end-class-btn').addEventListener('click', async () => {
+            showSpinner();
+             try {
+                await deleteDoc(doc(db, "live_classes", currentManagedClass));
+                document.getElementById('start-class-btn').classList.remove('hidden');
+                document.getElementById('end-class-btn').classList.add('hidden');
+                if(jitsiApi) {
+                    jitsiApi.dispose();
+                    jitsiApi = null;
+                }
+                document.getElementById('jitsi-container-teacher').classList.add('hidden');
+            } catch(error) {
+                 showAlert(`Error ending class: ${error.message}`, true);
+            } finally {
+                hideSpinner();
+            }
+        });
+
+        // Resource management for teacher
+        document.getElementById('resource-upload-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            showSpinner();
+            const title = document.getElementById('resource-title').value;
+            const url = document.getElementById('resource-link').value;
+
+            try {
+                await addDoc(collection(db, "resources", currentManagedClass, "links"), {
+                    title: title,
+                    url: url,
+                    uploadedAt: serverTimestamp()
+                });
+                document.getElementById('resource-upload-form').reset();
+                showAlert("Resource uploaded successfully!", false);
+            } catch(error) {
+                showAlert(`Error uploading resource: ${error.message}`, true);
+            } finally {
+                hideSpinner();
+            }
+        });
+        
+        document.getElementById('teacher-resources-list').addEventListener('click', async (e) => {
+            if(e.target.closest('.delete-resource-btn')) {
+                const btn = e.target.closest('.delete-resource-btn');
+                const docId = btn.dataset.id;
+                if(confirm("Are you sure you want to delete this resource?")) {
+                    showSpinner();
+                    try {
+                        await deleteDoc(doc(db, "resources", currentManagedClass, "links", docId));
+                        showAlert("Resource deleted.", false);
+                    } catch(error) {
+                        showAlert(`Error deleting resource: ${error.message}`, true);
+                    } finally {
+                        hideSpinner();
+                    }
+                }
+            }
+        });
+
+
+    </script>
 </body>
 </html>
+
